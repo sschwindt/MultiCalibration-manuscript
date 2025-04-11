@@ -14,23 +14,19 @@ Reallocating 'singl_function' (item size: 4) to 100 items.
 Reallocating 'wiz_functions' (item size: 4) to 9000 items.
 Reallocating 'singl_function' (item size: 4) to 100 items.
 Database file #1: hydro-informatics.bib
-Warning--I didn't find a database entry for "deltares_simulation_2022"
-Warning--I didn't find a database entry for "platzek_accurate_2014"
-Warning--I didn't find a database entry for "morgan_use_2020"
-Warning--I didn't find a database entry for "kundu_fluid_2008"
-Warning--I didn't find a database entry for "yang_boussinesq_2018"
-Warning--I didn't find a database entry for "blazek_chpt7_2005"
-Warning--I didn't find a database entry for "hodges_modeling_2000"
-Warning--I didn't find a database entry for "zhen-gang_hydrodynamics_2008"
-Warning--I didn't find a database entry for "dissanayake_delft3d_2019"
+Warning--I didn't find a database entry for "schalkoFlowTurbulenceDue2024"
+Warning--I didn't find a database entry for "schwindtFuzzylogicIndicatorsRiverbed2023"
+Warning--I didn't find a database entry for "negreirosDatabaseApplicationFramework2023"
 Warning--I didn't find a database entry for "ahlfeld_case_2003"
 Warning--I didn't find a database entry for "chanudet_3d_2012"
+Warning--I didn't find a database entry for "dissanayake_delft3d_2019"
 Warning--I didn't find a database entry for "goudsmit_application_2002"
 Warning--I didn't find a database entry for "dong_lake_2020"
 Warning--I didn't find a database entry for "bermudez_res_2018"
 Warning--I didn't find a database entry for "li_efdc_2010"
 Warning--I didn't find a database entry for "kosucu_delft3d_2019"
 Warning--I didn't find a database entry for "salehi_delft3d_2017"
+Warning--I didn't find a database entry for "deltares_simulation_2022"
 Warning--I didn't find a database entry for "box_bayesian_1973"
 Warning--I didn't find a database entry for "oladyshkin_connection_2019"
 Warning--I didn't find a database entry for "beckers_bayesian_2020"
@@ -57,43 +53,43 @@ apacite.bst [2013/07/21 v6.03 APA bibliography style]
 Warning--No address in hervouet2020telemac2d
 You've used 50 entries,
             6951 wiz_defined-function locations,
-            1689 strings with 23696 characters,
-and the built_in function-call counts, 113798 in all, are:
-= -- 13644
-> -- 993
-< -- 6136
-+ -- 6283
+            1692 strings with 23795 characters,
+and the built_in function-call counts, 113105 in all, are:
+= -- 13570
+> -- 984
+< -- 6070
++ -- 6217
 - -- 100
-* -- 7868
-:= -- 22066
+* -- 7804
+:= -- 21878
 add.period$ -- 211
 call.type$ -- 50
-change.case$ -- 911
+change.case$ -- 913
 chr.to.int$ -- 0
 cite$ -- 101
-duplicate$ -- 3017
-empty$ -- 4043
-format.name$ -- 1665
-if$ -- 20626
+duplicate$ -- 3003
+empty$ -- 4038
+format.name$ -- 1647
+if$ -- 20533
 int.to.chr$ -- 0
 int.to.str$ -- 150
 missing$ -- 0
-newline$ -- 1384
+newline$ -- 1382
 num.names$ -- 402
-pop$ -- 1627
+pop$ -- 1624
 preamble$ -- 1
-purify$ -- 256
+purify$ -- 258
 quote$ -- 0
-skip$ -- 6665
+skip$ -- 6653
 stack$ -- 0
-substring$ -- 6845
-swap$ -- 1799
-text.length$ -- 232
+substring$ -- 6780
+swap$ -- 1793
+text.length$ -- 234
 text.prefix$ -- 0
 top$ -- 1
 type$ -- 4320
 warning$ -- 1
-while$ -- 627
+while$ -- 622
 width$ -- 0
-write$ -- 1774
-(There were 40 warnings)
+write$ -- 1765
+(There were 36 warnings)

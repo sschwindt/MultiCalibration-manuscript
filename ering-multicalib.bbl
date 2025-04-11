@@ -457,35 +457,6 @@ Guerrero, M.%
 \PrintBackRefs{\CurrentBib}
 
 \bibitem [\protect \citeauthoryear {%
-Haag%
-, Kern%
-\BCBL {}\ \BBA {} Westrich%
-}{%
-Haag%
-\ \protect \BOthers {.}}{%
-{\protect \APACyear {2001}}%
-}]{%
-haag2001erosion}
-\APACinsertmetastar {%
-haag2001erosion}%
-\begin{APACrefauthors}%
-Haag, I.%
-, Kern, U.%
-\BCBL {}\ \BBA {} Westrich, B.%
-\end{APACrefauthors}%
-\unskip\
-\newblock
-\APACrefYearMonthDay{2001}{}{}.
-\newblock
-{\BBOQ}\APACrefatitle {Erosion Investigation and Sediment Quality Measurements
-  for a Comprehensive Risk Assessment of Contaminated Aquatic Sediments}
-  {Erosion investigation and sediment quality measurements for a comprehensive
-  risk assessment of contaminated aquatic sediments}.{\BBCQ}
-\newblock
-\APACjournalVolNumPages{SCI TOTAL ENVIRON}{}{266}{249--257}.
-\PrintBackRefs{\CurrentBib}
-
-\bibitem [\protect \citeauthoryear {%
 Hervouet%
 }{%
 Hervouet%
@@ -1269,6 +1240,33 @@ Scolari, F.%
 \APACjournalVolNumPages{Scientific Reports}{15}{1}{10873}.
 \newblock
 \begin{APACrefDOI} \doi{10.1038/s41598-025-95150-3} \end{APACrefDOI}
+\PrintBackRefs{\CurrentBib}
+
+\bibitem [\protect \citeauthoryear {%
+Smart%
+}{%
+Smart%
+}{%
+{\protect \APACyear {1999}}%
+}]{%
+smart1999coefficient}
+\APACinsertmetastar {%
+smart1999coefficient}%
+\begin{APACrefauthors}%
+Smart, G\BPBI M.%
+\end{APACrefauthors}%
+\unskip\
+\newblock
+\APACrefYearMonthDay{1999}{{\APACmonth{12}}}{}.
+\newblock
+{\BBOQ}\APACrefatitle {Coefficient of Friction for Flow Resistance in Alluvial
+  Channels.} {Coefficient of friction for flow resistance in alluvial
+  channels.}{\BBCQ}
+\newblock
+\APACjournalVolNumPages{Proceedings of the Institution of Civil Engineers -
+  Water, Maritime and Energy}{136}{4}{205--210}.
+\newblock
+\begin{APACrefDOI} \doi{10.1680/iwtme.1999.31984} \end{APACrefDOI}
 \PrintBackRefs{\CurrentBib}
 
 \bibitem [\protect \citeauthoryear {%

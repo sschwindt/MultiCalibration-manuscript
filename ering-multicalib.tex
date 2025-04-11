@@ -98,22 +98,22 @@ Despite their complexity, two-dimensional hydro-morphodynamic models have demons
 Research studies such as in \citeA{villaret2016firstorder,beckers2018uncertainty,clare2022calibration} have applied advanced mathematical methods for sensitivity analysis of multiparametric hydro-morphodynamic models. Similarly, surrogate-assisted approaches have been used by  \cite{mohammadi2018bayesian,beckers2020bayesian} to quantify parameter uncertainties and support model comparison and calibration. The main goal of these analysis is to identify sensitive model paremeters, from which plausible combinations lead to the best fit between model outputs and measured data (i.e., calibration target) while reducing overall model uncertainty \cite{oberkampf2004verification}. A well- stablished approach to bypass difficulties in deterministic calibration approaches such as ill-posedness and model equifinality is treating the uncertainty of sensitive model calibration parameters as probability functions to perform stochastic analysis \cite{kim2016stepwise}. To accomplish this,Gaussian Process machine learning tools, aided by active learning techiques have been explored in recent studies for reservoir modeling applications \cite{schwindt2023bayesian, mouris2023stability} to approximate computationally demanding and multiparametric numerical models (i.e., high-complexity models) through surrogate models or metamodels trained with only a few samples or model runs from the complex model (e.i., input-output sets). These metamodels optimize the calibration and validation process by allowing the testing of a large number of parameter combinations within plausible ranges (i.e., competing models), and by incorporating data-driven approaches such as Bayesian Model Inversion \cite{mohammadi2018bayesian} to quantify parameter uncertainty. Surrogate-assisted calibration approaches have been tested in water engineering for single-output surrogates, meaning calibrating for a single calibration target. However, the physics in many natural processes are rarely single-output or isolated processes, rather better represented as multi-output processes \cite{ferreira2022multioutput} or inter-dependent tasks \cite{bonilla2007multitask}. These correlations between the outputs (i.e., water depth and velocity) can be captured by a multi-output surrogate model (i.e., Multitasks Gaussian Process as in \cite{bonilla2007multitask}) and leveraged for calibration purposes in hydro-morphodynamic river simulations. 
 
 % 
-To this end, the aim of this study is to perform Bayesian calibration and parameter uncertainty quantification of a 215-meter-long hydro-morphodynamic numerical model of a fish pass, where two large instream wood logs (LWs) were installed. The full complexity model incorporates a velocity–water depth-based delineation of morphological units (MUs) within the main channel, capturing spatial roughness variability across different scales. Furthermore, it simulates a gate-controlled flush event that accounts for sediment inflow, enabling the assessment of how variations in bed roughness influence water depths and flow velocities under sediment transport conditions.
+To this end, the aim of this study is to perform Bayesian calibration and parameter uncertainty quantification of a 215-meter-long hydro-morphodynamic numerical model of a fish pass, where two large instream wood logs (LWs) were installed. The full complexity model incorporates a velocity–water depth-based delineation of morphological units (MUs) within the main channel, capturing spatial roughness variability across different scales. Furthermore, it simulates a gate-controlled flush event that accounts for sediment inflow, enabling a post-flush assessment of water depth and velocity variables and their dependence on bed roughness influence and sediment transport conditions.
 
-A Gaussian Process (GP) metamodel approximates the full complexity model and is employed to perform stochastic analysis through Bayesian calibration of the five sensitive MU roughness coefficients depicting the riverbed variability and the critical Shields parameter for sediment transport. To make the stochastic calibration feasible, the study uses a multi-output Gaussian Process approach that simultaneously simulates two correlated output variables—water depth and velocity—which serve as calibration targets. Furthermore, the metamodel uses an active learning approach as proposed by \cite{oladyshkin2020bayesian3} to add additional training points based on relative entropy to improve the accuracy of the metamodel. 
+A Gaussian Process (GP) metamodel is used to approximate the full complexity model and is perform stochastic analysis through Bayesian calibration of the five sensitive MU roughness coefficients depicting the riverbed variability and the critical Shields parameter for sediment transport. To make the stochastic calibration feasible, the study uses a multi-output Gaussian Process approach that simultaneously simulates two correlated output variables—water depth and velocity—which serve as calibration targets. Furthermore, the metamodel uses a Bayesian Active Learning (BAL) approach proposed by \citeA{oladyshkin2020bayesian3} to add additional training points based on relative entropy to improve the accuracy of the metamodel. 
 
 Through this approach, the study aims to answer two research questions: First, how does a morphological unit delineation of the riverbed aid in increasing the effectiveness of model calibration? Second, how does the inclusion of two calibration quantities, such as water depth and velocity obtained from a multi-output Gaussian Process-based surrogate model, improve the uncertainty quantification of the considered calibration parameters during Bayesian calibration?
 
-We hypothesize that a MU-based roughness delineation, combined with a sensitive sediment transport coefficient such as the critical Shields parameter, and the inclusion of more data (two calibration targets) in the Bayesian calibration process, narrows the probability distribution functions for highly uncertain parameters that are sensitive to the two calibration target quantities, and provides probabilistic regions where the uncertain parameter responses are more likely to fit measured data.  
+We hypothesize that a MU-based roughness delineation, combined with a sensitive sediment transport coefficient such as the critical Shields parameter as calibration parameters, aided by the inclusion of the available data (two calibration targets) in the Bayesian calibration process, narrows the probability distribution functions for highly uncertain parameters that are sensitive to the two calibration target quantities, and provides probabilistic regions where the uncertain parameter responses are more likely to fit measured data.  
 
 
 \section{Materials and Methods} 
 \label{Materials}
-\cite{haag2001erosion}
+
 \subsection{Fish pass at the Ering-Frauenstein power plant}
 \label{subsec:Sec2.1 }
 The present project develops in an artifitial, gravel-cobble riverbed fish pass located at the left bank of the Ering-Frauenstein water power plant. The fish pass was installed between 2018 and 2020 covering a length of approximately 2.6 km  and width between 5 m to 10 m measured at the base flow of  2~m$^3$/s. The channel overcomes a total height difference of approximately 10 m with a mean slope of 4.7\% forming meanders, pool-riffle sequences, gravel bars, and swales providing the necessary hydrodynamic and morphodynamic conditions to preserve endemic aquatic life in the Inn River \cite{schwindt2023fuzzylogic,zauner2020wie}. This study focuses on a 215-meter long stretch of the fish pass, between the abscissae 1450m and 1665m, with an average slope of 0.5\%. In January 2022, two large wood logs as Nature-based Solutions (NbS) for river restoration, hereafter referred to as 'LW', were installed perpendicular to the flow within the fish pass to assess their beneficial effects on riverbed declogging following an artificial flood of 9.7~m$^3$/s  \cite{schwindt2023fuzzylogic}. The two LW structures are located at local coordinates WGS 84 / UTM Zone 33N (363071.83, 5350214.56) for LWA and (363118.99, 5350254.67) for LWB. LWA works emerged and LWB works submerged at the base flow, but both work submerged during the peak flow event. Both structures generate backwater and wake effects with proven  hydrodynamic, morphodynamic and ecological benefitial effects \cite{schalko2021flow,schwindt2023fuzzylogic}.    
-The Ering fish pass is a gate-regulated channel which fixes flow conditions enabling data extraction at multiple locations of interest with satisfactory outcomes. During artifitial flushing events, the channel receives discharges of up to 12 ~m$^3$/s, actively changing the grain size composition of the riverbed and its morphology depicted in highly detailed digital elevation models (DEMs) and visible present through high resolution orthopictures.
+The Ering fish pass is a gate-regulated channel which fixes flow conditions enabling data extraction at multiple locations of interest with satisfactory outcomes. During artifitial flushing events, the channel receives discharges of up to 12 ~m$^3$/s, actively changing the grain size composition of the riverbed and its morphology depicted in highly detailed digital elevation models (DEMs) and high resolution orthopictures.
 
 
 \begin{figure}[htbp]
@@ -147,10 +147,16 @@ A 2D hydro-morphodynamic model of the Ering fish pass was created employing Tele
 %	D_y &= \text{div}(v \, \nabla v) \tag{5}
 %\end{align} 
 
-The current model utilizes a computational mesh that discretizes the simulation domain with triangular mesh elements with size averaging 0.55 m along the riverbed channel and 1 m for the floodplain mesh (see Fig.~\ref{fig:Mesh}).The detailed DEM, formerly in GeoTIFF format, possesses a resolution of 5 cm and is interpolated onto the computational mesh along with the roughness zones data. The model comprises a computational domain with a total of 11,738 nodes and 22,997 triangular elements and simulates an unsteady flow scenario, starting with a pre-flush base flow of 2~m$^3$/s, followed by a peak discharge of 9.7~m$^3$/s during 7 hour and returning to a post flush escenario with the same initial base flow. The upstream boundary condition was set as an unsteady inflow boundary , letting in liquid and solid mass fluxes according to the correponding hyrograph (see.... suplement material) and the downstream boundary condition as a water elevation - discharge relation defined by the Manning - Strickler criteria to assign the normal water depth for the corresponding discharge. 
+The current model utilizes a computational mesh that discretizes the simulation domain with triangular mesh elements with size averaging 0.55 m along the riverbed channel and 1 m for the floodplain mesh (see Fig.~\ref{fig:Mesh}).The detailed DEM, formerly in GeoTIFF format, possesses a resolution of 5 cm and is interpolated onto the computational mesh along with the roughness zones data. The model comprises a computational domain with a total of 11,738 nodes and 22,997 triangular elements and simulates an unsteady flow condition, starting with a pre-flush base flow of 2~m$^3$/s, followed by a peak discharge of 9.7~m$^3$/s during 7 hour and returning to a post flush escenario with the same initial base flow. The upstream boundary condition was set as an unsteady inflow boundary , letting in liquid and solid mass fluxes according to the correponding hyrograph (see.... suplement material)  and the downstream boundary condition as a stage-discharge relation with prescribed water elevation as a function of discharge. 
 
-For the hydrodynamic simulation, the model uses the Nikuratse friction law as expleined in \cite{hervouet2020telemac2d} and the effective roughness \(K_{s}\) as the flow resistence parameter describing the surface roughness height of the riverbed and banks \cite{nikuradse1933stroemungsgesetze,marriott2010hydraulic,webber2018fluid}. In studies such as \cite{meyer-peter1948formulas, ferguson2007flow, rickenmann2011evaluation} focusing to river applications, the Nikuradse roughness height is often referred to in terms of the characteristic riverbed particle diameters such as \(d_{50}\), \(d_{84}\), or \(d_{90}\) affected by a factor F as, for instance \( K_{s} = F \times d_{50} \) when using the mean particle size \cite{meyer-peter1948formulas,tassi2023gaia}. The effective roughness height is also associated with the Manning-Strickler roughness coefficient based on nomerous authors works.
+For the hydrodynamic simulation, the model uses the Nikuratse friction law and the effective roughness \(K_{s}\) as the flow resistence parameter describing the surface roughness height of the riverbed and banks \cite{nikuradse1933stroemungsgesetze,marriott2010hydraulic,webber2018fluid,hervouet2020telemac2d}. 
+
 The geometry mesh has in total 13 roughness zones, from which 5 correspond to a riverbeds subdivision based on morphological units (MU) and their corresponding Nikuradse coefficient \(K_{s}\) (see Fig.~\ref{fig:MU}). The additioal roighness zones are showed in the table.....  The subdivision's criteria based on the morphological units  and the corresponding values of \( K_{s} \approx F \times d_{50} \) will be thoroughly detailed in section \ref{sec:Sec2.5}.
+
+
+
+In studies such as \cite{meyer-peter1948formulas, ferguson2007flow, rickenmann2011evaluation} focusing to river applications, the Nikuradse roughness height is often referred to in terms of the characteristic riverbed particle diameter \(d_{90}\) or \(d_{50}\) and \(d_{84}\) affected by a factor F as, for instance \( K_{s} = F \times d_{50} \) when the mean particle size is used \cite{meyer-peter1948formulas,tassi2023gaia}. The effective roughness height is also associated with the Manning-Strickler roughness coefficient based on nomerous authors \cite{meyer-peter1948formulas,smart1999coefficient,ferguson2007flow}.
+
 
 
 Since \(d_{50}\) is usually a constant value taken from laboratory tests, the initial model considers the criterion of F = 3. The values of \(K_{s}\) used as roughness coefficients in the model are refined by the facot F which are taken from uniform distribution functions with fixed limits which led from meaningful roughness coefficient values for gravel-cobble rivers. Table~\ref{tab:model_characteristics} shows a summary of the assigned characteristics of the numerical model.
@@ -190,58 +196,43 @@ Since \(d_{50}\) is usually a constant value taken from laboratory tests, the in
 \end{table}
  \vspace{-20pt}      
 \FloatBarrier
-\subsection{Hydrodynamic Delft3D-FLOW Model}
-\label{sec:Delft3D}
+\subsection{Data availability and sources}
+\label{sec:Sec2.3}
+The available hydrodynamic and morphodynamic data have been collected at a gate-regulated baseflow of 2~m$^3$/s. 
+The hydrodynamic data include water depths and three-dimensional velocity components measured at 41 strategically selected locations. 
+These data correspond to a post-flushing condition after releasing a fully controlled peak flow of 9.7~m$^3$/s. 
+Velocity measurements were obtained at points near the large wood (LW) using a FlowTracker 2, an acoustic Doppler velocimeter (ADV) tool. 
+The locations were strategically selected where turbulence and varying flow velocity were expected, primarily in the downstream wake of the wood structures \cite{schalkoFlowTurbulenceDue2024} (see Fig.~\ref{fig:MU}). 
 
-% Model intro
-A 3d hydrodynamic numerical model of the SR was set up with the Delft3D-FLOW software. The software solves the Reynolds-averaged Navier Stokes equations and the continuity equation for incompressible fluids with the Boussinesq approximation for buoyancy-driven convection \cite{deltares_simulation_2022}. In the here used Delft3D-FLOW model, we took advantage of the software's computational efficiency with its z-layer model for 3d discretization in space based on a finite difference scheme \cite<e.g.,>{platzek_accurate_2014}. The discretization in time uses the alternating direction implicit method \cite<in line with>{morgan_use_2020}. In contrast to CFD software (e.g., OpenFOAM) using hexahedral meshes for the representation of complex 3d structures, the vertical dimension of a 3d mesh in Delft3D-FLOW is based on multiple layers of a two-dimensional (2d) mesh.
+In addition to the existing hydrodynamic data, field measurements of six river parameters were obtained for both pre- and post-flushing conditions, including the concentration of suspended sediments, the fine sediment fraction, grain size characteristics, porosity, hydraulic conductivity, and interstitial oxygen content. 
+A detailed digital elevation model (DEM), including floodplains and riverbed bathymetry with a 5 cm resolution, was obtained using aerial orthoimages, as described in \cite{schwindtFuzzylogicIndicatorsRiverbed2023}. 
+The bathymetry reflects the post-flushing conditions, in which significant morphological changes were expected, particularly around the wood logs and adjacent zones of erosion and deposition.
 
-% Bussinesq approximation
-The Boussinesq approximation simplifies the simulation of heat transfer in fluids (here: water) in which the temperature varies in space. The approach ignores changes in the fluid properties except for the fluid density, which only occurs as a multiplier of the gravitational acceleration. Moreover, the Boussinesq coefficient quantifies the momentum effect of the non-uniform velocity distribution over the water depth. Since the Boussinesq term appears in the advective acceleration in the shallow water equations, it can also be treated as a purely numerical calibration parameter to adjust the amount of fluid inertia to be considered in a simulation \cite{kundu_fluid_2008, yang_boussinesq_2018}. The Boussinesq approximation (or hypothesis) is referred to as the (Boussinesq) eddy viscosity assumption in the following and according to the Delft3D-FLOW nomenclature.
+The data that characterizes the bed material of the fish pass channel was taken from \textit{River Analyst}, an open-source database featuring river data in Germany \cite{negreirosDatabaseApplicationFramework2023}. From the database, surface sediment samples from 6 points located within and in the proximity of the study area were employed (see Fig. \ref{fig:MU}). Post-flushing sieve analyses of the samples from the overlayer were conducted to derive sedimentological parameters describing the superficial substrate (see Tab.~\ref{tab:grain_size_distribution}). These analyses provided valuable insights into the grain size distribution of the riverbed, including the representative particle diameters \(d_{50}\) and \(d_{90}\). 
 
-% k-epsilon model and eddy viscosites
-With the eddy viscosity (Boussinesq) hypothesis, a $k-\epsilon$ turbulence closure was defined along with horizontal and vertical eddy viscosities. The eddy viscosities are proportionality factors for the turbulent energy transfer resulting from moving eddies and leading to tangential stresses \cite{blazek_chpt7_2005}, which we considered drivers for the observed flow velocity and water temperature patterns. 
 
-% model for eddy viscosities
-The horizontal eddy viscosity~$\nu_{h}$ varied in this study as a function of the vertical eddy viscosity~$\nu_{v}$, and the background horizontal eddy viscosity~$\nu_{h}^{back}$ \cite{deltares_simulation_2022}:
 
-\begin{equation}
-	\label{eq:nuh}
-	\nu_{h} = \nu_{v} + \nu_{h}^{back}
-\end{equation}
-
-$\nu_{v}$~affects the 3d turbulence and Delft3D-FLOW calculates $\nu_{v}$ based on the $k-\epsilon$ turbulence closure (see also the supplemental material).
-
-% showing extra luv for nu_h_back as calib param
-The background horizontal eddy viscosity $\nu_{h}^{back}$ was one of the calibration parameters in this study (see summary in the next section). It represents 2d turbulence and accounts for multiple hydrodynamic phenomena. In a stratified reservoir, turbulent eddy viscosity at stratification interfaces drops to zero and vertical mixing reduces to molecular diffusion. However, zero eddy viscosity is not physically correct because of the presence of internal waves, which are continuously generated by different sources and turbulence (i.e., vertical mixing) \cite{hodges_modeling_2000}. Since internal waves are not explicitly considered in the Delft3D-FLOW turbulence model, they were added spatiotemporally using the background eddy viscosity~$\nu_{h}^{back}$ \cite{deltares_simulation_2022}.
-
-% also need a diffusion parameter
-While adjusting the eddy viscosity allowed us to mimic the mixing due to momentum, we additionally considered diffusivity that aids in representing the mixing of heat. Analogously to how Delft3D-FLOW calculates viscosities, the horizontal eddy diffusivity~$\Delta_{h}$ is a function of the constant vertical eddy diffusivity of~$\Delta_{v}$~=~10$^{-6}$~m$^{2}$~s$^{-1}$, and the background horizontal eddy diffusivity~$\Delta_{h}^{back}$ \cite{deltares_simulation_2022}:
-
-\begin{equation}
-	\label{eq:Duh}
-	\Delta_{h} = \Delta_{v} + \Delta_{h}^{back}
-\end{equation}
-
-In addition to $\nu_{h}^{back}$, the background horizontal eddy diffusivity~$\Delta_{h}^{back}$ was also a calibration parameter in this study (see also next section). The sub-grid scale horizontal eddy viscosity and diffusivity were zero in our model.
-
-% domain geometry and discretization
-Regarding spatial abstraction, a boundary-fitted domain discretized the reservoir bathymetry (\figurename{~\ref{fig:sr_map}}) into 27 vertical layers with 5,299 tetrahedral cells each. In consequence, the average cell size was 9x15x1.7~m in the $x$, $y$, and $z$ directions, respectively. We also tested the model with more (up to 40) and fewer (minimum 9) layers, which either led to unacceptably long computing time or could not represent variations in the vertical velocity profiles during pump operation. For the latter reason, we also used the z-layer (not $\sigma$-layer) model for vertical discretization.
-
-% boundary conditions
-The unsteady liquid boundaries were defined with the water level and the discharge time series provided for the three affluents and at the intake tower, corresponding to a one-week-long simulation (August~1 at 00:00~AM through August~7 at 00:00~AM, 2016). Figure~\ref{fig:liquid-bound-fluxes} shows the prescribed liquid boundary characteristics. The bottom roughness was set to \textit{Manning} with an equivalent global value of 0.015, which was not modified in the calibration process. Other physical processes affecting the flow pattern were considered in the form of air temperature and wind (processes module and the above-introduced meteorological data) because those are known to affect flow velocities in the upper layers of reservoirs, and therefore, density stratification \cite{zhen-gang_hydrodynamics_2008, dissanayake_delft3d_2019}.
-
-% initial conditions
-The initial conditions corresponded to a water level of 661.34~m and a constant (in $x, y, z$) water temperature profile with possible values defined within a range between 5$^{\circ}$C and 30$^{\circ}$C. The water temperature profile was implemented in Delft3D-FLOW at the mesh boundary of the intake tower along with the discharge (i.e., liquid) boundary.
-
-\begin{figure}
+\begin{table}[H]
 	\centering
-	\includegraphics[width=14.5cm]{inflow-series.png}
-	\caption{Flow series and water levels defined at the liquid boundaries of the numerical model.}
-	\label{fig:liquid-bound-fluxes}
-\end{figure}
+	\caption{Grain size distribution at measurement stations after flushing.}
+	\begin{tabular}{p{3cm} p{2cm} p{2cm} p{2cm} p{2cm} p{2cm}}
+		\hline
+		\multicolumn{1}{c}{\textbf{Station}} & 
+		\multicolumn{1}{c}{\textbf{D10 [mm]}} & 
+		\multicolumn{1}{c}{\textbf{D25 [mm]}} & 
+		\multicolumn{1}{c}{\textbf{D50 [mm]}} &  
+		\multicolumn{1}{c}{\textbf{D84 [mm]}} & 
+		\multicolumn{1}{c}{\textbf{D90 [mm]}} \\ \hline
+		FP-A & 1.07 & 7.21 & 17.78 & 51.62 & 59.98 \\ \hline
+		FP-B & 0.31 & 0.94 & 6.25 & 18.47 & 24.47 \\ \hline
+		FP-RP & 0.75 & 3.86 & 13.07 & 43.38 & 53.67 \\ \hline
+		MS1 1 & 0.48 & 5.7 & 18.24 & 50.12 & 57.39 \\ \hline
+		MS1 SP1 & 10.77 & 23.3 & 41.34 & 77.8 & 95.5 \\ \hline
+		MS2 SP1 & 9.09 & 14.19 & 23.25 & 44.76 & 51.6 \\ \hline
+	\end{tabular}
+	\label{tab:grain_size_distribution}
+\end{table}
 
-A run of the Delft3D-FLOW model took an average of 12.8 hours on a 6-core computer with 2.3~GHz per core and 16~GB memory. The simulations ran on all 6 cores. The output was written hourly. The supplementary material contains more details about the numerical model.
 
 \subsection{Relevant Calibration Parameters}
 \label{sec:CalibParams}
