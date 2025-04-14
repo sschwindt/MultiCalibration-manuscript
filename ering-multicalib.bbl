@@ -1,6 +1,38 @@
 \begin{thebibliography}{}
 
 \bibitem [\protect \citeauthoryear {%
+Audouin%
+\ \protect \BOthers {.}}{%
+Audouin%
+\ \protect \BOthers {.}}{%
+{\protect \APACyear {2020}}%
+}]{%
+audouin2020introducing}
+\APACinsertmetastar {%
+audouin2020introducing}%
+\begin{APACrefauthors}%
+Audouin, Y.%
+, Benson, T.%
+, Delinares, M.%
+, Fontaine, J.%
+, Glander, B.%
+, Huybrechts, N.%
+\BDBL {}Walther, R.%
+\end{APACrefauthors}%
+\unskip\
+\newblock
+\APACrefYearMonthDay{2020}{{\APACmonth{01}}}{}.
+\newblock
+\APACrefbtitle {Introducing {{GAIA}}, the Brand New Sediment Transport Module
+  of the {{TELEMAC-MASCARET}} System.} {Introducing {{GAIA}}, the brand new
+  sediment transport module of the {{TELEMAC-MASCARET}} system.}
+\newblock
+\APACaddressPublisher{}{Zenodo}.
+\newblock
+\begin{APACrefDOI} \doi{10.5281/zenodo.3611600} \end{APACrefDOI}
+\PrintBackRefs{\CurrentBib}
+
+\bibitem [\protect \citeauthoryear {%
 Beckers%
 \ \protect \BOthers {.}}{%
 Beckers%
@@ -130,6 +162,34 @@ Bonilla, E\BPBI V.%
 \PrintBackRefs{\CurrentBib}
 
 \bibitem [\protect \citeauthoryear {%
+Buffington%
+\ \BBA {} Montgomery%
+}{%
+Buffington%
+\ \BBA {} Montgomery%
+}{%
+{\protect \APACyear {1999}}%
+}]{%
+buffington1999effects}
+\APACinsertmetastar {%
+buffington1999effects}%
+\begin{APACrefauthors}%
+Buffington, J\BPBI M.%
+\BCBT {}\ \BBA {} Montgomery, D\BPBI R.%
+\end{APACrefauthors}%
+\unskip\
+\newblock
+\APACrefYearMonthDay{1999}{}{}.
+\newblock
+{\BBOQ}\APACrefatitle {Effects of Supply on Surface Textures of Gravel-Bed
+  Rivers} {Effects of supply on surface textures of gravel-bed rivers}.{\BBCQ}
+\newblock
+\APACjournalVolNumPages{Water Resources Research}{35}{11}{3523--3530}.
+\newblock
+\begin{APACrefDOI} \doi{10.1029/1999WR900232} \end{APACrefDOI}
+\PrintBackRefs{\CurrentBib}
+
+\bibitem [\protect \citeauthoryear {%
 Bunte%
 \ \BBA {} Abt%
 }{%
@@ -214,6 +274,91 @@ Clare, M\BPBI C\BPBI A.%
 \APACjournalVolNumPages{Computers \& Geosciences}{163}{}{105104}.
 \newblock
 \begin{APACrefDOI} \doi{10.1016/j.cageo.2022.105104} \end{APACrefDOI}
+\PrintBackRefs{\CurrentBib}
+
+\bibitem [\protect \citeauthoryear {%
+de {Saint-Venant}%
+}{%
+de {Saint-Venant}%
+}{%
+{\protect \APACyear {1871}}%
+}]{%
+saint-venant1871theorie}
+\APACinsertmetastar {%
+saint-venant1871theorie}%
+\begin{APACrefauthors}%
+de {Saint-Venant}, A\BPBI J\BPBI C\BPBI B.%
+\end{APACrefauthors}%
+\unskip\
+\newblock
+\APACrefYearMonthDay{1871}{}{}.
+\newblock
+{\BBOQ}\APACrefatitle {Th{\'e}orie Du Mouvement Non Permanent Des Eaux, Avec
+  Application Aux Crues Des Rivi{\`e}res et a l'introduction de Mar{\'e}es Dans
+  Leurs Lits} {Th{\'e}orie du mouvement non permanent des eaux, avec
+  application aux crues des rivi{\`e}res et a l'introduction de mar{\'e}es dans
+  leurs lits}.{\BBCQ}
+\newblock
+\APACjournalVolNumPages{Comptes Rendus de l'Acad{\'e}mie des
+  Sciences}{73}{}{147--154, 237--240}.
+\PrintBackRefs{\CurrentBib}
+
+\bibitem [\protect \citeauthoryear {%
+Dietrich%
+\ \protect \BOthers {.}}{%
+Dietrich%
+\ \protect \BOthers {.}}{%
+{\protect \APACyear {2005}}%
+}]{%
+dietrich2005sediment}
+\APACinsertmetastar {%
+dietrich2005sediment}%
+\begin{APACrefauthors}%
+Dietrich, W.%
+, Nelson, P.%
+, Yager, E.%
+, Venditti, J.%
+, Lamb, M.%
+\BCBL {}\ \BBA {} Collins, L.%
+\end{APACrefauthors}%
+\unskip\
+\newblock
+\APACrefYearMonthDay{2005}{{\APACmonth{01}}}{}.
+\newblock
+{\BBOQ}\APACrefatitle {Sediment Patches, Sediment Supply, and Channel
+  Morphology} {Sediment patches, sediment supply, and channel
+  morphology}.{\BBCQ}
+\newblock
+\APACjournalVolNumPages{River Coastal and Estuarine Morphodynamics}{}{}{}.
+\newblock
+\begin{APACrefDOI} \doi{10.1201/9781439833896.ch11} \end{APACrefDOI}
+\PrintBackRefs{\CurrentBib}
+
+\bibitem [\protect \citeauthoryear {%
+Exner%
+}{%
+Exner%
+}{%
+{\protect \APACyear {1925}}%
+}]{%
+exner1925uber}
+\APACinsertmetastar {%
+exner1925uber}%
+\begin{APACrefauthors}%
+Exner, F\BPBI M.%
+\end{APACrefauthors}%
+\unskip\
+\newblock
+\APACrefYearMonthDay{1925}{}{}.
+\newblock
+{\BBOQ}\APACrefatitle {{\"U}ber Die {{Wechselwirkung}} Zwischen {{Wasser}} Und
+  {{Geschiebe}} in {{Fl{\"u}ssen}} [{{About}} the {{Interdependency}} of
+  {{Water}} and {{Bed}} Load in {{Rivers}}]} {{\"U}ber die {{Wechselwirkung}}
+  zwischen {{Wasser}} und {{Geschiebe}} in {{Fl{\"u}ssen}} [{{About}} the
+  {{Interdependency}} of {{Water}} and {{Bed}} load in {{Rivers}}]}.{\BBCQ}
+\newblock
+\APACjournalVolNumPages{Akademie der Wissenschaften in Wien, math.-naturw.
+  Klasse, Sitzungsberichte, Abt. IIa}{134}{}{165--203}.
 \PrintBackRefs{\CurrentBib}
 
 \bibitem [\protect \citeauthoryear {%
@@ -813,6 +958,38 @@ Mouris, K.%
 \PrintBackRefs{\CurrentBib}
 
 \bibitem [\protect \citeauthoryear {%
+Negreiros%
+, Schwindt%
+\BCBL {}\ \BBA {} Wieprecht%
+}{%
+Negreiros%
+\ \protect \BOthers {.}}{%
+{\protect \APACyear {2023}}%
+}]{%
+negreiros2023database}
+\APACinsertmetastar {%
+negreiros2023database}%
+\begin{APACrefauthors}%
+Negreiros, B.%
+, Schwindt, S.%
+\BCBL {}\ \BBA {} Wieprecht, S.%
+\end{APACrefauthors}%
+\unskip\
+\newblock
+\APACrefYearMonthDay{2023}{}{}.
+\newblock
+{\BBOQ}\APACrefatitle {A Database Application Framework for River Ecosystem
+  Analysis} {A database application framework for river ecosystem
+  analysis}.{\BBCQ}
+\newblock
+\BIn{} \APACrefbtitle {Conference {{Proceedings}}} {Conference
+  {{Proceedings}}}\ (\BPG~1).
+\newblock
+\APACaddressPublisher{Vienna, Austria}{{International Association for
+  Hydro-Environment Engineering and Research (IAHR)}}.
+\PrintBackRefs{\CurrentBib}
+
+\bibitem [\protect \citeauthoryear {%
 Neuhaus%
 \ \BBA {} Mende%
 }{%
@@ -1022,6 +1199,37 @@ Pasternack, G\BPBI B.%
 \PrintBackRefs{\CurrentBib}
 
 \bibitem [\protect \citeauthoryear {%
+Pasternack%
+\ \BBA {} Wyrick%
+}{%
+Pasternack%
+\ \BBA {} Wyrick%
+}{%
+{\protect \APACyear {2017}}%
+}]{%
+pasternack2017flooddriven}
+\APACinsertmetastar {%
+pasternack2017flooddriven}%
+\begin{APACrefauthors}%
+Pasternack, G\BPBI B.%
+\BCBT {}\ \BBA {} Wyrick, J\BPBI R.%
+\end{APACrefauthors}%
+\unskip\
+\newblock
+\APACrefYearMonthDay{2017}{}{}.
+\newblock
+{\BBOQ}\APACrefatitle {Flood-Driven Topographic Changes in a Gravel-Cobble
+  River over Segment, Reach, and Morphological Unit Scales} {Flood-driven
+  topographic changes in a gravel-cobble river over segment, reach, and
+  morphological unit scales}.{\BBCQ}
+\newblock
+\APACjournalVolNumPages{Earth Surface Processes and
+  Landforms}{42}{3}{487--502}.
+\newblock
+\begin{APACrefDOI} \doi{10.1002/esp.4064} \end{APACrefDOI}
+\PrintBackRefs{\CurrentBib}
+
+\bibitem [\protect \citeauthoryear {%
 Rickenmann%
 \ \BBA {} Recking%
 }{%
@@ -1084,6 +1292,40 @@ Roni, P.%
 \PrintBackRefs{\CurrentBib}
 
 \bibitem [\protect \citeauthoryear {%
+Salmela%
+\ \protect \BOthers {.}}{%
+Salmela%
+\ \protect \BOthers {.}}{%
+{\protect \APACyear {2020}}%
+}]{%
+salmela2020morphological}
+\APACinsertmetastar {%
+salmela2020morphological}%
+\begin{APACrefauthors}%
+Salmela, J.%
+, Kasvi, E.%
+, Vaaja, M\BPBI T.%
+, Kaartinen, H.%
+, Kukko, A.%
+, Jaakkola, A.%
+\BCBL {}\ \BBA {} Alho, P.%
+\end{APACrefauthors}%
+\unskip\
+\newblock
+\APACrefYearMonthDay{2020}{{\APACmonth{03}}}{}.
+\newblock
+{\BBOQ}\APACrefatitle {Morphological Changes and Riffle-Pool Dynamics Related
+  to Flow in a Meandering River Channel Based on a 5-Year Monitoring Period
+  Using Close-Range Remote Sensing} {Morphological changes and riffle-pool
+  dynamics related to flow in a meandering river channel based on a 5-year
+  monitoring period using close-range remote sensing}.{\BBCQ}
+\newblock
+\APACjournalVolNumPages{Geomorphology}{352}{}{106982}.
+\newblock
+\begin{APACrefDOI} \doi{10.1016/j.geomorph.2019.106982} \end{APACrefDOI}
+\PrintBackRefs{\CurrentBib}
+
+\bibitem [\protect \citeauthoryear {%
 Schalko%
 \ \BBA {} Nepf%
 }{%
@@ -1111,6 +1353,37 @@ Schalko, I.%
 \APACjournalVolNumPages{Geomorphology}{453}{}{109135}.
 \newblock
 \begin{APACrefDOI} \doi{10.1016/j.geomorph.2024.109135} \end{APACrefDOI}
+\PrintBackRefs{\CurrentBib}
+
+\bibitem [\protect \citeauthoryear {%
+Schalko%
+\ \protect \BOthers {.}}{%
+Schalko%
+\ \protect \BOthers {.}}{%
+{\protect \APACyear {2024}}%
+}]{%
+schalko2024flow}
+\APACinsertmetastar {%
+schalko2024flow}%
+\begin{APACrefauthors}%
+Schalko, I.%
+, Ponce, M.%
+, Lassar, S.%
+, Schwindt, S.%
+, Haun, S.%
+\BCBL {}\ \BBA {} Nepf, H.%
+\end{APACrefauthors}%
+\unskip\
+\newblock
+\APACrefYearMonthDay{2024}{}{}.
+\newblock
+{\BBOQ}\APACrefatitle {Flow and {{Turbulence Due To Wood Contribute}} to
+  {{Declogging}} of {{Gravel Bed}}} {Flow and {{Turbulence Due To Wood
+  Contribute}} to {{Declogging}} of {{Gravel Bed}}}.{\BBCQ}
+\newblock
+\APACjournalVolNumPages{Geophysical Research Letters}{51}{2}{e2023GL107507}.
+\newblock
+\begin{APACrefDOI} \doi{10.1029/2023GL107507} \end{APACrefDOI}
 \PrintBackRefs{\CurrentBib}
 
 \bibitem [\protect \citeauthoryear {%
@@ -1419,6 +1692,93 @@ Williams, R\BPBI D.%
 \PrintBackRefs{\CurrentBib}
 
 \bibitem [\protect \citeauthoryear {%
+Wong%
+\ \BBA {} Parker%
+}{%
+Wong%
+\ \BBA {} Parker%
+}{%
+{\protect \APACyear {2006}}%
+}]{%
+wong2006reanalysis}
+\APACinsertmetastar {%
+wong2006reanalysis}%
+\begin{APACrefauthors}%
+Wong, M.%
+\BCBT {}\ \BBA {} Parker, G.%
+\end{APACrefauthors}%
+\unskip\
+\newblock
+\APACrefYearMonthDay{2006}{}{}.
+\newblock
+{\BBOQ}\APACrefatitle {Reanalysis and {{Correction}} of {{Bed-Load Relation}}
+  of {{Meyer-Peter}} and {{M{\"u}ller Using Their Own Database}}} {Reanalysis
+  and {{Correction}} of {{Bed-Load Relation}} of {{Meyer-Peter}} and
+  {{M{\"u}ller Using Their Own Database}}}.{\BBCQ}
+\newblock
+\APACjournalVolNumPages{Journal of Hydraulic Engineering}{132}{11}{1159--1168}.
+\newblock
+\begin{APACrefDOI} \doi{10.1061/(ASCE)0733-9429(2006)132:11(1159)}
+  \end{APACrefDOI}
+\PrintBackRefs{\CurrentBib}
+
+\bibitem [\protect \citeauthoryear {%
+Woodworth%
+\ \BBA {} Pasternack%
+}{%
+Woodworth%
+\ \BBA {} Pasternack%
+}{%
+{\protect \APACyear {2022}}%
+}]{%
+woodworth2022are}
+\APACinsertmetastar {%
+woodworth2022are}%
+\begin{APACrefauthors}%
+Woodworth, K\BPBI A.%
+\BCBT {}\ \BBA {} Pasternack, G\BPBI B.%
+\end{APACrefauthors}%
+\unskip\
+\newblock
+\APACrefYearMonthDay{2022}{{\APACmonth{04}}}{}.
+\newblock
+{\BBOQ}\APACrefatitle {Are Dynamic Fluvial Morphological Unit Assemblages
+  Statistically Stationary through Floods of Less than Ten Times Bankfull
+  Discharge?} {Are dynamic fluvial morphological unit assemblages statistically
+  stationary through floods of less than ten times bankfull discharge?}{\BBCQ}
+\newblock
+\APACjournalVolNumPages{Geomorphology}{403}{}{108135}.
+\newblock
+\begin{APACrefDOI} \doi{10.1016/j.geomorph.2022.108135} \end{APACrefDOI}
+\PrintBackRefs{\CurrentBib}
+
+\bibitem [\protect \citeauthoryear {%
+Wyrick%
+\ \BBA {} Pasternack%
+}{%
+Wyrick%
+\ \BBA {} Pasternack%
+}{%
+{\protect \APACyear {2012}}%
+}]{%
+wyrick2012landforms}
+\APACinsertmetastar {%
+wyrick2012landforms}%
+\begin{APACrefauthors}%
+Wyrick, J\BPBI R.%
+\BCBT {}\ \BBA {} Pasternack, G\BPBI B.%
+\end{APACrefauthors}%
+\unskip\
+\newblock
+\APACrefYearMonthDay{2012}{}{}.
+\newblock
+\APACrefbtitle {Landforms of the Lower {{Yuba River}}} {Landforms of the lower
+  {{Yuba River}}}\ \APACbVolEdTR{}{\BTR{}}.
+\newblock
+\APACaddressInstitution{Davis, CA, USA}{University of California, Davis}.
+\PrintBackRefs{\CurrentBib}
+
+\bibitem [\protect \citeauthoryear {%
 Wyrick%
 \ \BBA {} Pasternack%
 }{%
@@ -1446,6 +1806,37 @@ Wyrick, J\BPBI R.%
 \APACjournalVolNumPages{Geomorphology}{213}{Supplement C}{48--65}.
 \newblock
 \begin{APACrefDOI} \doi{10.1016/j.geomorph.2013.12.040} \end{APACrefDOI}
+\PrintBackRefs{\CurrentBib}
+
+\bibitem [\protect \citeauthoryear {%
+Wyrick%
+, Senter%
+\BCBL {}\ \BBA {} Pasternack%
+}{%
+Wyrick%
+\ \protect \BOthers {.}}{%
+{\protect \APACyear {2014}}%
+}]{%
+wyrick2014revealing}
+\APACinsertmetastar {%
+wyrick2014revealing}%
+\begin{APACrefauthors}%
+Wyrick, J\BPBI R.%
+, Senter, A\BPBI E.%
+\BCBL {}\ \BBA {} Pasternack, G\BPBI B.%
+\end{APACrefauthors}%
+\unskip\
+\newblock
+\APACrefYearMonthDay{2014}{}{}.
+\newblock
+{\BBOQ}\APACrefatitle {Revealing the Natural Complexity of Fluvial Morphology
+  through {{2D}} Hydrodynamic Delineation of River Landforms} {Revealing the
+  natural complexity of fluvial morphology through {{2D}} hydrodynamic
+  delineation of river landforms}.{\BBCQ}
+\newblock
+\APACjournalVolNumPages{Geomorphology}{210}{Supplement C}{14--22}.
+\newblock
+\begin{APACrefDOI} \doi{10.1016/j.geomorph.2013.12.013} \end{APACrefDOI}
 \PrintBackRefs{\CurrentBib}
 
 \bibitem [\protect \citeauthoryear {%
