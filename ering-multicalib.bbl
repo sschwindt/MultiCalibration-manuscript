@@ -222,6 +222,37 @@ Bunte, K.%
 \PrintBackRefs{\CurrentBib}
 
 \bibitem [\protect \citeauthoryear {%
+Cao%
+, Carling%
+\BCBL {}\ \BBA {} Oakey%
+}{%
+Cao%
+\ \protect \BOthers {.}}{%
+{\protect \APACyear {2003}}%
+}]{%
+cao2003flow}
+\APACinsertmetastar {%
+cao2003flow}%
+\begin{APACrefauthors}%
+Cao, Z.%
+, Carling, P.%
+\BCBL {}\ \BBA {} Oakey, R.%
+\end{APACrefauthors}%
+\unskip\
+\newblock
+\APACrefYearMonthDay{2003}{}{}.
+\newblock
+{\BBOQ}\APACrefatitle {Flow Reversal over a Natural Pool--Riffle Sequence: A
+  Computational Study} {Flow reversal over a natural pool--riffle sequence: A
+  computational study}.{\BBCQ}
+\newblock
+\APACjournalVolNumPages{Earth Surface Processes and
+  Landforms}{28}{7}{689--705}.
+\newblock
+\begin{APACrefDOI} \doi{10.1002/esp.466} \end{APACrefDOI}
+\PrintBackRefs{\CurrentBib}
+
+\bibitem [\protect \citeauthoryear {%
 Chow%
 }{%
 Chow%
@@ -1230,6 +1261,35 @@ Pasternack, G\BPBI B.%
 \PrintBackRefs{\CurrentBib}
 
 \bibitem [\protect \citeauthoryear {%
+Razavi%
+, Tolson%
+\BCBL {}\ \BBA {} Burn%
+}{%
+Razavi%
+\ \protect \BOthers {.}}{%
+{\protect \APACyear {2012}}%
+}]{%
+razavi2012review}
+\APACinsertmetastar {%
+razavi2012review}%
+\begin{APACrefauthors}%
+Razavi, S.%
+, Tolson, B\BPBI A.%
+\BCBL {}\ \BBA {} Burn, D\BPBI H.%
+\end{APACrefauthors}%
+\unskip\
+\newblock
+\APACrefYearMonthDay{2012}{}{}.
+\newblock
+{\BBOQ}\APACrefatitle {Review of Surrogate Modeling in Water Resources} {Review
+  of surrogate modeling in water resources}.{\BBCQ}
+\newblock
+\APACjournalVolNumPages{Water Resources Research}{48}{7}{}.
+\newblock
+\begin{APACrefDOI} \doi{10.1029/2011WR011527} \end{APACrefDOI}
+\PrintBackRefs{\CurrentBib}
+
+\bibitem [\protect \citeauthoryear {%
 Rickenmann%
 \ \BBA {} Recking%
 }{%
@@ -1540,6 +1600,35 @@ Smart, G\BPBI M.%
   Water, Maritime and Energy}{136}{4}{205--210}.
 \newblock
 \begin{APACrefDOI} \doi{10.1680/iwtme.1999.31984} \end{APACrefDOI}
+\PrintBackRefs{\CurrentBib}
+
+\bibitem [\protect \citeauthoryear {%
+Smith%
+\ \BBA {} Gelfand%
+}{%
+Smith%
+\ \BBA {} Gelfand%
+}{%
+{\protect \APACyear {1992}}%
+}]{%
+smith1992bayesian}
+\APACinsertmetastar {%
+smith1992bayesian}%
+\begin{APACrefauthors}%
+Smith, A\BPBI F\BPBI M.%
+\BCBT {}\ \BBA {} Gelfand, A\BPBI E.%
+\end{APACrefauthors}%
+\unskip\
+\newblock
+\APACrefYearMonthDay{1992}{}{}.
+\newblock
+{\BBOQ}\APACrefatitle {Bayesian {{Statistics}} without {{Tears}}: {{A
+  Sampling}}--{{Resampling Perspective}}} {Bayesian {{Statistics}} without
+  {{Tears}}: {{A Sampling}}--{{Resampling Perspective}}}.{\BBCQ}
+\newblock
+\APACjournalVolNumPages{The American Statistician}{46}{2}{84--88}.
+\newblock
+\begin{APACrefDOI} \doi{10.1080/00031305.1992.10475856} \end{APACrefDOI}
 \PrintBackRefs{\CurrentBib}
 
 \bibitem [\protect \citeauthoryear {%

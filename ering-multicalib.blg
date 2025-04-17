@@ -14,6 +14,8 @@ Reallocating 'singl_function' (item size: 4) to 100 items.
 Reallocating 'wiz_functions' (item size: 4) to 9000 items.
 Reallocating 'singl_function' (item size: 4) to 100 items.
 Database file #1: hydro-informatics.bib
+Warning--I didn't find a database entry for "bibid"
+Warning--I didn't find a database entry for "MachineLearningFirst2021"
 Warning--I didn't find a database entry for "box_bayesian_1973"
 Warning--I didn't find a database entry for "oladyshkin_connection_2019"
 Warning--I didn't find a database entry for "beckers_bayesian_2020"
@@ -40,45 +42,45 @@ Warning--I didn't find a database entry for "msdata_callau_git_2022"
 Warning--I didn't find a database entry for "msdata_schwindt_git_2022"
 apacite.bst [2013/07/21 v6.03 APA bibliography style]
 Warning--No address in hervouet2020telemac2d
-You've used 63 entries,
+You've used 66 entries,
             6951 wiz_defined-function locations,
-            1760 strings with 26645 characters,
-and the built_in function-call counts, 143371 in all, are:
-= -- 17222
-> -- 1221
-< -- 7762
-+ -- 7990
-- -- 126
-* -- 9904
-:= -- 27818
-add.period$ -- 266
-call.type$ -- 63
-change.case$ -- 1143
+            1786 strings with 27228 characters,
+and the built_in function-call counts, 149292 in all, are:
+= -- 17950
+> -- 1273
+< -- 8048
++ -- 8294
+- -- 132
+* -- 10300
+:= -- 28888
+add.period$ -- 278
+call.type$ -- 66
+change.case$ -- 1194
 chr.to.int$ -- 0
-cite$ -- 127
-duplicate$ -- 3815
-empty$ -- 5082
-format.name$ -- 2083
-if$ -- 25957
+cite$ -- 133
+duplicate$ -- 3986
+empty$ -- 5309
+format.name$ -- 2171
+if$ -- 27076
 int.to.chr$ -- 0
-int.to.str$ -- 189
+int.to.str$ -- 198
 missing$ -- 0
-newline$ -- 1733
-num.names$ -- 506
-pop$ -- 2087
+newline$ -- 1816
+num.names$ -- 530
+pop$ -- 2166
 preamble$ -- 1
-purify$ -- 318
+purify$ -- 330
 quote$ -- 0
-skip$ -- 8361
+skip$ -- 8738
 stack$ -- 0
-substring$ -- 8674
-swap$ -- 2247
-text.length$ -- 269
+substring$ -- 9007
+swap$ -- 2348
+text.length$ -- 275
 text.prefix$ -- 0
 top$ -- 1
-type$ -- 5424
+type$ -- 5664
 warning$ -- 1
-while$ -- 772
+while$ -- 803
 width$ -- 0
-write$ -- 2209
-(There were 25 warnings)
+write$ -- 2316
+(There were 27 warnings)
