@@ -95,16 +95,18 @@ Anthropogenic activities in natural river corridors have significantly modified
 Despite their complexity, two-dimensional hydro-morphodynamic models have demonstrated being valuable tools for simulating coupled flow-sediment transport processes, offering a reasonable balance between accuracy and computational efficiency \cite{papanicolaou2008sediment}. In these models, hydrodynamic patterns play a key role in governing sediment motion which is, in fact, closely linked to bed roughness variability, as it reshapes the riverbed through processes of deposition and erosion \cite{lokin2023effect,mishra2020alluvial}. This roughness variability is usually simplified in numerical models by the assumption that the main channel material is homogeneous, which can be represented in modeling by establishing a fixed and unique roughness coefficient (i.e., Manning-Strickler coefficient \( n \) or effective roughness height \( K_s \)) based on the general properties of the river channel and material \cite{chow1959openchannel}. In contrast, studies such as \citeA{bunte2001samplinga,garcia2012complex} suggest that variations in flow patterns such as velocity and water depth along a river corridor in the form of, for instance pool-riffle sequences, can be effectively linked to spatial features of a river’s hydro-morphological structure. These spatial configurations are called morphological units (MUs) \cite{wadeson1994geomorphological,wyrick2014geospatial}; which are closely tied to sediment dynamics and spatial roughness variability across various spatial and temporal scales. Furthermore, this MUs roughness variability can be significantly influenced by dynamic events such as peak flows or the presence of instream Nature-based Solutions (NbS) such as wood logs (LW), which introduce additional complexity in hydrodynamic patterns, sediment transport and bed roughness dynamics \cite{bunte2001samplinga,schalko2024flow}.  This complexity, in fact, hinders any model´s predictive capacity. Thus, improving model reliability depends strongly on the implementation of optimized calibration and validation approaches that are able to consider multiple and sensitive parameters in hydro-morphodynamic models (i.e., roughness coefficients, hydrodynamic and sediment transport empirical coefficients, boundary conditions, etc) while considering their inherent uncertainties \cite{guerrero2012calibration,li2011twodimensional,bel2020calibration,scolari2025hydromorphodynamic}.
 
 %multiparametric and time consuming---so we use surrogates? adding more data with two calibration targets?
-Early attempts to quantify model parameters were made by \citeA{villaret2016firstorder, beckers2018uncertainty, clare2022calibration}, who applied advanced mathematical methods for sensitivity analysis of multiparametric hydro-morphodynamic models. Similarly, surrogate-assisted approaches have been used by  \citeA{mohammadi2018bayesian} and \citeA{beckers2020bayesian} to quantify parameter uncertainties and support model comparison and calibration. The ultimate goal of these analysis is to identify sensitive model paremeters, from which plausible combinations lead to the best fit between model outputs and measured data (i.e., calibration target) while reducing overall model uncertainty \cite{oberkampf2004verification}. A well- stablished approach to bypass difficulties such as ill-posedness and model equifinality in conventional (deterministic) calibration approaches is to treat the uncertainty of sensitive model calibration parameters as probability functions to perform stochastic analysis \cite{kim2016stepwise}. To accomplish this, Gaussian Process (GP) machine learning tools, aided by active learning techiques such as Bayesian Active Learning as in \citeA{oladyshkin2020bayesian3}  have been explored in recent studies for reservoir modeling applications \cite{schwindt2023bayesian, mouris2023stability} to approximate computationally demanding and multiparametric numerical models (i.e., high-complexity models) through GP surrogates or metamodels trained with only a few samples or model runs from the complex model (e.i., input-output sets). These metamodels optimize the calibration and validation process by allowing the testing of a large number of parameter combinations within plausible ranges (i.e., competing models), and by incorporating data-driven approaches such as Bayesian Model Inversion \cite{mohammadi2018bayesian} to quantify parameter uncertainty. Experience from the previously mentioned studies suggests that surrogate-assisted calibration approaches were effective when applied to single-output surrogates, in other words, when calibrating using a single calibration target derived from a single-output metamodel or two targets obtained from independent single-output metamodels.  However, the application of multi-output Gaussian Process (MOGP) in river engineering modeling has not been yet extensively explored. The physics in many natural processes are rarely single-output or isolated processes, rather better represented as multi-output processes \cite{ferreira2022multioutput} or correlated inter-dependent tasks \cite{bonilla2007multitask}. These correlations between the outputs (i.e., water depth and velocity) can be captured by a multi-output surrogate model (i.e., Multitasks Gaussian Process as in \cite{bonilla2007multitask}) and leveraged for calibration purposes in hydro-morphodynamic river simulations. 
+Early attempts to quantify model parameters were made by \citeA{villaret2016firstorder, beckers2018uncertainty, clare2022calibration}, who applied advanced mathematical methods for sensitivity analysis of multiparametric hydro-morphodynamic models. Similarly, surrogate-assisted approaches have been used by  \citeA{mohammadi2018bayesian} and \citeA{beckers2020bayesian} to quantify parameter uncertainties and support model comparison and calibration. The ultimate goal of these analysis is to identify sensitive model paremeters, from which plausible combinations lead to the best fit between model outputs and measured data (i.e., calibration target) while reducing overall model uncertainty \cite{oberkampf2004verification}. A well- stablished approach to bypass difficulties such as ill-posedness and model equifinality in conventional (deterministic) calibration approaches is to treat the uncertainty of sensitive model calibration parameters as probability functions to perform stochastic analysis \cite{kim2016stepwise}. To accomplish this, Gaussian Process (GP) machine learning tools, aided by active learning techiques such as Bayesian Active Learning as in \citeA{oladyshkin2020bayesian3}  have been explored in recent studies for reservoir modeling applications \cite{schwindt2023bayesian, mouris2023stability} to approximate computationally demanding and multiparametric numerical models (i.e., high-complexity models) through GP surrogates or metamodels trained with only a few samples or model runs from the complex model (e.i., input-output sets). These metamodels optimize the calibration and validation process by allowing the testing of a large number of parameter combinations within plausible ranges (i.e., competing models), and by incorporating data-driven approaches such as Bayesian Model Inversion \cite{mohammadi2018bayesian} to quantify parameter uncertainty. Experience from the previously mentioned studies suggests that surrogate-assisted calibration approaches were effective when applied to single-output surrogates, in other words, when calibrating using a single calibration target derived from a single-output metamodel or two targets obtained from independent single-output metamodels.  However, the application of multi-output Gaussian Process (MOGP) in river engineering modeling has not been yet extensively explored. The physics in many natural processes are rarely single-output or isolated processes, rather better represented as multi-output processes \cite{ferreira2022multioutput} or correlated inter-dependent tasks \cite{bonilla2007multitask}. These correlations between the outputs (i.e., water depth and velocity in free surface flow applications) can be captured by a multi-output surrogate model (i.e., Multitasks Gaussian Process as in \cite{bonilla2007multitask}) and leveraged for calibration purposes in hydro-morphodynamic river simulations. 
 
 % 
 To this end, the aim of this study is to perform surrogate-assisted Bayesian calibration and parameter uncertainty quantification of a 215-meter-long hydro-morphodynamic numerical model of a fish pass, where two large instream wood logs (LWs) were installed. The full complexity model incorporates a velocity–water depth-based delineation of morphological units (MUs) within the main channel, capturing spatial roughness variability across different scales. The numerical model simulates a gate-controlled sequence of pre-flush, flush, and post-flush events that account for both liquid and sediment influx. It enables base flow assessments of water depth and velocity before and after the flush, while considering their dependence on bed roughness variability and sediment transport conditions.
 
-A Gaussian Process (GP) metamodel is used to approximate the full complexity model and is employed to perform stochastic analysis through Bayesian calibration of the five sensitive MU roughness coefficients depicting the riverbed roughness variability and the critical Shields parameter for bedload sediment transport. To make stochastic calibration feasible and account for all available data, the study uses a multi-output Gaussian Process approach that simultaneously simulates two correlated output variables (i.e., water depth and velocity) both of which serve as calibration targets. Furthermore, the metamodel uses a Bayesian Active Learning (BAL) approach proposed by \citeA{oladyshkin2020bayesian3} to add additional training points based on relative entropy to improve the accuracy of the metamodel. 
+A Gaussian Process (GP) metamodel is then used to approximate the full-complexity model and is leveraged to perform stochastic analysis through Bayesian calibration of ten sensitive roughness zones, five of which correspond to instream morphological units (MUs).The method assesses riverbed roughness variability as an essential driver of enhanced model calibration and uncertainty reduction. The calibration technique also takes into account the critical Shields parameter as a highly sensitive parameter for bedload sediment transport and thereby a trigger for changes in hydrodynamic patterns. To make stochastic calibration feasible and account for all available data, the study uses a multi-output Gaussian Process approach that simultaneously simulates two correlated output variables (i.e., water depth and velocity) both of which serve as calibration targets. Furthermore, the metamodel uses a Bayesian Active Learning (BAL) approach proposed by \citeA{oladyshkin2020bayesian3} to add additional training points based on relative entropy to improve the accuracy of the metamodel after a desired number of iterations. 
 
 Through this approach, the study aims to answer two research questions: First, how does a morphological unit delineation of the riverbed aid in increasing the effectiveness of model calibration? Second, how does the inclusion of two calibration quantities, such as water depth and velocity obtained from a multi-output Gaussian Process-based surrogate model, improve the uncertainty quantification of the considered calibration parameters during Bayesian calibration?
 
-We hypothesize that a MU-based roughness delineation, combined with a sensitive sediment transport coefficient such as the critical Shields parameter as calibration parameters, aided by the inclusion of the available data (two calibration targets) in the Bayesian calibration process, narrows the probability distribution functions for highly uncertain parameters that are sensitive to the two calibration target quantities, and provides probabilistic regions where the uncertain parameter responses are more likely to fit measured data.  
+We hypothesize that a MU-based roughness delineation, combined with a sensitive sediment transport model parameter such as the critical Shields parameter as calibration parameters, aided by the inclusion of the available data (two calibration targets) in the Bayesian calibration process, narrows the probability distribution functions for highly uncertain parameters that are sensitive to the two calibration target quantities, and provides probabilistic regions where the uncertain parameter responses are more likely to fit measured data.  
+
+Section ... presents in detail the available data used for the present project. Section ... explains the characteristics and configuration of the complex and surrogate models, while also covering the theoretical background of the applied methods. The subsequent section presents the relevant results, and we conclude with the final remarks and suggestions for further improvements.
 
 
 \section{Materials and Methods} 
@@ -270,7 +272,7 @@ Morphological units, or MUs, are the essential constituents of river systems tha
 \citeA{wyrick2012landforms} and \citeA{wyrick2014revealing} introduced a new approach for mapping in-channel morphological units at the base flow, based on their influence into two-dimensional hydrodynamic patterns. \citeA{wyrick2014geospatial} used the latter approach to delineate and map MU landforms in the cobble-gravel bed Lower Yuba River by using a) spatial grids of water depth and velocity values, extracted from a 2D hydrodynamic model, and b) an expert-specified MU classification scheme using depth and velocity threshold values. This approach was applied in the current study to combine velocity and water depth raster files obtained under pre- and post-flush conditions at base flow. For each state, five morphological units (MUs) i.e., pools, slackwater, glides, riffles, and runs were delineated according to defined velocity–water depth thresholds (see Fig.~\ref{fig:MU_thresholds}). The raster files were then compared to identify persistent MU based on hyrodynamic patterns on both pre- and post-flush conditions. This analysis was complemented with expert judgment and the use of available orthoimages to refine the delineation. Additionally, backwater, wake and large wood LW zones considered by the presence of instream large wood structures (LW) and boulders were included in the final classification of roughness zones.    
 
 % Final delineation and MU as calibration parameters 
-The final classification with 14 roughness zones was exported as a TIFF file and interpolated onto the computational mesh to define roughness zones for the simulation. These zones were assigned distinct Nikuradse roughness values \( K_s \) , of which only ten served as calibration parameters. Their plausible values were represented by uniform distributions (see Table), reflecting prior knowledge of each of the calibration zones. The limits of these ranges were defined based on measured data of the site and the minimum and maximum meaningful Manning-Strickler roughness values typically applied to natural channels according to \cite{chow1959openchannel}, and which could be related to the characteristic grain size \(d_{84}\) , according to \citeA{rickenmann2011evaluation} and \citeA{ferguson2007flow}. The expression is the following: 
+The final classification with 14 roughness zones was exported as a TIFF file and interpolated onto the computational mesh to define roughness zones for the simulation. These zones were assigned distinct Nikuradse roughness values \( K_s \) , of which only ten served as calibration parameters. Their plausible values were represented by uniform distributions (see Table .~\ref{tab:roughness_zones}), reflecting prior knowledge of each of the calibration zones. The limits of these ranges were defined based on measured data of the site and the minimum and maximum meaningful Manning-Strickler roughness values typically applied to natural channels according to \cite{chow1959openchannel}, and which could be related to the characteristic grain size \(d_{84}\) , according to \citeA{rickenmann2011evaluation} and \citeA{ferguson2007flow}. The expression is the following: 
 
 \begin{equation}
 	\frac{1}{n} = \frac{20.4}{d_{84}^{1/6}}
@@ -299,7 +301,7 @@ where \( d_{84} \) is the selected representative diameter particle size.
 		\textbf{* Wake}           & \textbf{0.040}   & \( K_{\text{wake}} \sim \mathcal{U}(0.060, 0.79) \) \\
 		\textbf{* Boulders}       & \textbf{1.500}   & \( K_{\text{boulders}} \sim \mathcal{U}(0.5, 2) \) \\
 		Vegetation                & 0.070   & -- \\
-		Tree stems                & 0.220   & -- \\
+		Tree stems                & \textbf{0.22}   & \( K_{\text{TS}} \sim \mathcal{U}(0.002,0.79) \) \\
 		\textbf{* Large woods (LW)} & \textbf{0.300} & \( K_{\text{LW}} \sim \mathcal{U}(0.0010, 0.79) \) \\ \hline
 	\end{tabular}
 	\label{tab:roughness_zones}
@@ -368,7 +370,7 @@ where \( d_{84} \) is the selected representative diameter particle size.
 
 \subsubsection{The Bayesian principle and Bayesian Inversion using metamodels}
 
-No numerical model can be considered accurate enough if steps such as calibration and validation are not implemented in the overall modeling process. Calibration aims to reduce the divergence between model outputs and observed data by modifying sensitive model parameters \cite{bibid} Bayesian principles can aid in reaching this goal by the inclusion of known (measured data) through the use of a likelihood function and a prior knowledge of the uncertain model parameters \(\omega\) in the form of a prior probability function to obtain an updated probabilistic knowledge of such parameters called posterior probability function. \cite{smith1992bayesian}. It is represented by: 
+Calibration aims to reduce the divergence between model outputs and observed data by modifying sensitive model parameters. Bayesian principles support this process by incorporating sources of uncertainty in the calibration parameters \(\omega\), using a prior probability function and measured data \( D_P \)  at \( P \) locations through a likelihood function. This leads to a posterior probability function, which is an updated probabilistic understanding of the uncertain parameters  \cite{smith1992bayesian,lim2017comprehensive}. It is represented as: 
 
 \[
 P(\omega | D_P) = \frac{P(D_P | \omega) \cdot P(\omega)}{P(D_P)}
@@ -378,83 +380,163 @@ P(\omega | D_P) = \frac{P(D_P | \omega) \cdot P(\omega)}{P(D_P)}
 where \( P(\omega | D_P) \) is the posterior probability function of the uncertain model parameters given measured data \(D_P\). \(P(D_P | \omega)\)  is the likelihood function,  \( P(\omega) \) is the prior probability function, which encodes prior knowledge about the uncertain parameters and \( P(D_P) \) is the so called marginal likelihood which serves as a normalization constant.  
 
 
-Applying Bayesian principles in real (expensive) models using Monte Carlo or Markov-Chain Monte Carlo is time consuming or simply unfeasible. \cite{oladyshkin2020bayesian3}.
-For this reason, the development of machine learning algorithms that reduce complex models without sacrificing their accuracy has been the focus of recent studies in many fields of engineering. For instance, in hydraulic modeling for environmental applications, the employement of surrogate models \( \mathcal{M}(\omega) \)  or also called metamodels have been getting attention to reduce computational cost in  multiparametric and highly detailed simulations and perform stochastic analysis in light of measured data.
+Applying Bayesian principles in real (computationally expensive) models using Monte Carlo or Markov-Chain Monte Carlo is time consuming or simply unfeasible \cite{oladyshkin2020bayesian3}.
+Thus, the development of machine learning algorithms that approximate complex models while mantaining their accuracy has been the focus of recent studies in many engineering fields. For instance, in hydraulic modeling, the employement of surrogate models \( \mathcal{M}(\omega) \)  or also called metamodels have been getting attention to reduce computational cost in  multiparametric and highly detailed simulations and perform stochastic analysis in light of measured data.
 
 %\cite{schwindtBayesianCalibrationPoints2023},\cite{mourisStabilityCriteriaBayesian2023},\cite{beckersBayesianCalibrationValidation2020},\cite{meertSurrogateModelingbasedCalibration2018}.
 
-A metamodel approximates the complex model response \( M_c \) (e.g. hydrodynamic outputs) using data-driven function approximation approaches \cite{razavi2012review} employing only a few number of complex model realizations. This approximation is denoted as:
+In the current study we approximate the complex hydro-morphodynamic model \( M_c \) with a Gaussian Process (GPs) surrogate model \( \mathcal{M}(\omega) \). The metamodel approximates the complex model response \( M_c \) (e.g. hydrodynamic outputs) using data-driven function approximation approaches \cite{razavi2012review} employing only a few number of complex model realizations with a desired design of experiments of the input parameters \(\omega\) aiming to cover the input parameter space. 
+
+With a fast-performing metamodel, we conduct Bayesian model inversion using Monte Carlo sampling to infer updated probability distributions of \(N = 10\) sensitive and uncertain model parameters (see Table .~\ref{tab:roughness_zones}) through rejection sampling \cite{beckers2020bayesian}. To quantify the compatibility between model outputs and measured data, the likelihood function plays a critical role, as it expresses how well the model explains the observed data. In this approach, we account for imperfections in both, the modeling approaches (i.e., complex and surrogate models) and the measurements by considering a combination of measurement error, complex model error, and additional error introduced by the surrogate model approximation. The likelihood function of the observed data given a Monte Carlo realization \( \omega_{\text{MC}} \) is:
+
 \[
-M_c(\omega) \approx \mathcal{M}(\omega) 
+P(\bm{D} \mid \omega_{\text{MC}}) = \mathcal{N}(\bm{D} \mid \mathcal{M}(\omega_{\text{MC}}), \bm{R})
 \]
 
-With a fast-performing model, it is now possible to conduct Bayesian inversion using Monte Carlo sampling to infer an updated probability distribution of the uncertain model parameters \(\omega\). \cite{beckers2020bayesian}.  To quantify the compatibility between model outputs and measured data the likelihood functionn plays a critical role.  For \( MC \) Monte Carlo samples (or realizations), the matricial representation of the surrogate model outputs for velocity \( \mathbf{V} \) and water depth \( \mathbf{H} \) or a combination of both variables \( \mathbf{VH} \) and at P measurement locations is:
-
+where \( \bm{D} \) is the vector of observed data at \(P\) measurement locations, \( \omega_{\text{MC}} \) is one Monte Carlo realization of the parameter vector, \( \mathcal{M}(\omega_{\text{MC}}) \)is a vector containing the surrogate model predictions at \(P\) measurement locations and \( \bm{R} \in \mathbb{R}^{P \times P} \) is the total covariance matrix over all measurement locations as 
 \[
-\mathbf{V} = \begin{pmatrix}
-	v_{11} & v_{12} & \dots & v_{1P} \\
-	v_{21} & v_{22} & \dots & v_{2P} \\
-	\vdots & \vdots & \ddots & \vdots \\
-	v_{MC1} & v_{MC2} & \dots & v_{MCP}
-\end{pmatrix}
+\mathbf{R} = \sum_{p=1}^{P} \left( \mathbf{\Sigma}_{\text{complex}} + \mathbf{\Sigma}_{\text{surrogate}} + \mathbf{\Sigma}_{\text{measurement},p} \right)
 \]
 
+Note that if the likelihood function incorporates more than one variable, it becomes a multivariate likelihood. In this study, the likelihood uses the two surrogate model outputs from the multioutput metamodel to compute a multivariate likelihood (i.e., water depth and velocity), doubling the size of the necessary vectors and matrices for likelihood computation. The expanded likelihood function becomes: 
+
 \[
-\mathbf{H} = \begin{pmatrix}
-	h_{11} & h_{12} & \dots & h_{1P} \\
-	h_{21} & h_{22} & \dots & h_{2P} \\
-	\vdots & \vdots & \ddots & \vdots \\
-	h_{MC1} & h_{MC2} & \dots & h_{MCP}
-\end{pmatrix}
+P(\bm{D} \mid \omega_{\text{MC}}) = \frac{1}{\sqrt{(2\pi)^P |\bm{R}|}} \exp\left( -\frac{1}{2} \left( \bm{D} - \mathcal{M}(\omega_{\text{MC}}) \right)^\top \bm{R}^{-1} \left( \bm{D} - \mathcal{M}(\omega_{\text{MC}}) \right) \right)
 \]
 
+
+where \( \bm{D} - \mathcal{M}(\omega_{\text{MC}}) \) is the residual vector, representing the difference between the measured data and the model output evaluated at each Monte Carlo sample \( \omega_{\text{MC}} \). A resulting likelihood vector will contain the likelihood values of all the MC parameter combinations, from which some will be filtered by rejection sampling to obtain a posterior distribution.
+
+
+\subsubsection{Single output and Multi output Gaussian Process Emulators}
+
+
+A metamodel using Gaussian Process Regression is employed to approximate a complex hydro-morphodynamic model and perform Bayesian model calibration. The approach centers primarily in the estimation of two correlated variables that share underlying dependencies such as velocity and water depth per measurement location. Typically, one can predict each output of interest separately by using trained single output Gaussian Process (SOGP) surrogates. A standart SOGP can be denoted as:
+
 \[
-\mathbf{VH} = \begin{pmatrix}
-	v_{11} & h_{11} & v_{12} & h_{12} & \dots & v_{1P} & h_{1P} \\
-	v_{21} & h_{21} & v_{22} & h_{22} & \dots & v_{2P} & h_{2P} \\
-	\vdots & \vdots & \vdots & \vdots & \ddots & \vdots & \vdots \\
-	v_{MC1} & h_{MC1} & v_{MC2} & h_{MC2} & \dots & v_{MCP} & h_{MCP}
-\end{pmatrix}
+M_c^{(t)}(\omega) \approx \mathcal{M}^{(t)}(\omega) \approx \mathcal{GP}(\mu^{(t)}(\omega), k(\omega, \omega'))
 \]
 
-To represent the likelihood function \( P(D_P | \omega) \) using the model outputs and observed data, we consider a combination of measurement error from the device and additional error from the surrogate model. The likelihood function can be expressed as:
+where \( \mathcal{M}^{(t)}(\omega) \) is a single-output Gaussian Process surrogate trained specifically for output type \( t \) (i.e., velocity or water depth), \( \mu^{(t)}(\omega) \) is the mean function defining the expected value of the surrogate model, and \( k(\omega, \omega') \) is the covariance function or kernel, which defines the dependencies between function values at different input locations \( \omega \) and \( \omega' \). 
+
+In general, an advantage of Gaussian Processes is their ability to provide not only predictions of output quantities but also their associated uncertainties \cite{lindholm2022machine}, making them suitable for various engineering applications such as Bayesian calibration or uncertainty quantification of expensive and multi-parametric models \cite{schwindt2023bayesian, mouris2023stability}. However, in many real-world cases, outputs are correlated and may contain valuable information that can be shared among them to improve the learning process of any metamodel by exploiting their correlations \cite{breiman1997predicting}. The fundamental concept of multitask learning is the sharing of knowledge acquired from several tasks while they are simultaneously trained \cite{caruana1997multitask}. Modeling outputs in isolation may lead to the loss of this information, potentially increasing the amount of training data required for accurate surrogate modeling or diminishing accuracy in the surrogate for a fixed amount of training data \cite{liu2018remarks}.
+
+To predict the two correlated variables simultaneouly (i.e., tasks) we use a Multioutput (or Multitask) Gaussian Process (MOGP) approach with \textbf{GPyTorch} \cite{gardner2018gpytorch}. Our case involves an isotopic and symetric Multioutput Gaussian Process (MOGP) in which the model learns all outputs from the same training sets and all outputs (i.e., water depth and velocity) have the same importance \cite{liu2018remarks}. As described in \citeA{bonilla2007multitask}, a key difference with a SOGP is the inclusion of a task covariance matrix \( K_{lk}^{f} \), which is defined through a kernel function \( k^{f}{(t_l, t_k)} \) over task-descriptor features \( t \) to model dependencies across tasks. This kernel is then combined with a standard kernel over the input space \(k(\omega, \omega')\) to define a joint covariance function that captures both input-dependent and inter-task correlations. In the context of out study, a task descriptor \( t \) refers to the physical nature of each output (e.g., meaning two tasks which corresponds to scalar velocity or water depth at a given location), allowing the model to recognize and exploit relationships between outputs based on their physical meaning. The joint kernel function and the multioutput Gaussian Process concept are represented by: 
 
 \[
-P(D_P | \omega) = \mathcal{N}(D_P | \mathcal{M}(\omega), \sigma_{\text{total}}^2)
+ k_{\text{MO}}\big((\omega, l), (\omega', k)\big) =  K_{lk}^{f} \cdot k(\omega, \omega')
 \]
 
-where \( \mathcal{M}(\omega) \) is the model prediction (or surrogate model output), and \( \sigma_{\text{total}}^2 \) is the total variance (error) associated with the observed data, which includes both the measurement error \( \sigma_{\text{meas}}^2 \) and the surrogate model error \( \sigma_{\text{sur}}^2 \):
+Here, \( k_{\text{MO}}\big((\omega, l), (\omega', k)\big) \) is the multioutput kernel, \( k(\omega, \omega') \) is a standard covariance function over the input parameters \( \omega \), and  \( K_{lk}^{f} = k_f(t_l, t_k) \) is a task kernel.
+
+To represent the approximation of the complex model for two tasks \( l \) and \( k \), the MOGP can be written as:
 
 \[
-\sigma_{\text{total}}^2 = \sigma_{\text{meas}}^2 + \sigma_{\text{sur}}^2
+M_c^{(l,k)}(\omega) \approx \mathcal{M}^{(l,k)}(\omega) \approx \mathcal{GP}\left(\mu^{(l,k)}(\omega),\ k_{\text{MO}}\left((\omega, l), (\omega', k)\right)\right)
 \]
-
-Thus, the likelihood function becomes:
-
-\[
-P(D_P | \omega) = \frac{1}{\sqrt{2\pi \sigma_{\text{total}}^2}} \exp\left( - \frac{(D_P - \mathcal{M}(\omega))^2}{2 \sigma_{\text{total}}^2} \right)
-\] 
+where \( \mathcal{M}^{(l,k)}(\omega) \) is the surrogate model trained using the multi-output Gaussian process (MOGP) for output types \( l \) and \( k \).
 
 
-For instance, Gaussian Process Emulators (GP) are often used as metamodels for approximating complex and computationally expensive simulations. A Gaussian Process (GP) can be considered as a probability distribution over functions, meaning that for any finite set of input points 
-\( \omega_1, \omega_2, \dots, \omega_n \), the corresponding function values follow a multivariate Gaussian distribution. \cite{MachineLearningFirst2021}.  For this case study, we want to approximate the complex hydrodynamic model \( M_c \) into a surrogate model  \( \mathcal{M}(\omega) \) using Gaussian Process Regression. Mathematically, this concept is expressed as:  
-
-\[
-M_c(\omega) \approx \mathcal{M}(\omega) \approx \mathcal{GP}(\mu(\omega), k(\omega, \omega'))
-\]
-
-where \( \mu(\omega) \) is the mean function defining the expected value of \( \mathcal{M}(\omega) \), and \( k(\omega, \omega') \) is the covariance function or kernel, which defines the dependencies between function values at different input locations \( \omega \) and \( \omega' \).
-
-
-
-However, applying these principles in the real (expensive) models using Monte Carlo or Markov-Chain Monte Carlo is unfeasible \cite{oladyshkin2020bayesian3}. Using metamodels for accelerating the simulation of complex phenomena, in fact, can be very helpful in applying Bayesian Inference for calibration and validation purposes. \cite{bibid} (NEED TO CITE SOMETHING FOR BAYESIAN CALIBRATION). Bayesian principles.  aiming to decrease the general uncertainty of the model outputs.  is not enogh and the inclusion and perform various analyses such as stochastic modeling, sensitivity analysis and uncertainty quantification of model parameters, model calibration and validation.
-
-In various real-life applications, we try to estimate multiple interrelated outputs that share some underlying dependencies. A multitask Gaussian process (Multitask GP) is a probabilistic framework designed to jointly model these tasks by sharing information, which typically improves upon the treatment of each task in isolation. The main idea with Multitask GP is that it learns a shared covariance structure that can depict relationships within the input space and across tasks. This is achieved by combining two main components , a) a shared covariance defined over input-dependent features to model how inputs (physical parameters) affect outputs. 
-A free-format task similarity matrix that encodes possible dependencies and correlations among tasks based purely on task IDs and observational data \cite{bonilla2007multitask}]. In river engineering applocations, many reserach projects have used surrogate models to approximate the real (complex) model only with the implementation of few runs or realizations of it.For instance, \cite{mouris2023stability} , \cite{beckers2020bayesian} used Gaussian Process or Arbitrary Polynomial Chaos approaches respectively for approximating hydro-morphodynamic models.However, when attempting calibration with the use of many measuremnet points, this means that the creation of surroge models for each calibration point must be created and perform monte carlo realizations on each of them. This action is computationally expensive. In this approach we introduce a novel, multitask Gaussian Process approach in which the correlation between outputs and calibrationpoints is leveraged and condensed in only one GP. 
+For the MOGP case, the task kernel \( k^{f}{(t_l, t_k)} \) is internally computed by the Gaussian Process framework, meaning the user only provides the input parameter covariance function \( k(\omega, \omega') \), a rank for inter-tasks correlations and the number of tasks. For the SOGP, only an input parameter covariance function is provided. In both cases, a Matérn covariance function is assigned. A spetial higlight is done for SOGP because besides the calibration process, we provide a comparison of  uncertainty evolution over training data size for single and multioutput Gaussian Process.  
 
 
 
 
+
+%where 
+%In general, the fundamental concept of multitask learning is the sharing of knowledge acquired from several tasks while they are simultaneously trained \cite{caruana1997multitask}. A multitask or multi-output Gaussian process (MOGP) effectively utilizes and exhibits the correlations among related tasks to enhance knowledge exchange and transfer, hence improving prediction quality and reducing the necessity for extensive training data. \cite{}. The typical machine learning approach is to learn single tasks in isolation, that 
+%
+%\[
+%\sigma_{\text{total}}^2 = \sigma_{\text{meas}}^2 + \sigma_{\text{sur}}^2
+%\]
+%
+%Thus, the likelihood function becomes:
+%
+%\[
+%P(D_P | \omega) = \frac{1}{\sqrt{2\pi \sigma_{\text{total}}^2}} \exp\left( - \frac{(D_P - \mathcal{M}(\omega))^2}{2 \sigma_{\text{total}}^2} \right)
+%\] 
+%
+%
+%A metamodel approximates the complex model response \( M_c \) (e.g. hydrodynamic outputs) using data-driven function approximation approaches \cite{razavi2012review} employing only a few number of complex model realizations. This approximation is denoted as:
+%\[
+%M_c(\omega) \approx \mathcal{M}(\omega) \approx \mathcal{GP}(\mu(\omega), k(\omega, \omega'))
+%\]
+%
+%With a fast-performing model, it is now possible to conduct Bayesian inversion using Monte Carlo sampling to infer an updated probability distribution of the uncertain model parameters \(\omega\). \cite{beckers2020bayesian}.  To quantify the compatibility between model outputs and measured data the likelihood functionn plays a critical role. In other words, it quantifies how well a model explains the observed data.  
+%
+%To represent the likelihood function \( P(D_P | \omega) \) using the model outputs and observed data, we consider a combination of measurement error from the device and additional error from the surrogate model. The likelihood function can be expressed as:
+%
+%\[
+%P(D_P | \omega) = \mathcal{N}(D_P | \mathcal{M}(\omega), \sigma_{\text{total}}^2)
+%\]
+%
+%where \( \mathcal{M}(\omega) \) is the model prediction (or surrogate model output), and \( \sigma_{\text{total}}^2 \) is the total variance (error) associated with the observed data, which includes both the measurement error \( \sigma_{\text{meas}}^2 \) and the surrogate model error \( \sigma_{\text{sur}}^2 \):
+%
+%\[
+%\sigma_{\text{total}}^2 = \sigma_{\text{meas}}^2 + \sigma_{\text{sur}}^2
+%\]
+%
+%Thus, the likelihood function becomes:
+%
+%\[
+%P(D_P | \omega) = \frac{1}{\sqrt{2\pi \sigma_{\text{total}}^2}} \exp\left( - \frac{(D_P - \mathcal{M}(\omega))^2}{2 \sigma_{\text{total}}^2} \right)
+%\] 
+%
+%
+%
+%
+%
+%
+%
+%For \( MC \) Monte Carlo samples (or realizations), the matricial representation of the surrogate model outputs for velocity \( \mathbf{V} \) and water depth \( \mathbf{H} \) or a combination of both variables \( \mathbf{VH} \) and at P measurement locations is:
+%
+%\[
+%\mathbf{V} = \begin{pmatrix}
+%	v_{11} & v_{12} & \dots & v_{1P} \\
+%	v_{21} & v_{22} & \dots & v_{2P} \\
+%	\vdots & \vdots & \ddots & \vdots \\
+%	v_{MC1} & v_{MC2} & \dots & v_{MCP}
+%\end{pmatrix}
+%\]
+%
+%\[
+%\mathbf{H} = \begin{pmatrix}
+%	h_{11} & h_{12} & \dots & h_{1P} \\
+%	h_{21} & h_{22} & \dots & h_{2P} \\
+%	\vdots & \vdots & \ddots & \vdots \\
+%	h_{MC1} & h_{MC2} & \dots & h_{MCP}
+%\end{pmatrix}
+%\]
+%
+%\[
+%\mathbf{VH} = \begin{pmatrix}
+%	v_{11} & h_{11} & v_{12} & h_{12} & \dots & v_{1P} & h_{1P} \\
+%	v_{21} & h_{21} & v_{22} & h_{22} & \dots & v_{2P} & h_{2P} \\
+%	\vdots & \vdots & \vdots & \vdots & \ddots & \vdots & \vdots \\
+%	v_{MC1} & h_{MC1} & v_{MC2} & h_{MC2} & \dots & v_{MCP} & h_{MCP}
+%\end{pmatrix}
+%\]
+%
+%
+%For instance, Gaussian Process Emulators (GP) are often used as metamodels for approximating complex and computationally expensive simulations. A Gaussian Process (GP) can be considered as a probability distribution over functions, meaning that for any finite set of input points 
+%\( \omega_1, \omega_2, \dots, \omega_n \), the corresponding function values follow a multivariate Gaussian distribution. \cite{MachineLearningFirst2021}.  For this case study, we want to approximate the complex hydrodynamic model \( M_c \) into a surrogate model  \( \mathcal{M}(\omega) \) using Gaussian Process Regression. Mathematically, this concept is expressed as:  
+%
+%\[
+%M_c(\omega) \approx \mathcal{M}(\omega) \approx \mathcal{GP}(\mu(\omega), k(\omega, \omega'))
+%\]
+%
+%where \( \mu(\omega) \) is the mean function defining the expected value of \( \mathcal{M}(\omega) \), and \( k(\omega, \omega') \) is the covariance function or kernel, which defines the dependencies between function values at different input locations \( \omega \) and \( \omega' \).
+%
+%
+%
+%However, applying these principles in the real (expensive) models using Monte Carlo or Markov-Chain Monte Carlo is unfeasible \cite{oladyshkin2020bayesian3}. Using metamodels for accelerating the simulation of complex phenomena, in fact, can be very helpful in applying Bayesian Inference for calibration and validation purposes. \cite{bibid} (NEED TO CITE SOMETHING FOR BAYESIAN CALIBRATION). Bayesian principles.  aiming to decrease the general uncertainty of the model outputs.  is not enogh and the inclusion and perform various analyses such as stochastic modeling, sensitivity analysis and uncertainty quantification of model parameters, model calibration and validation.
+%
+%In various real-life applications, we try to estimate multiple interrelated outputs that share some underlying dependencies. A multitask Gaussian process (Multitask GP) is a probabilistic framework designed to jointly model these tasks by sharing information, which typically improves upon the treatment of each task in isolation. The main idea with Multitask GP is that it learns a shared covariance structure that can depict relationships within the input space and across tasks. This is achieved by combining two main components , a) a shared covariance defined over input-dependent features to model how inputs (physical parameters) affect outputs. 
+%A free-format task similarity matrix that encodes possible dependencies and correlations among tasks based purely on task IDs and observational data \cite{bonilla2007multitask}]. In river engineering applocations, many reserach projects have used surrogate models to approximate the real (complex) model only with the implementation of few runs or realizations of it.For instance, \cite{mouris2023stability} , \cite{beckers2020bayesian} used Gaussian Process or Arbitrary Polynomial Chaos approaches respectively for approximating hydro-morphodynamic models.However, when attempting calibration with the use of many measuremnet points, this means that the creation of surroge models for each calibration point must be created and perform monte carlo realizations on each of them. This action is computationally expensive. In this approach we introduce a novel, multitask Gaussian Process approach in which the correlation between outputs and calibrationpoints is leveraged and condensed in only one GP. 
+%
+%
+%
+%
 
 
 
@@ -581,6 +663,75 @@ In contrast to lump-sum statistics (e.g., the \textit{RMSE}), we expected Bayesi
 In addition, we tested the lump-sum accuracy of the calibration results by running both the GPE and Delft3D-FLOW model with the final maximum likelihoods of the calibration parameters after each scenario. These additional runs allowed for vetting the calibrated GPE-surrogate and full-complexity models against the measurement data in a classical-deterministic manner that is commonly used with trial-and-error calibration methods. The additional runs also provided insights into the quality of final model results, and spatially explicit comparisons of the Delft3D-FLOW and the GPE-surrogate models in the entire~SR, which we used for discussion of the physical relevance of calibration parameters.
 
 \section{Results}
+
+\section*{Surrogate Model Evolution Assessment Over Training Points Iterations}
+
+This assessment evaluates the evolution of a surrogate model designed to approximate two hydromorphodynamic quantities: \textbf{scalar velocity} and \textbf{water depth}, using an active learning strategy. The analysis is based on model performance metrics and confidence interval (CI) trends over increasing numbers of training points.
+
+\subsection*{1. RMSE (Root Mean Square Error) Trends}
+
+\textbf{Scalar Velocity:} \\
+The RMSE remains consistently low across all iterations (\textasciitilde0.085–0.09), indicating that the surrogate model captures scalar velocity with high fidelity from early training stages.
+
+\textbf{Water Depth:} \\
+Initially characterized by a higher RMSE (\textasciitilde0.122), the surrogate model exhibits notable improvement after 30 training points, with RMSE progressively decreasing. However, performance fluctuations remain, suggesting higher complexity in modeling water depth.
+
+\subsection*{2. Correlation Coefficient Trends}
+
+\textbf{Scalar Velocity:} \\
+Correlation coefficients remain high and stable (\textasciitilde0.89–0.90), confirming strong linear agreement between surrogate and true outputs.
+
+\textbf{Water Depth:} \\
+Initially lower (\textasciitilde0.85), the correlation improves and stabilizes near 0.90 as training progresses. This indicates that the surrogate model gradually learns the underlying relationships for water depth with additional data.
+
+\subsection*{3. Confidence Interval (CI) Range Evolution}
+
+\textbf{Scalar Velocity:} \\
+The CI range decreases with training, indicating growing model confidence. A temporary increase at 50 training points likely reflects exploration of high-uncertainty regions, followed by a sharp drop at 55 points, suggesting model stabilization.
+
+\textbf{Water Depth:} \\
+The CI range also trends downward, though it remains broader than that of velocity, reflecting higher modeling uncertainty. Similar to velocity, a spike at 50 points suggests targeted learning in complex regions.
+
+\subsection*{4. Interpretation and Insights}
+
+\textbf{Model Fidelity:} The surrogate model performs consistently well for scalar velocity, requiring fewer training points to reach high accuracy.
+
+\textbf{Complexity of Quantity:} Water depth proves more challenging, with higher initial error and uncertainty, but benefits significantly from additional training points.
+
+\textbf{Active Learning Behavior:} The fluctuations in CI range suggest effective exploration of uncertain domains, particularly at 50 training points, indicative of an active learning process.
+
+\textbf{Uncertainty Reduction:} The sharp CI drops after 50 points show that the surrogate model not only becomes more accurate but also more confident.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 \subsection{Convergence Speed}
 % speed on average

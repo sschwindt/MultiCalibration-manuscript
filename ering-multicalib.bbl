@@ -162,6 +162,34 @@ Bonilla, E\BPBI V.%
 \PrintBackRefs{\CurrentBib}
 
 \bibitem [\protect \citeauthoryear {%
+Breiman%
+\ \BBA {} Friedman%
+}{%
+Breiman%
+\ \BBA {} Friedman%
+}{%
+{\protect \APACyear {1997}}%
+}]{%
+breiman1997predicting}
+\APACinsertmetastar {%
+breiman1997predicting}%
+\begin{APACrefauthors}%
+Breiman, L.%
+\BCBT {}\ \BBA {} Friedman, J\BPBI H.%
+\end{APACrefauthors}%
+\unskip\
+\newblock
+\APACrefYearMonthDay{1997}{}{}.
+\newblock
+{\BBOQ}\APACrefatitle {Predicting {{Multivariate Responses}} in {{Multiple
+  Linear Regression}}} {Predicting {{Multivariate Responses}} in {{Multiple
+  Linear Regression}}}.{\BBCQ}
+\newblock
+\APACjournalVolNumPages{Journal of the Royal Statistical Society. Series B
+  (Methodological)}{59}{1}{3--54}.
+\PrintBackRefs{\CurrentBib}
+
+\bibitem [\protect \citeauthoryear {%
 Buffington%
 \ \BBA {} Montgomery%
 }{%
@@ -250,6 +278,30 @@ Cao, Z.%
   Landforms}{28}{7}{689--705}.
 \newblock
 \begin{APACrefDOI} \doi{10.1002/esp.466} \end{APACrefDOI}
+\PrintBackRefs{\CurrentBib}
+
+\bibitem [\protect \citeauthoryear {%
+Caruana%
+}{%
+Caruana%
+}{%
+{\protect \APACyear {1997}}%
+}]{%
+caruana1997multitask}
+\APACinsertmetastar {%
+caruana1997multitask}%
+\begin{APACrefauthors}%
+Caruana, R.%
+\end{APACrefauthors}%
+\unskip\
+\newblock
+\APACrefYearMonthDay{1997}{{\APACmonth{07}}}{}.
+\newblock
+{\BBOQ}\APACrefatitle {Multitask {{Learning}}} {Multitask {{Learning}}}.{\BBCQ}
+\newblock
+\APACjournalVolNumPages{Machine Learning}{28}{1}{41--75}.
+\newblock
+\begin{APACrefDOI} \doi{10.1023/A:1007379606734} \end{APACrefDOI}
 \PrintBackRefs{\CurrentBib}
 
 \bibitem [\protect \citeauthoryear {%
@@ -544,6 +596,38 @@ Garcia, X\BHBI F.%
 \PrintBackRefs{\CurrentBib}
 
 \bibitem [\protect \citeauthoryear {%
+Gardner%
+, Pleiss%
+, Bindel%
+, Weinberger%
+\BCBL {}\ \BBA {} Wilson%
+}{%
+Gardner%
+\ \protect \BOthers {.}}{%
+{\protect \APACyear {2018}}%
+}]{%
+gardner2018gpytorch}
+\APACinsertmetastar {%
+gardner2018gpytorch}%
+\begin{APACrefauthors}%
+Gardner, J\BPBI R.%
+, Pleiss, G.%
+, Bindel, D.%
+, Weinberger, K\BPBI Q.%
+\BCBL {}\ \BBA {} Wilson, A\BPBI G.%
+\end{APACrefauthors}%
+\unskip\
+\newblock
+\APACrefYearMonthDay{2018}{{\APACmonth{09}}}{}.
+\newblock
+\APACrefbtitle {{{GPyTorch}}: {{Blackbox Matrix-Matrix Gaussian Process
+  Inference}} with {{GPU Acceleration}}.} {{{GPyTorch}}: {{Blackbox
+  Matrix-Matrix Gaussian Process Inference}} with {{GPU Acceleration}}.}
+\newblock
+\APAChowpublished {https://arxiv.org/abs/1809.11165v6}.
+\PrintBackRefs{\CurrentBib}
+
+\bibitem [\protect \citeauthoryear {%
 Grabowski%
 \ \protect \BOthers {.}}{%
 Grabowski%
@@ -801,6 +885,95 @@ Li, S\BPBI S.%
   Landforms}{36}{2}{190--202}.
 \newblock
 \begin{APACrefDOI} \doi{10.1002/esp.2033} \end{APACrefDOI}
+\PrintBackRefs{\CurrentBib}
+
+\bibitem [\protect \citeauthoryear {%
+Lim%
+\ \BBA {} Zhai%
+}{%
+Lim%
+\ \BBA {} Zhai%
+}{%
+{\protect \APACyear {2017}}%
+}]{%
+lim2017comprehensive}
+\APACinsertmetastar {%
+lim2017comprehensive}%
+\begin{APACrefauthors}%
+Lim, H.%
+\BCBT {}\ \BBA {} Zhai, Z\BPBI J.%
+\end{APACrefauthors}%
+\unskip\
+\newblock
+\APACrefYearMonthDay{2017}{{\APACmonth{11}}}{}.
+\newblock
+{\BBOQ}\APACrefatitle {Comprehensive Evaluation of the Influence of Meta-Models
+  on {{Bayesian}} Calibration} {Comprehensive evaluation of the influence of
+  meta-models on {{Bayesian}} calibration}.{\BBCQ}
+\newblock
+\APACjournalVolNumPages{Energy and Buildings}{155}{}{66--75}.
+\newblock
+\begin{APACrefDOI} \doi{10.1016/j.enbuild.2017.09.009} \end{APACrefDOI}
+\PrintBackRefs{\CurrentBib}
+
+\bibitem [\protect \citeauthoryear {%
+Lindholm%
+, Wahlstr{\"o}m%
+, Lindsten%
+\BCBL {}\ \BBA {} Sch{\"o}n%
+}{%
+Lindholm%
+\ \protect \BOthers {.}}{%
+{\protect \APACyear {2022}}%
+}]{%
+lindholm2022machine}
+\APACinsertmetastar {%
+lindholm2022machine}%
+\begin{APACrefauthors}%
+Lindholm, A.%
+, Wahlstr{\"o}m, N.%
+, Lindsten, F.%
+\BCBL {}\ \BBA {} Sch{\"o}n, T.%
+\end{APACrefauthors}%
+\unskip\
+\newblock
+\APACrefYear{2022}.
+\newblock
+\APACrefbtitle {Machine Learning: A First Course for Engineers and Scientists}
+  {Machine learning: A first course for engineers and scientists}.
+\newblock
+\APACaddressPublisher{Sweden}{Cambridge University Press}.
+\newblock
+\begin{APACrefDOI} \doi{10.1017/9781108919371} \end{APACrefDOI}
+\PrintBackRefs{\CurrentBib}
+
+\bibitem [\protect \citeauthoryear {%
+Liu%
+, Cai%
+\BCBL {}\ \BBA {} Ong%
+}{%
+Liu%
+\ \protect \BOthers {.}}{%
+{\protect \APACyear {2018}}%
+}]{%
+liu2018remarks}
+\APACinsertmetastar {%
+liu2018remarks}%
+\begin{APACrefauthors}%
+Liu, H.%
+, Cai, J.%
+\BCBL {}\ \BBA {} Ong, Y\BHBI S.%
+\end{APACrefauthors}%
+\unskip\
+\newblock
+\APACrefYearMonthDay{2018}{{\APACmonth{03}}}{}.
+\newblock
+{\BBOQ}\APACrefatitle {Remarks on Multi-Output {{Gaussian}} Process Regression}
+  {Remarks on multi-output {{Gaussian}} process regression}.{\BBCQ}
+\newblock
+\APACjournalVolNumPages{Knowledge-Based Systems}{144}{}{102--121}.
+\newblock
+\begin{APACrefDOI} \doi{10.1016/j.knosys.2017.12.034} \end{APACrefDOI}
 \PrintBackRefs{\CurrentBib}
 
 \bibitem [\protect \citeauthoryear {%
