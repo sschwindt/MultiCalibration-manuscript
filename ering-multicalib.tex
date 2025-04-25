@@ -368,24 +368,23 @@ where \( d_{84} \) is the selected representative diameter particle size.
 
 \subsection{Bayesian calibration using Gaussian Process Regression for single and multiple calibration targets}\label{sec:sec2.6}
 
-\subsubsection{The Bayesian principle and Bayesian Inversion using metamodels}
+\subsubsection{Bayesian Inference using metamodels}
 
-Calibration aims to reduce the divergence between model outputs and observed data by modifying sensitive model parameters. Bayesian principles support this process by incorporating sources of uncertainty in the calibration parameters \(\omega\), using a prior probability function and measured data \( D_P \)  at \( P \) locations through a likelihood function. This leads to a posterior probability function, which is an updated probabilistic understanding of the uncertain parameters  \cite{smith1992bayesian,lim2017comprehensive}. It is represented as: 
+Calibration aims to reduce the divergence between model outputs and observed data by modifying sensitive model parameters. Bayesian principles support this process by incorporating sources of uncertainty in the calibration parameters \( \omega = \{\omega_1, \omega_2, \ldots, \omega_N\} \), using a prior probability function and measured data  \(D_P\) through a likelihood function. This results in a posterior probability function, representing the updated probabilistic knowledge of the uncertain parameters \cite{smith1992bayesian,lim2017comprehensive}. Bayes` Theorem is represented as: 
 
 \[
 P(\omega | D_P) = \frac{P(D_P | \omega) \cdot P(\omega)}{P(D_P)}
 \]
 
-
 where \( P(\omega | D_P) \) is the posterior probability function of the uncertain model parameters given measured data \(D_P\). \(P(D_P | \omega)\)  is the likelihood function,  \( P(\omega) \) is the prior probability function, which encodes prior knowledge about the uncertain parameters and \( P(D_P) \) is the so called marginal likelihood which serves as a normalization constant.  
 
 
-Applying Bayesian principles in real (computationally expensive) models using Monte Carlo or Markov-Chain Monte Carlo is time consuming or simply unfeasible \cite{oladyshkin2020bayesian3}.
+Applying Bayesian principles in real (computationally expensive) models using Monte Carlo or Markov-Chain Monte Carlo is time consuming or simply unfeasible \cite{smith1992bayesian,oladyshkin2020bayesian3}.
 Thus, the development of machine learning algorithms that approximate complex models while mantaining their accuracy has been the focus of recent studies in many engineering fields. For instance, in hydraulic modeling, the employement of surrogate models \( \mathcal{M}(\omega) \)  or also called metamodels have been getting attention to reduce computational cost in  multiparametric and highly detailed simulations and perform stochastic analysis in light of measured data.
 
 %\cite{schwindtBayesianCalibrationPoints2023},\cite{mourisStabilityCriteriaBayesian2023},\cite{beckersBayesianCalibrationValidation2020},\cite{meertSurrogateModelingbasedCalibration2018}.
 
-In the current study we approximate the complex hydro-morphodynamic model \( M_c \) with a Gaussian Process (GPs) surrogate model \( \mathcal{M}(\omega) \). The metamodel approximates the complex model response \( M_c \) (e.g. hydrodynamic outputs) using data-driven function approximation approaches \cite{razavi2012review} employing only a few number of complex model realizations with a desired design of experiments of the input parameters \(\omega\) aiming to cover the input parameter space. 
+In the current study we approximate the complex hydro-morphodynamic model \( M_c \) with Gaussian Process Regression (GPR) surrogate model \( \mathcal{M}(\omega) \). The metamodel approximates the complex model response \( M_c \) (e.g. hydrodynamic outputs) using data-driven function approximation approaches \cite{razavi2012review} employing only a few number of complex model realizations with a desired design of experiments of the input parameters \(\omega\) aiming to cover the input parameter space. 
 
 With a fast-performing metamodel, we conduct Bayesian model inversion using Monte Carlo sampling to infer updated probability distributions of \(N = 10\) sensitive and uncertain model parameters (see Table .~\ref{tab:roughness_zones}) through rejection sampling \cite{beckers2020bayesian}. To quantify the compatibility between model outputs and measured data, the likelihood function plays a critical role, as it expresses how well the model explains the observed data. In this approach, we account for imperfections in both, the modeling approaches (i.e., complex and surrogate models) and the measurements by considering a combination of measurement error, complex model error, and additional error introduced by the surrogate model approximation. The likelihood function of the observed data given a Monte Carlo realization \( \omega_{\text{MC}} \) is:
 
@@ -393,7 +392,7 @@ With a fast-performing metamodel, we conduct Bayesian model inversion using Mont
 P(\bm{D} \mid \omega_{\text{MC}}) = \mathcal{N}(\bm{D} \mid \mathcal{M}(\omega_{\text{MC}}), \bm{R})
 \]
 
-where \( \bm{D} \) is the vector of observed data at \(P\) measurement locations, \( \omega_{\text{MC}} \) is one Monte Carlo realization of the parameter vector, \( \mathcal{M}(\omega_{\text{MC}}) \)is a vector containing the surrogate model predictions at \(P\) measurement locations and \( \bm{R} \in \mathbb{R}^{P \times P} \) is the total covariance matrix over all measurement locations as 
+where \( \bm{D} \) is the vector of observed data at \(P\) measurement locations, \( \omega_{\text{MC}} \) is one Monte Carlo realization of the parameter vector, \( \mathcal{M}(\omega_{\text{MC}}) \) is a vector containing the surrogate model predictions at \(P\) measurement locations and \( \bm{R} \in \mathbb{R}^{P \times P} \) is the total covariance matrix over all measurement locations as 
 \[
 \mathbf{R} = \sum_{p=1}^{P} \left( \mathbf{\Sigma}_{\text{complex}} + \mathbf{\Sigma}_{\text{surrogate}} + \mathbf{\Sigma}_{\text{measurement},p} \right)
 \]
@@ -405,13 +404,13 @@ P(\bm{D} \mid \omega_{\text{MC}}) = \frac{1}{\sqrt{(2\pi)^P |\bm{R}|}} \exp\left
 \]
 
 
-where \( \bm{D} - \mathcal{M}(\omega_{\text{MC}}) \) is the residual vector, representing the difference between the measured data and the model output evaluated at each Monte Carlo sample \( \omega_{\text{MC}} \). A resulting likelihood vector will contain the likelihood values of all the MC parameter combinations, from which some will be filtered by rejection sampling to obtain a posterior distribution.
+where \( \bm{D} - \mathcal{M}(\omega_{\text{MC}}) \) is the residual vector, representing the difference between the measured data and the model output evaluated at each Monte Carlo sample \( \omega_{\text{MC}} \). A resulting likelihood vector will contain the likelihood values of all the MC parameter combinations, from which some will be filtered through rejection sampling \cite{smith1992bayesian} to obtain a posterior (post-calibration) distribution of the calibration parameters \(\omega\). Furthermore, a maximum a posteriori set of parameters can be extracted from the post-calibration distributions and conceived as the parameter set that best approaches the measured data.
 
 
 \subsubsection{Single output and Multi output Gaussian Process Emulators}
 
 
-A metamodel using Gaussian Process Regression is employed to approximate a complex hydro-morphodynamic model and perform Bayesian model calibration. The approach centers primarily in the estimation of two correlated variables that share underlying dependencies such as velocity and water depth per measurement location. Typically, one can predict each output of interest separately by using trained single output Gaussian Process (SOGP) surrogates. A standart SOGP can be denoted as:
+A metamodel using Gaussian Process Regression is employed to approximate a complex hydro-morphodynamic model and perform Bayesian model calibration. The approach centers primarily in the estimation of two correlated variables that share underlying dependencies such as velocity and water depth per measurement location. Typically, one can predict each output of interest separately by training single output Gaussian Process (SOGP) surrogates. A standart SOGP can be denoted as:
 
 \[
 M_c^{(t)}(\omega) \approx \mathcal{M}^{(t)}(\omega) \approx \mathcal{GP}(\mu^{(t)}(\omega), k(\omega, \omega'))
@@ -419,25 +418,42 @@ M_c^{(t)}(\omega) \approx \mathcal{M}^{(t)}(\omega) \approx \mathcal{GP}(\mu^{(t
 
 where \( \mathcal{M}^{(t)}(\omega) \) is a single-output Gaussian Process surrogate trained specifically for output type \( t \) (i.e., velocity or water depth), \( \mu^{(t)}(\omega) \) is the mean function defining the expected value of the surrogate model, and \( k(\omega, \omega') \) is the covariance function or kernel, which defines the dependencies between function values at different input locations \( \omega \) and \( \omega' \). 
 
-In general, an advantage of Gaussian Processes is their ability to provide not only predictions of output quantities but also their associated uncertainties \cite{lindholm2022machine}, making them suitable for various engineering applications such as Bayesian calibration or uncertainty quantification of expensive and multi-parametric models \cite{schwindt2023bayesian, mouris2023stability}. However, in many real-world cases, outputs are correlated and may contain valuable information that can be shared among them to improve the learning process of any metamodel by exploiting their correlations \cite{breiman1997predicting}. The fundamental concept of multitask learning is the sharing of knowledge acquired from several tasks while they are simultaneously trained \cite{caruana1997multitask}. Modeling outputs in isolation may lead to the loss of this information, potentially increasing the amount of training data required for accurate surrogate modeling or diminishing accuracy in the surrogate for a fixed amount of training data \cite{liu2018remarks}.
+In general, an advantage of Gaussian Processes is their ability to provide not only predictions of output quantities but also their associated uncertainties \cite{lindholm2022machine}, making them suitable for various engineering applications such as Bayesian calibration or uncertainty quantification of expensive and multi-parametric models such as in \citeA{schwindt2023bayesian} and \cite{mouris2023stability} for reservoir modeling. However, in many real-world cases, outputs are correlated and may contain valuable information that can be shared among them to improve the learning process of any metamodel by exploiting their correlations \cite{breiman1997predicting}. The fundamental concept of multitask learning is the sharing of knowledge acquired from several tasks while they are simultaneously trained \cite{caruana1997multitask}. Modeling outputs in isolation may lead to the loss of this information, potentially increasing the amount of training data required for accurate surrogate modeling or diminishing accuracy in the surrogate for a fixed amount of training data \cite{liu2018remarks}.
 
-To predict the two correlated variables simultaneouly (i.e., tasks) we use a Multioutput (or Multitask) Gaussian Process (MOGP) approach with \textbf{GPyTorch} \cite{gardner2018gpytorch}. Our case involves an isotopic and symetric Multioutput Gaussian Process (MOGP) in which the model learns all outputs from the same training sets and all outputs (i.e., water depth and velocity) have the same importance \cite{liu2018remarks}. As described in \citeA{bonilla2007multitask}, a key difference with a SOGP is the inclusion of a task covariance matrix \( K_{lk}^{f} \), which is defined through a kernel function \( k^{f}{(t_l, t_k)} \) over task-descriptor features \( t \) to model dependencies across tasks. This kernel is then combined with a standard kernel over the input space \(k(\omega, \omega')\) to define a joint covariance function that captures both input-dependent and inter-task correlations. In the context of out study, a task descriptor \( t \) refers to the physical nature of each output (e.g., meaning two tasks which corresponds to scalar velocity or water depth at a given location), allowing the model to recognize and exploit relationships between outputs based on their physical meaning. The joint kernel function and the multioutput Gaussian Process concept are represented by: 
+To predict the two correlated variables simultaneouly (i.e., tasks) we use a Multioutput (or Multitask) Gaussian Process (MOGP) approach with \textbf{GPyTorch} \cite{gardner2018gpytorch}. Our case involves an isotopic and symetric Multioutput Gaussian Process (MOGP) in which the model learns all outputs from the same training sets and all outputs (i.e., water depth and velocity) have the same importance \cite{liu2018remarks}. As described in \citeA{bonilla2007multitask}, a key difference with a SOGP is the inclusion of a task covariance matrix \( K_{lk}^{f} \), which is defined through a kernel function \( k^{f}{(t_l, t_k)} \) over task-descriptor features \( t \) to model dependencies across tasks. This kernel is then combined with a standard kernel over the input space \(k(\omega, \omega')\) to define a joint covariance function that captures both input-dependent and inter-task correlations. In the context of our study, a task descriptor \( t \) refers to the physical nature of each output (e.g., meaning two tasks which corresponds to scalar velocity or water depth at a given location), allowing the model to recognize and exploit relationships between outputs based on their physical meaning. The joint kernel function is represented by: 
 
 \[
  k_{\text{MO}}\big((\omega, l), (\omega', k)\big) =  K_{lk}^{f} \cdot k(\omega, \omega')
 \]
 
-Here, \( k_{\text{MO}}\big((\omega, l), (\omega', k)\big) \) is the multioutput kernel, \( k(\omega, \omega') \) is a standard covariance function over the input parameters \( \omega \), and  \( K_{lk}^{f} = k_f(t_l, t_k) \) is a task kernel.
+Here, \( k_{\text{MO}}\big((\omega, l), (\omega', k)\big) \) is the multioutput kernel, \( k(\omega, \omega') \) is a standard covariance function over the input parameters \( \omega \), and  \( K_{lk}^{f} = k^{f}{(t_l, t_k)} \) is a task kernel.
 
-To represent the approximation of the complex model for two tasks \( l \) and \( k \), the MOGP can be written as:
+To represent the approximation of the complex model for two tasks \( l \) and \( k \), the multioutput Gaussian Process (MOGP) can be written as:
 
 \[
 M_c^{(l,k)}(\omega) \approx \mathcal{M}^{(l,k)}(\omega) \approx \mathcal{GP}\left(\mu^{(l,k)}(\omega),\ k_{\text{MO}}\left((\omega, l), (\omega', k)\right)\right)
 \]
-where \( \mathcal{M}^{(l,k)}(\omega) \) is the surrogate model trained using the multi-output Gaussian process (MOGP) for output types \( l \) and \( k \).
+where \( \mathcal{M}^{(l,k)}(\omega) \) is the multioutput surrogate model (MOGP) for output types \( l \) and \( k \).
 
 
-For the MOGP case, the task kernel \( k^{f}{(t_l, t_k)} \) is internally computed by the Gaussian Process framework, meaning the user only provides the input parameter covariance function \( k(\omega, \omega') \), a rank for inter-tasks correlations and the number of tasks. For the SOGP, only an input parameter covariance function is provided. In both cases, a Matérn covariance function is assigned. A spetial higlight is done for SOGP because besides the calibration process, we provide a comparison of  uncertainty evolution over training data size for single and multioutput Gaussian Process.  
+For the MOGP case, the task kernel \( k^{f}{(t_l, t_k)} \) is internally computed by the Gaussian Process framework, meaning the user only provides the input parameter covariance function \( k(\omega, \omega') \), a rank for inter-tasks correlations and the number of tasks. For the SOGP, only an input parameter covariance function is provided. In both cases, a Matérn covariance function is assigned. A spetial highlight is done for SOGP because besides the calibration process using MOGP, we provide a comparison of uncertainty evolution over training data size for single and multioutput Gaussian Process.  
+
+
+\subsubsection{Iterative Bayesian Updating of the GP Surrogate Models}
+
+An optimal selection of training points has a significant impact on the accuracy of Gaussian Process Emulators (GPEs) \cite{sinsbeck2017sequential}. To address this, active learning strategies for Gaussian Process (GP) models aims to optimize the selection of the most informative data points for training, thereby improving predictive accuracy with fewer training samples. Due to the complexity of acquiring informative training points in computationally demanding models, \citeA{oladyshkin2019connection} suggests a useful strategy in which relevant regions in the parameter space for surrogate training are adaptively identified by connecting Bayesian Inference with information theory. The current work uses a Bayesian Active Learning Apoorach (BAL) as described in \citeA{oladyshkin2020bayesian3} to iteratively add new training points to the GP model. In each BAL iteration, the surrogate model is re-trained with a newly selected, more informative training point. This point is chosen from an exploration set of \texttt{mc\_exploration}~$= 2000$ samples drawn from a prior pool of \texttt{mc\_pool}~$= 22000$. BAL selects the most informative sample (i.e., parameter combination) that led to the highest Relative Entropy (RE) or Bayesian Model Evidence (BME) during an exploitation phase involving \texttt{mc\_exploitation}~$= 1000$ evaluations. BME indicates the quality of the model against the available data while RE quantifies the information gained by comparing the prior and posterior distributions of the calibration parameters. Since evaluating BME and RE directly from the complex hydro-morphodynamic model \( M_c \), we approximate BME and RE from the GP metamodel \( \mathcal{M} \) as:
+
+\[
+\text{BME}_{\mathcal{M}} \equiv p_{\omega}(\mathbf{D}|\mathcal{M}) \approx \text{BME}_{M_c} \equiv p_{\omega}(\mathbf{D}|M_c)
+\]
+
+\[
+\text{DKL}\left[ p(\omega \mid \mathbf{D}, \mathcal{M}) \,\|\, p(\omega \mid \mathcal{M}) \right] \approx \text{DKL}\left[ p(\omega \mid \mathbf{D}, M_c) \,\|\, p(\omega \mid M_c) \right]
+\]
+
+\citeA{oladyshkin2020bayesian3} suggest that a stopping criterion for BAL iterations is reached when the surrogate model response $\mathcal{M}$ converges toward the full-complexity model response $M_c$ meaning Relative Entropy (RE) and Bayesian Model Evidence (BME) also converge and stabilize over a plateau when plotted against the number of BAL iterations.
+
+
 
 
 
@@ -540,80 +556,80 @@ For the MOGP case, the task kernel \( k^{f}{(t_l, t_k)} \) is internally compute
 
 
 
-\subsection{Bayesian Calibration Accelerated by Emulators and Active Learning}
-\label{sec:bayesCal}
-
-% The general Bayes:
-A Bayesian calibration is a specific form of Bayesian updating through Bayes' theorem:
-
-\begin{equation}
-	p\left( \mathbf{\Omega} \vert \mathbf{D},\mathcal{M} \right) = \frac{p\left( \mathbf{D} \vert \mathbf{\Omega},\mathcal{M} \right) \cdot p\left( \mathbf{\Omega}\vert \mathcal{M}\right) }{p\left( \mathbf{D}\vert\mathcal{M}\right) }
-	\label{eq:Bayes}
-\end{equation}
-
-where $p(\cdot)$ denotes probability density functions (pdfs). $\mathbf{\Omega}$~denotes the collection (vector) of calibration parameters for the deterministic model $\mathcal{M}$ according to Equation~\ref{eq:parameterVector}, and $p(\mathbf{\Omega} | \mathcal{M})$ denotes the prior pdf of the parameters in that model. It contains expert knowledge about the parameters, which is already available before the calibration. $\mathbf{D}$~denotes the collection (vector) of calibration data. $p(\mathbf{D} | \mathbf{\Omega} , \mathcal{M})$~is called \textit{likelihood}. It expresses (as a function of the parameter values $\mathbf{\Omega}$) how statistically likely it is to observe the data $\mathbf{D}$ if the combination of $\mathbf{\Omega},\mathcal{M}$ was true. The combination of prior information and calibration data updates the prior distribution $p(\mathbf{\Omega}|\mathcal{M})$ to the posterior distribution $p(\mathbf{\Omega} \vert \mathbf{D},\mathcal{M})$. By definition, the posterior distribution is more informative than (or at least as informative as) the prior distribution \cite{box_bayesian_1973, oladyshkin_connection_2019}. The denominator $p(\mathbf{D}|\mathcal{M})$, often referred to as Bayesian model evidence (BME, see below), plays an important role in (competing) model selection problems. The BME is merely a normalizing constant in this equation but can assist in error diagnosis.
-
-% specification to our context
-In this study, the model $\mathcal{M}$ was the full-complexity Delft3D-FLOW model (see above), calibration parameters were the background horizontal eddy viscosity and diffusivity as well as the initial water temperature (see Table \ref{TableParam}), and measurement data~$\mathbf{D}$ consisted of flow velocity and/or water temperature recordings (see above).
-
-% Likelihood definition
-What remained to be defined is the functional form of the likelihood~$p(\mathbf{D} \vert \mathbf{\Omega}, \mathcal{M})$ in Equation~\ref{eq:Bayes}. A typical assumption is that there is a measurement error~$\boldsymbol{\varepsilon}$ (i.e., residuals) between the model and observable reality, which can be derived from the following expression:
-
-\begin{equation}
-	\mathbf{D} = \mathcal{M}(\mathbf{\Omega}) + \boldsymbol{\varepsilon}
-	\label{eq:residuals}
-\end{equation}
-
-The errors (stacked as a vector) typically have zero mean (no systematic errors) and a variance~$\sigma^2_{\varepsilon,D}$ that resembles the imprecision of measurements. The most common distributional assumption for measurement errors is Gaussian, and errors for different data items are uncorrelated. We followed this common assumption and obtained:
-
-\begin{equation}
-	p(\mathbf{D} \vert \mathbf{\Omega},\mathcal{M}) = 
-	2\pi^{-\frac{n}{2}}\vert \mathbf{R} \vert^{-\frac{1}{2}}
-	\exp\bigg[
-	-\frac{1}{2}\big( \boldsymbol{\varepsilon}^T \mathbf{R}^{-1} \boldsymbol{\varepsilon}
-	\big)\bigg]
-	\label{eq:like}
-\end{equation}
-
-where $n$ is the number of data items (i.e., the number of measurements in $\mathbf{D}$ and of corresponding residuals in $\boldsymbol{\varepsilon}$) and $\mathbf{R}$ is the (co-)variance matrix of measurement errors (sized $n\times n$). In our case, $\mathbf{R}$ was a diagonal matrix populated by the variances $\sigma^2_{\varepsilon,D}$ per data item. The error variance (imprecision) of the measurement data in this study had a standard deviation of 2$^{\circ}$C for water temperature and 3~mm~s$^{-1}$ for flow velocity measurements.
-
-% from prior to posterior in theory
-Based on the posterior distributions, we extracted so-called maximum likelihoods of the calibration parameters (i.e., the location of an optimum in the likelihood function), which led to the best possible agreement with the measurement data \cite{beckers_bayesian_2020}. Likewise, maximum-a-posteriori calibration parameter values can be extracted (i.e., the optimum of the joint posterior distribution), which correspond to the best possible compromise between priors and data. For uniform distributions as used in this study, both sets of parameter values coincide and the posterior distribution characteristics represent the post-calibration uncertainty of the parameters.
-
-% how to solve... need surrogate
-Typical assumption-free computational methods to evaluate the Bayesian theorem in Equation~\ref{eq:Bayes} are computationally inefficient Monte-Carlo or Markov-Chain Monte-Carlo methods \cite<e.g.,>{smith_bayesian_1992}. These methods are particularly inefficient when a model~$\mathcal{M}$ is computationally expensive (e.g., if a Delft3D-FLOW run takes 12.8 hours on average), because these methods will make the model easily run millions of times to yield a good approximation of Equation~\ref{eq:Bayes}. To bypass long computing times, a surrogate model response~$\mathcal{S}(\mathbf{\Omega})$ was used to replace~$\mathcal{M}$ in the computation of residuals (Equation~\ref{eq:residuals}) with a much faster approximation:
-
-\begin{equation}
-	\mathcal{S}(\mathbf{\Omega}) \approx \mathcal{M}(\mathbf{\Omega})
-	\label{eq:surrogate}
-\end{equation}
-
-% final Approximation of Bayes Cal with Surri
-With a suitable surrogate model, speed is no longer an issue because it runs easily a million times faster than a full-complexity model \cite{beckers_bayesian_2020}. That is, a surrogate model enabled us to run 10\textsuperscript{6} random Monte Carlo realizations drawn from the prior pdfs of the calibration parameters. Then, we evaluated the surrogate model response~$\mathcal{S}$ for every realization, computed the (approximate) residuals with Equation~\ref{eq:residuals}, calculated each realization's likelihood with Equation~\ref{eq:like}, and used rejection sampling \cite{smith_bayesian_1992} to approximate the posterior distribution in Bayes' theorem (i.e., the left side of Equation~\ref{eq:Bayes}).
-
-% Surrogate quality and construction and active learning
-The approximation quality of the surrogate model had to be appropriate for the calibration task. The surrogate model's quality strongly depends on its construction method, including the selection of so-called training runs with the initial full-complexity model \cite{busby_hierarchical_2009}. This is where active learning becomes relevant: the training runs should concentrate mostly on high-likelihood areas, which are not known \textit{a priori}. This is the starting point for an iterative process called active learning that incrementally improves the surrogate model in currently found high-likelihood regions, and subsequently refines the identification of high-likelihood regions.
-
-% We use GPE in BAL
-Here, we used a Gaussian process emulator (GPE) as a surrogate model and Bayesian active learning (BAL) for efficient training. The theoretical background for GPEs and the used BAL technique can be found, for example, in \citeA{rasmussen200gpe} and \citeA{oladyshkin_bayesian3_2020}. To set up the GPE in this study, we applied a squared exponential kernel. This kernel required specifications of length scales and variance as hyperparameters, and we used the \texttt{fitrgp} function in \citeA{matlab_fit_2018} to choose their values. For iterating between training and Bayesian updating, we implemented the iterative BAL technique described in \citeA{oladyshkin_bayesian3_2020}. The BAL builds on a combination of preliminary Bayesian updating and information theory \cite{oladyshkin_connection_2019} to identify the next-best parameter set for training. Here, we used it to find the best out of 1,000 randomly proposed next-value candidates in every iteration. After every new training run, we re-iterated the hyperparameters and re-trained the GPE.
-
-% convergence criteria
-The BAL technique needs stopping criteria to identify that the iterations converge toward a final quality level. For this purpose, we tracked Bayesian model evidence (BME, see denominator in Equation~\ref{eq:Bayes}) and the so-called relative entropy in the BAL iterations. Here, we approximated the full-complexity model BME$_{\mathcal{M}}$ based on the GPE-surrogate model~BME$_{\mathcal{S}}$:
-
-\begin{equation}
-	\textbf{BME}_{\mathcal{M}} \equiv p_{\Omega}(\textbf{D} \vert {\mathcal{M}}) \approx \textbf{BME}_{\mathcal{S}} \equiv p_{\Omega}(\textbf{D} \vert {\mathcal{S}}) .
-	\label{eq:bal_bme}
-\end{equation}
-
-The BME expresses as an integral quantity the average goodness of fit of the model, relative to the prior distribution. If the surrogate model response~$\mathcal{S}$ converges toward the full-complexity model response~$\mathcal{M}$ during the BAL, then BME$_{\mathcal{S}}$ converges toward BME$_{\mathcal{M}}$ and stabilizes. In addition, relative entropy, also known as Kullback-Leibler divergence $D_{KL}$, quantifies the information gain from the prior to the posterior distributions of the calibration parameters, and it was approximated with:
-
-\begin{equation}
-	\label{eq:re}
-	D_{KL} [p(\Omega \vert \textbf{D},\mathcal{M}), p(\Omega \vert \mathcal{M})] \approx D_{KL} [p(\Omega \vert \textbf{D},\mathcal{S}), p(\Omega \vert \mathcal{S})] .
-\end{equation}
-
-Also $D_{KL}$ stabilizes when the surrogate model response converges toward the full-complexity model response. Thus, we continued the BAL iterations until both the BME and $D_{KL}$ converged toward a constant. In addition, BME and $D_{KL}$ were criteria for selecting training points in the BAL iterations. For details on the here-used approximation methods, in particular, regarding the GPE-surrogate model and BAL, see \citeA{oladyshkin_bayesian3_2020}.
-
+%\subsection{Bayesian Calibration Accelerated by Emulators and Active Learning}
+%\label{sec:bayesCal}
+%
+%% The general Bayes:
+%A Bayesian calibration is a specific form of Bayesian updating through Bayes' theorem:
+%
+%\begin{equation}
+%	p\left( \mathbf{\Omega} \vert \mathbf{D},\mathcal{M} \right) = \frac{p\left( \mathbf{D} \vert \mathbf{\Omega},\mathcal{M} \right) \cdot p\left( \mathbf{\Omega}\vert \mathcal{M}\right) }{p\left( \mathbf{D}\vert\mathcal{M}\right) }
+%	\label{eq:Bayes}
+%\end{equation}
+%
+%where $p(\cdot)$ denotes probability density functions (pdfs). $\mathbf{\Omega}$~denotes the collection (vector) of calibration parameters for the deterministic model $\mathcal{M}$ according to Equation~\ref{eq:parameterVector}, and $p(\mathbf{\Omega} | \mathcal{M})$ denotes the prior pdf of the parameters in that model. It contains expert knowledge about the parameters, which is already available before the calibration. $\mathbf{D}$~denotes the collection (vector) of calibration data. $p(\mathbf{D} | \mathbf{\Omega} , \mathcal{M})$~is called \textit{likelihood}. It expresses (as a function of the parameter values $\mathbf{\Omega}$) how statistically likely it is to observe the data $\mathbf{D}$ if the combination of $\mathbf{\Omega},\mathcal{M}$ was true. The combination of prior information and calibration data updates the prior distribution $p(\mathbf{\Omega}|\mathcal{M})$ to the posterior distribution $p(\mathbf{\Omega} \vert \mathbf{D},\mathcal{M})$. By definition, the posterior distribution is more informative than (or at least as informative as) the prior distribution \cite{box_bayesian_1973, oladyshkin_connection_2019}. The denominator $p(\mathbf{D}|\mathcal{M})$, often referred to as Bayesian model evidence (BME, see below), plays an important role in (competing) model selection problems. The BME is merely a normalizing constant in this equation but can assist in error diagnosis.
+%
+%% specification to our context
+%In this study, the model $\mathcal{M}$ was the full-complexity Delft3D-FLOW model (see above), calibration parameters were the background horizontal eddy viscosity and diffusivity as well as the initial water temperature (see Table \ref{TableParam}), and measurement data~$\mathbf{D}$ consisted of flow velocity and/or water temperature recordings (see above).
+%
+%% Likelihood definition
+%What remained to be defined is the functional form of the likelihood~$p(\mathbf{D} \vert \mathbf{\Omega}, \mathcal{M})$ in Equation~\ref{eq:Bayes}. A typical assumption is that there is a measurement error~$\boldsymbol{\varepsilon}$ (i.e., residuals) between the model and observable reality, which can be derived from the following expression:
+%
+%\begin{equation}
+%	\mathbf{D} = \mathcal{M}(\mathbf{\Omega}) + \boldsymbol{\varepsilon}
+%	\label{eq:residuals}
+%\end{equation}
+%
+%The errors (stacked as a vector) typically have zero mean (no systematic errors) and a variance~$\sigma^2_{\varepsilon,D}$ that resembles the imprecision of measurements. The most common distributional assumption for measurement errors is Gaussian, and errors for different data items are uncorrelated. We followed this common assumption and obtained:
+%
+%\begin{equation}
+%	p(\mathbf{D} \vert \mathbf{\Omega},\mathcal{M}) = 
+%	2\pi^{-\frac{n}{2}}\vert \mathbf{R} \vert^{-\frac{1}{2}}
+%	\exp\bigg[
+%	-\frac{1}{2}\big( \boldsymbol{\varepsilon}^T \mathbf{R}^{-1} \boldsymbol{\varepsilon}
+%	\big)\bigg]
+%	\label{eq:like}
+%\end{equation}
+%
+%where $n$ is the number of data items (i.e., the number of measurements in $\mathbf{D}$ and of corresponding residuals in $\boldsymbol{\varepsilon}$) and $\mathbf{R}$ is the (co-)variance matrix of measurement errors (sized $n\times n$). In our case, $\mathbf{R}$ was a diagonal matrix populated by the variances $\sigma^2_{\varepsilon,D}$ per data item. The error variance (imprecision) of the measurement data in this study had a standard deviation of 2$^{\circ}$C for water temperature and 3~mm~s$^{-1}$ for flow velocity measurements.
+%
+%% from prior to posterior in theory
+%Based on the posterior distributions, we extracted so-called maximum likelihoods of the calibration parameters (i.e., the location of an optimum in the likelihood function), which led to the best possible agreement with the measurement data \cite{beckers_bayesian_2020}. Likewise, maximum-a-posteriori calibration parameter values can be extracted (i.e., the optimum of the joint posterior distribution), which correspond to the best possible compromise between priors and data. For uniform distributions as used in this study, both sets of parameter values coincide and the posterior distribution characteristics represent the post-calibration uncertainty of the parameters.
+%
+%% how to solve... need surrogate
+%Typical assumption-free computational methods to evaluate the Bayesian theorem in Equation~\ref{eq:Bayes} are computationally inefficient Monte-Carlo or Markov-Chain Monte-Carlo methods \cite<e.g.,>{smith_bayesian_1992}. These methods are particularly inefficient when a model~$\mathcal{M}$ is computationally expensive (e.g., if a Delft3D-FLOW run takes 12.8 hours on average), because these methods will make the model easily run millions of times to yield a good approximation of Equation~\ref{eq:Bayes}. To bypass long computing times, a surrogate model response~$\mathcal{S}(\mathbf{\Omega})$ was used to replace~$\mathcal{M}$ in the computation of residuals (Equation~\ref{eq:residuals}) with a much faster approximation:
+%
+%\begin{equation}
+%	\mathcal{S}(\mathbf{\Omega}) \approx \mathcal{M}(\mathbf{\Omega})
+%	\label{eq:surrogate}
+%\end{equation}
+%
+%% final Approximation of Bayes Cal with Surri
+%With a suitable surrogate model, speed is no longer an issue because it runs easily a million times faster than a full-complexity model \cite{beckers_bayesian_2020}. That is, a surrogate model enabled us to run 10\textsuperscript{6} random Monte Carlo realizations drawn from the prior pdfs of the calibration parameters. Then, we evaluated the surrogate model response~$\mathcal{S}$ for every realization, computed the (approximate) residuals with Equation~\ref{eq:residuals}, calculated each realization's likelihood with Equation~\ref{eq:like}, and used rejection sampling \cite{smith_bayesian_1992} to approximate the posterior distribution in Bayes' theorem (i.e., the left side of Equation~\ref{eq:Bayes}).
+%
+%% Surrogate quality and construction and active learning
+%The approximation quality of the surrogate model had to be appropriate for the calibration task. The surrogate model's quality strongly depends on its construction method, including the selection of so-called training runs with the initial full-complexity model \cite{busby_hierarchical_2009}. This is where active learning becomes relevant: the training runs should concentrate mostly on high-likelihood areas, which are not known \textit{a priori}. This is the starting point for an iterative process called active learning that incrementally improves the surrogate model in currently found high-likelihood regions, and subsequently refines the identification of high-likelihood regions.
+%
+%% We use GPE in BAL
+%Here, we used a Gaussian process emulator (GPE) as a surrogate model and Bayesian active learning (BAL) for efficient training. The theoretical background for GPEs and the used BAL technique can be found, for example, in \citeA{rasmussen200gpe} and \citeA{oladyshkin_bayesian3_2020}. To set up the GPE in this study, we applied a squared exponential kernel. This kernel required specifications of length scales and variance as hyperparameters, and we used the \texttt{fitrgp} function in \citeA{matlab_fit_2018} to choose their values. For iterating between training and Bayesian updating, we implemented the iterative BAL technique described in \citeA{oladyshkin_bayesian3_2020}. The BAL builds on a combination of preliminary Bayesian updating and information theory \cite{oladyshkin_connection_2019} to identify the next-best parameter set for training. Here, we used it to find the best out of 1,000 randomly proposed next-value candidates in every iteration. After every new training run, we re-iterated the hyperparameters and re-trained the GPE.
+%
+%% convergence criteria
+%The BAL technique needs stopping criteria to identify that the iterations converge toward a final quality level. For this purpose, we tracked Bayesian model evidence (BME, see denominator in Equation~\ref{eq:Bayes}) and the so-called relative entropy in the BAL iterations. Here, we approximated the full-complexity model BME$_{\mathcal{M}}$ based on the GPE-surrogate model~BME$_{\mathcal{S}}$:
+%
+%\begin{equation}
+%	\textbf{BME}_{\mathcal{M}} \equiv p_{\Omega}(\textbf{D} \vert {\mathcal{M}}) \approx \textbf{BME}_{\mathcal{S}} \equiv p_{\Omega}(\textbf{D} \vert {\mathcal{S}}) .
+%	\label{eq:bal_bme}
+%\end{equation}
+%
+%The BME expresses as an integral quantity the average goodness of fit of the model, relative to the prior distribution. If the surrogate model response~$\mathcal{S}$ converges toward the full-complexity model response~$\mathcal{M}$ during the BAL, then BME$_{\mathcal{S}}$ converges toward BME$_{\mathcal{M}}$ and stabilizes. In addition, relative entropy, also known as Kullback-Leibler divergence $D_{KL}$, quantifies the information gain from the prior to the posterior distributions of the calibration parameters, and it was approximated with:
+%
+%\begin{equation}
+%	\label{eq:re}
+%	D_{KL} [p(\Omega \vert \textbf{D},\mathcal{M}), p(\Omega \vert \mathcal{M})] \approx D_{KL} [p(\Omega \vert \textbf{D},\mathcal{S}), p(\Omega \vert \mathcal{S})] .
+%\end{equation}
+%
+%Also $D_{KL}$ stabilizes when the surrogate model response converges toward the full-complexity model response. Thus, we continued the BAL iterations until both the BME and $D_{KL}$ converged toward a constant. In addition, BME and $D_{KL}$ were criteria for selecting training points in the BAL iterations. For details on the here-used approximation methods, in particular, regarding the GPE-surrogate model and BAL, see \citeA{oladyshkin_bayesian3_2020}.
+%
 
 \subsection{Test Procedure}
 \label{sec:test-proc}

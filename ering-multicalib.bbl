@@ -1338,6 +1338,37 @@ Oladyshkin, S.%
 \PrintBackRefs{\CurrentBib}
 
 \bibitem [\protect \citeauthoryear {%
+Oladyshkin%
+\ \BBA {} Nowak%
+}{%
+Oladyshkin%
+\ \BBA {} Nowak%
+}{%
+{\protect \APACyear {2019}}%
+}]{%
+oladyshkin2019connection}
+\APACinsertmetastar {%
+oladyshkin2019connection}%
+\begin{APACrefauthors}%
+Oladyshkin, S.%
+\BCBT {}\ \BBA {} Nowak, W.%
+\end{APACrefauthors}%
+\unskip\
+\newblock
+\APACrefYearMonthDay{2019}{{\APACmonth{11}}}{}.
+\newblock
+{\BBOQ}\APACrefatitle {The {{Connection}} between {{Bayesian Inference}} and
+  {{Information Theory}} for {{Model Selection}}, {{Information Gain}} and
+  {{Experimental Design}}} {The {{Connection}} between {{Bayesian Inference}}
+  and {{Information Theory}} for {{Model Selection}}, {{Information Gain}} and
+  {{Experimental Design}}}.{\BBCQ}
+\newblock
+\APACjournalVolNumPages{Entropy}{21}{11}{1081}.
+\newblock
+\begin{APACrefDOI} \doi{10.3390/e21111081} \end{APACrefDOI}
+\PrintBackRefs{\CurrentBib}
+
+\bibitem [\protect \citeauthoryear {%
 Papanicolaou%
 , Elhakeem%
 , Krallis%
@@ -1746,6 +1777,37 @@ Scolari, F.%
 \APACjournalVolNumPages{Scientific Reports}{15}{1}{10873}.
 \newblock
 \begin{APACrefDOI} \doi{10.1038/s41598-025-95150-3} \end{APACrefDOI}
+\PrintBackRefs{\CurrentBib}
+
+\bibitem [\protect \citeauthoryear {%
+Sinsbeck%
+\ \BBA {} Nowak%
+}{%
+Sinsbeck%
+\ \BBA {} Nowak%
+}{%
+{\protect \APACyear {2017}}%
+}]{%
+sinsbeck2017sequential}
+\APACinsertmetastar {%
+sinsbeck2017sequential}%
+\begin{APACrefauthors}%
+Sinsbeck, M.%
+\BCBT {}\ \BBA {} Nowak, W.%
+\end{APACrefauthors}%
+\unskip\
+\newblock
+\APACrefYearMonthDay{2017}{{\APACmonth{01}}}{}.
+\newblock
+{\BBOQ}\APACrefatitle {Sequential {{Design}} of {{Computer Experiments}} for
+  the {{Solution}} of {{Bayesian Inverse Problems}}} {Sequential {{Design}} of
+  {{Computer Experiments}} for the {{Solution}} of {{Bayesian Inverse
+  Problems}}}.{\BBCQ}
+\newblock
+\APACjournalVolNumPages{SIAM/ASA Journal on Uncertainty
+  Quantification}{5}{1}{640--664}.
+\newblock
+\begin{APACrefDOI} \doi{10.1137/15M1047659} \end{APACrefDOI}
 \PrintBackRefs{\CurrentBib}
 
 \bibitem [\protect \citeauthoryear {%

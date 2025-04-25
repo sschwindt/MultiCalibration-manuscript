@@ -111,12 +111,14 @@
 \newlabel{tab:roughness_zones}{{4}{15}{}{table.4}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {2.6}Bayesian calibration using Gaussian Process Regression for single and multiple calibration targets}{15}{}\protected@file@percent }
 \newlabel{sec:sec2.6}{{2.6}{15}{}{subsection.2.6}{}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {2.6.1}The Bayesian principle and Bayesian Inversion using metamodels}{15}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {2.6.1}Bayesian Inference using metamodels}{15}{}\protected@file@percent }
 \newlabel{fig:MU_thresholds}{{3}{16}{}{figure.3}{}}
 \newlabel{fig:MU}{{4}{16}{}{figure.4}{}}
+\citation{smith1992bayesian}
 \citation{oladyshkin2020bayesian3}
 \citation{razavi2012review}
 \citation{beckers2020bayesian}
+\citation{smith1992bayesian}
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {2.6.2}Single output and Multi output Gaussian Process Emulators}{18}{}\protected@file@percent }
 \citation{lindholm2022machine}
 \citation{schwindt2023bayesian}
@@ -127,52 +129,38 @@
 \citation{gardner2018gpytorch}
 \citation{liu2018remarks}
 \citation{bonilla2007multitask}
-\citation{box_bayesian_1973}
-\citation{oladyshkin_connection_2019}
-\@writefile{toc}{\contentsline {subsection}{\numberline {2.7}Bayesian Calibration Accelerated by Emulators and Active Learning}{20}{}\protected@file@percent }
-\newlabel{sec:bayesCal}{{2.7}{20}{}{subsection.2.7}{}}
-\newlabel{eq:Bayes}{{2}{20}{}{equation.2}{}}
-\newlabel{eq:residuals}{{3}{21}{}{equation.3}{}}
-\newlabel{eq:like}{{4}{21}{}{equation.4}{}}
-\citation{beckers_bayesian_2020}
-\citation{smith_bayesian_1992}
-\citation{beckers_bayesian_2020}
-\citation{smith_bayesian_1992}
-\citation{busby_hierarchical_2009}
-\newlabel{eq:surrogate}{{5}{22}{}{equation.5}{}}
-\citation{rasmussen200gpe}
-\citation{oladyshkin_bayesian3_2020}
-\citation{matlab_fit_2018}
-\citation{oladyshkin_bayesian3_2020}
-\citation{oladyshkin_connection_2019}
-\citation{oladyshkin_bayesian3_2020}
-\newlabel{eq:bal_bme}{{6}{23}{}{equation.6}{}}
-\newlabel{eq:re}{{7}{23}{}{equation.7}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {2.8}Test Procedure}{24}{}\protected@file@percent }
-\newlabel{sec:test-proc}{{2.8}{24}{}{subsection.2.8}{}}
+\citation{sinsbeck2017sequential}
+\citation{oladyshkin2019connection}
+\citation{oladyshkin2020bayesian3}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {2.6.3}Iterative Bayesian Updating of the GP Surrogate Models}{20}{}\protected@file@percent }
+\citation{oladyshkin2020bayesian3}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.7}Test Procedure}{21}{}\protected@file@percent }
+\newlabel{sec:test-proc}{{2.7}{21}{}{subsection.2.7}{}}
 \citation{zhang_thermal_2020}
 \citation{oladyshkin_bayesian3_2020}
 \citation{smith_bayesian_1992}
 \citation{oladyshkin_bayesian3_2020}
 \citation{bellman_dynamic_1957}
 \citation{mouris_stability_2023}
-\newlabel{tab:scenarios}{{5}{26}{}{table.5}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {3}Results}{27}{}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.1}Convergence Speed}{28}{}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.2}Marginal Posterior Distributions of Calibration Parameters}{29}{}\protected@file@percent }
-\newlabel{fig03:posteriors}{{5}{30}{}{figure.5}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.3}Maximum Likelihoods of Calibration Parameters}{31}{}\protected@file@percent }
-\newlabel{tab:max_likelihood}{{6}{32}{}{table.6}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.4}Joint Posteriors of Calibration Parameters}{32}{}\protected@file@percent }
-\newlabel{fig04:interdependence}{{6}{33}{}{figure.6}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.5}Lump-sum Statistics}{33}{}\protected@file@percent }
-\newlabel{tab:model_verification}{{7}{34}{}{table.7}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.6}Bayesian Calibration Residuals and Posterior Predictions}{34}{}\protected@file@percent }
-\newlabel{fig05:postU}{{7}{36}{}{figure.7}{}}
-\newlabel{fig06:postT}{{8}{37}{}{figure.8}{}}
+\newlabel{tab:scenarios}{{5}{24}{}{table.5}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {3}Results}{24}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.1}Convergence Speed}{25}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.2}Marginal Posterior Distributions of Calibration Parameters}{26}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.3}Maximum Likelihoods of Calibration Parameters}{27}{}\protected@file@percent }
+\newlabel{fig03:posteriors}{{5}{28}{}{figure.5}{}}
+\newlabel{tab:max_likelihood}{{6}{29}{}{table.6}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.4}Joint Posteriors of Calibration Parameters}{29}{}\protected@file@percent }
+\newlabel{fig04:interdependence}{{6}{30}{}{figure.6}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.5}Lump-sum Statistics}{30}{}\protected@file@percent }
+\newlabel{tab:model_verification}{{7}{31}{}{table.7}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.6}Bayesian Calibration Residuals and Posterior Predictions}{31}{}\protected@file@percent }
+\newlabel{fig05:postU}{{7}{33}{}{figure.7}{}}
+\newlabel{fig06:postT}{{8}{35}{}{figure.8}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {4}Discussion}{35}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.1}Physical Relevance}{35}{}\protected@file@percent }
 \citation{muller_flow_2018}
-\@writefile{toc}{\contentsline {section}{\numberline {4}Discussion}{38}{}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.1}Physical Relevance}{38}{}\protected@file@percent }
+\newlabel{fig07:turbine}{{9}{37}{}{figure.9}{}}
+\newlabel{fig08:pump}{{10}{38}{}{figure.10}{}}
 \citation{beckers_bayesian_2020}
 \citation{bermudez_res_2018}
 \citation{encinas_fernandez_diurnal_2020}
@@ -184,14 +172,12 @@
 \citation{bermudez_res_2018}
 \citation{salehi_delft3d_2017}
 \@writefile{toc}{\contentsline {subsection}{\numberline {4.2}Efficiency of Bayesian Calibration with a GPE-Surrogate Model}{39}{}\protected@file@percent }
-\newlabel{fig07:turbine}{{9}{40}{}{figure.9}{}}
-\newlabel{fig08:pump}{{10}{41}{}{figure.10}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.3}Choice of Calibration Parameters and Data}{42}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.3}Choice of Calibration Parameters and Data}{39}{}\protected@file@percent }
 \citation{booij_measurements_2003}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.4}Effects of Varying Measurement Data Usage (Hypothesis~(i))}{43}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.4}Effects of Varying Measurement Data Usage (Hypothesis~(i))}{40}{}\protected@file@percent }
 \citation{box_statistics_2005}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.5}Identification of Unreasonable Calibration Results (Hypothesis~(ii))}{45}{}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {5}Conclusions}{46}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.5}Identification of Unreasonable Calibration Results (Hypothesis~(ii))}{42}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {5}Conclusions}{43}{}\protected@file@percent }
 \citation{oladyshkin_data-driven_2012}
 \citation{oladyshkin_bayesian_2013}
 \citation{msdata_callau_git_2022}
@@ -207,6 +193,7 @@
 \APACbibcite{bel2020calibration}{\citeauthoryear {Bel, Jodeau, Tassi, Claude,{}\ \BBA{} Haddad}{Bel\ \BOthers {.}}{{\APACyear {2020}}}}
 \bibcite{bonilla2007multitask}{\citeauthoryear {Bonilla, Chai,{}\ \BBA{} Williams}{Bonilla\ \BOthers {.}}{{\APACyear {2007}}}}
 \APACbibcite{bonilla2007multitask}{\citeauthoryear {Bonilla, Chai,{}\ \BBA{} Williams}{Bonilla\ \BOthers {.}}{{\APACyear {2007}}}}
+\@writefile{toc}{\contentsline {section}{References}{46}{}\protected@file@percent }
 \bibcite{breiman1997predicting}{\citeauthoryear {Breiman\ \BBA{} Friedman}{Breiman\ \BBA{} Friedman}{{\APACyear {1997}}}}
 \APACbibcite{breiman1997predicting}{\citeauthoryear {Breiman\ \BBA{} Friedman}{Breiman\ \BBA{} Friedman}{{\APACyear {1997}}}}
 \bibcite{buffington1999effects}{\citeauthoryear {Buffington\ \BBA{} Montgomery}{Buffington\ \BBA{} Montgomery}{{\APACyear {1999}}}}
@@ -215,7 +202,6 @@
 \APACbibcite{bunte2001samplinga}{\citeauthoryear {Bunte\ \BBA{} Abt}{Bunte\ \BBA{} Abt}{{\APACyear {2001}}}}
 \bibcite{cao2003flow}{\citeauthoryear {Cao, Carling,{}\ \BBA{} Oakey}{Cao\ \BOthers {.}}{{\APACyear {2003}}}}
 \APACbibcite{cao2003flow}{\citeauthoryear {Cao, Carling,{}\ \BBA{} Oakey}{Cao\ \BOthers {.}}{{\APACyear {2003}}}}
-\@writefile{toc}{\contentsline {section}{References}{49}{}\protected@file@percent }
 \bibcite{caruana1997multitask}{\citeauthoryear {Caruana}{Caruana}{{\APACyear {1997}}}}
 \APACbibcite{caruana1997multitask}{\citeauthoryear {Caruana}{Caruana}{{\APACyear {1997}}}}
 \bibcite{chow1959openchannel}{\citeauthoryear {Chow}{Chow}{{\APACyear {1959}}}}
@@ -288,6 +274,8 @@
 \APACbibcite{oberkampf2004verification}{\citeauthoryear {Oberkampf, Trucano,{}\ \BBA{} Hirsch}{Oberkampf\ \BOthers {.}}{{\APACyear {2004}}}}
 \bibcite{oladyshkin2020bayesian3}{\citeauthoryear {Oladyshkin, Mohammadi, Kroeker,{}\ \BBA{} Nowak}{Oladyshkin\ \BOthers {.}}{{\APACyear {2020}}}}
 \APACbibcite{oladyshkin2020bayesian3}{\citeauthoryear {Oladyshkin, Mohammadi, Kroeker,{}\ \BBA{} Nowak}{Oladyshkin\ \BOthers {.}}{{\APACyear {2020}}}}
+\bibcite{oladyshkin2019connection}{\citeauthoryear {Oladyshkin\ \BBA{} Nowak}{Oladyshkin\ \BBA{} Nowak}{{\APACyear {2019}}}}
+\APACbibcite{oladyshkin2019connection}{\citeauthoryear {Oladyshkin\ \BBA{} Nowak}{Oladyshkin\ \BBA{} Nowak}{{\APACyear {2019}}}}
 \bibcite{papanicolaou2008sediment}{\citeauthoryear {Papanicolaou, Elhakeem, Krallis, Prakash,{}\ \BBA{} Edinger}{Papanicolaou\ \BOthers {.}}{{\APACyear {2008}}}}
 \APACbibcite{papanicolaou2008sediment}{\citeauthoryear {Papanicolaou, Elhakeem, Krallis, Prakash,{}\ \BBA{} Edinger}{Papanicolaou\ \BOthers {.}}{{\APACyear {2008}}}}
 \bibcite{pasternack2020river}{\citeauthoryear {Pasternack}{Pasternack}{{\APACyear {2020}}}}
@@ -314,6 +302,8 @@
 \APACbibcite{schwindt2023fuzzylogic}{\citeauthoryear {Schwindt, Negreiros,{}\ \BOthers {.}}{Schwindt, Negreiros,{}\ \BOthers {.}}{{\APACyear {2023}}}}
 \bibcite{scolari2025hydromorphodynamic}{\citeauthoryear {Scolari, Fadul,{}\ \BBA{} Schwindt}{Scolari\ \BOthers {.}}{{\APACyear {2025}}}}
 \APACbibcite{scolari2025hydromorphodynamic}{\citeauthoryear {Scolari, Fadul,{}\ \BBA{} Schwindt}{Scolari\ \BOthers {.}}{{\APACyear {2025}}}}
+\bibcite{sinsbeck2017sequential}{\citeauthoryear {Sinsbeck\ \BBA{} Nowak}{Sinsbeck\ \BBA{} Nowak}{{\APACyear {2017}}}}
+\APACbibcite{sinsbeck2017sequential}{\citeauthoryear {Sinsbeck\ \BBA{} Nowak}{Sinsbeck\ \BBA{} Nowak}{{\APACyear {2017}}}}
 \bibcite{smart1999coefficient}{\citeauthoryear {Smart}{Smart}{{\APACyear {1999}}}}
 \APACbibcite{smart1999coefficient}{\citeauthoryear {Smart}{Smart}{{\APACyear {1999}}}}
 \bibcite{smith1992bayesian}{\citeauthoryear {Smith\ \BBA{} Gelfand}{Smith\ \BBA{} Gelfand}{{\APACyear {1992}}}}
@@ -342,4 +332,4 @@
 \APACbibcite{yassine2023numerical}{\citeauthoryear {Yassine, Cassan, Roux, Frysou,{}\ \BBA{} P{\'e}r{\`e}s}{Yassine\ \BOthers {.}}{{\APACyear {2023}}}}
 \bibcite{zauner2020wie}{\citeauthoryear {Zauner\ \BOthers {.}}{Zauner\ \BOthers {.}}{{\APACyear {2020}}}}
 \APACbibcite{zauner2020wie}{\citeauthoryear {Zauner\ \BOthers {.}}{Zauner\ \BOthers {.}}{{\APACyear {2020}}}}
-\gdef \@abspage@last{56}
+\gdef \@abspage@last{53}
