@@ -14,25 +14,13 @@ Reallocating 'singl_function' (item size: 4) to 100 items.
 Reallocating 'wiz_functions' (item size: 4) to 9000 items.
 Reallocating 'singl_function' (item size: 4) to 100 items.
 Database file #1: hydro-informatics.bib
-Warning--I didn't find a database entry for "box_bayesian_1973"
-Warning--I didn't find a database entry for "oladyshkin_connection_2019"
-Warning--I didn't find a database entry for "beckers_bayesian_2020"
-Warning--I didn't find a database entry for "smith_bayesian_1992"
-Warning--I didn't find a database entry for "busby_hierarchical_2009"
-Warning--I didn't find a database entry for "rasmussen200gpe"
-Warning--I didn't find a database entry for "oladyshkin_bayesian3_2020"
-Warning--I didn't find a database entry for "matlab_fit_2018"
 Warning--I didn't find a database entry for "zhang_thermal_2020"
+Warning--I didn't find a database entry for "oladyshkin_bayesian3_2020"
+Warning--I didn't find a database entry for "smith_bayesian_1992"
 Warning--I didn't find a database entry for "bellman_dynamic_1957"
 Warning--I didn't find a database entry for "mouris_stability_2023"
 Warning--I didn't find a database entry for "muller_flow_2018"
-Warning--I didn't find a database entry for "bermudez_res_2018"
-Warning--I didn't find a database entry for "encinas_fernandez_diurnal_2020"
-Warning--I didn't find a database entry for "salehi_delft3d_2017"
-Warning--I didn't find a database entry for "chanson_disp_2004"
-Warning--I didn't find a database entry for "wahl_effect_2014"
-Warning--I didn't find a database entry for "woolway_2021"
-Warning--I didn't find a database entry for "booij_measurements_2003"
+Warning--I didn't find a database entry for "beckers_bayesian_2020"
 Warning--I didn't find a database entry for "box_statistics_2005"
 Warning--I didn't find a database entry for "oladyshkin_data-driven_2012"
 Warning--I didn't find a database entry for "oladyshkin_bayesian_2013"
@@ -42,7 +30,7 @@ apacite.bst [2013/07/21 v6.03 APA bibliography style]
 Warning--No address in hervouet2020telemac2d
 You've used 74 entries,
             6951 wiz_defined-function locations,
-            1837 strings with 28914 characters,
+            1825 strings with 28684 characters,
 and the built_in function-call counts, 165441 in all, are:
 = -- 19888
 > -- 1408
@@ -81,4 +69,4 @@ warning$ -- 1
 while$ -- 890
 width$ -- 0
 write$ -- 2593
-(There were 25 warnings)
+(There were 13 warnings)
