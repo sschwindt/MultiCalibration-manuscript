@@ -436,9 +436,9 @@ Exner, F\BPBI M.%
 \newblock
 {\BBOQ}\APACrefatitle {{\"U}ber Die {{Wechselwirkung}} Zwischen {{Wasser}} Und
   {{Geschiebe}} in {{Fl{\"u}ssen}} [{{About}} the {{Interdependency}} of
-  {{Water}} and {{Bed}} Load in {{Rivers}}]} {{\"U}ber die {{Wechselwirkung}}
+  {{Water}} and {{Bedload}} in {{Rivers}}]} {{\"U}ber die {{Wechselwirkung}}
   zwischen {{Wasser}} und {{Geschiebe}} in {{Fl{\"u}ssen}} [{{About}} the
-  {{Interdependency}} of {{Water}} and {{Bed}} load in {{Rivers}}]}.{\BBCQ}
+  {{Interdependency}} of {{Water}} and {{Bedload}} in {{Rivers}}]}.{\BBCQ}
 \newblock
 \APACjournalVolNumPages{Akademie der Wissenschaften in Wien, math.-naturw.
   Klasse, Sitzungsberichte, Abt. IIa}{134}{}{165--203}.
@@ -468,40 +468,6 @@ Ferguson, R.%
 \APACjournalVolNumPages{Water Resources Research}{43}{5}{}.
 \newblock
 \begin{APACrefDOI} \doi{10.1029/2006WR005422} \end{APACrefDOI}
-\PrintBackRefs{\CurrentBib}
-
-\bibitem [\protect \citeauthoryear {%
-Ferreira%
-, Pedemonte%
-\BCBL {}\ \BBA {} Torres%
-}{%
-Ferreira%
-\ \protect \BOthers {.}}{%
-{\protect \APACyear {2022}}%
-}]{%
-ferreira2022multioutput}
-\APACinsertmetastar {%
-ferreira2022multioutput}%
-\begin{APACrefauthors}%
-Ferreira, J.%
-, Pedemonte, M.%
-\BCBL {}\ \BBA {} Torres, A\BPBI I.%
-\end{APACrefauthors}%
-\unskip\
-\newblock
-\APACrefYearMonthDay{2022}{{\APACmonth{01}}}{}.
-\newblock
-{\BBOQ}\APACrefatitle {A Multi-Output Machine Learning Approach for Generation
-  of Surrogate Models in Process Engineering} {A multi-output machine learning
-  approach for generation of surrogate models in process engineering}.{\BBCQ}
-\newblock
-\BIn{} Y.~Yamashita\ \BBA {} M.~Kano\ (\BEDS), \APACrefbtitle {Computer {{Aided
-  Chemical Engineering}}} {Computer {{Aided Chemical Engineering}}}\ (\BVOL~49,
-  \BPGS\ 1771--1776).
-\newblock
-\APACaddressPublisher{}{Elsevier}.
-\newblock
-\begin{APACrefDOI} \doi{10.1016/B978-0-323-85159-6.50295-5} \end{APACrefDOI}
 \PrintBackRefs{\CurrentBib}
 
 \bibitem [\protect \citeauthoryear {%
@@ -914,6 +880,39 @@ Lim, H.%
 \APACjournalVolNumPages{Energy and Buildings}{155}{}{66--75}.
 \newblock
 \begin{APACrefDOI} \doi{10.1016/j.enbuild.2017.09.009} \end{APACrefDOI}
+\PrintBackRefs{\CurrentBib}
+
+\bibitem [\protect \citeauthoryear {%
+Lin%
+\ \protect \BOthers {.}}{%
+Lin%
+\ \protect \BOthers {.}}{%
+{\protect \APACyear {2021}}%
+}]{%
+lin2021multioutput}
+\APACinsertmetastar {%
+lin2021multioutput}%
+\begin{APACrefauthors}%
+Lin, Q.%
+, Hu, J.%
+, Zhou, Q.%
+, Cheng, Y.%
+, Hu, Z.%
+, Couckuyt, I.%
+\BCBL {}\ \BBA {} Dhaene, T.%
+\end{APACrefauthors}%
+\unskip\
+\newblock
+\APACrefYearMonthDay{2021}{{\APACmonth{09}}}{}.
+\newblock
+{\BBOQ}\APACrefatitle {Multi-Output {{Gaussian}} Process Prediction for
+  Computationally Expensive Problems with Multiple Levels of Fidelity}
+  {Multi-output {{Gaussian}} process prediction for computationally expensive
+  problems with multiple levels of fidelity}.{\BBCQ}
+\newblock
+\APACjournalVolNumPages{Knowledge-Based Systems}{227}{}{107151}.
+\newblock
+\begin{APACrefDOI} \doi{10.1016/j.knosys.2021.107151} \end{APACrefDOI}
 \PrintBackRefs{\CurrentBib}
 
 \bibitem [\protect \citeauthoryear {%
@@ -1811,33 +1810,6 @@ Sinsbeck, M.%
 \PrintBackRefs{\CurrentBib}
 
 \bibitem [\protect \citeauthoryear {%
-Smart%
-}{%
-Smart%
-}{%
-{\protect \APACyear {1999}}%
-}]{%
-smart1999coefficient}
-\APACinsertmetastar {%
-smart1999coefficient}%
-\begin{APACrefauthors}%
-Smart, G\BPBI M.%
-\end{APACrefauthors}%
-\unskip\
-\newblock
-\APACrefYearMonthDay{1999}{{\APACmonth{12}}}{}.
-\newblock
-{\BBOQ}\APACrefatitle {Coefficient of Friction for Flow Resistance in Alluvial
-  Channels.} {Coefficient of friction for flow resistance in alluvial
-  channels.}{\BBCQ}
-\newblock
-\APACjournalVolNumPages{Proceedings of the Institution of Civil Engineers -
-  Water, Maritime and Energy}{136}{4}{205--210}.
-\newblock
-\begin{APACrefDOI} \doi{10.1680/iwtme.1999.31984} \end{APACrefDOI}
-\PrintBackRefs{\CurrentBib}
-
-\bibitem [\protect \citeauthoryear {%
 Smith%
 \ \BBA {} Gelfand%
 }{%
@@ -1982,37 +1954,6 @@ Webber, N\BPBI B.%
 \APACaddressPublisher{London}{CRC Press}.
 \newblock
 \begin{APACrefDOI} \doi{10.1201/9781315273426} \end{APACrefDOI}
-\PrintBackRefs{\CurrentBib}
-
-\bibitem [\protect \citeauthoryear {%
-Williams%
-, Brasington%
-\BCBL {}\ \BBA {} Hicks%
-}{%
-Williams%
-\ \protect \BOthers {.}}{%
-{\protect \APACyear {2016}}%
-}]{%
-williams2016numerical}
-\APACinsertmetastar {%
-williams2016numerical}%
-\begin{APACrefauthors}%
-Williams, R\BPBI D.%
-, Brasington, J.%
-\BCBL {}\ \BBA {} Hicks, D\BPBI M.%
-\end{APACrefauthors}%
-\unskip\
-\newblock
-\APACrefYearMonthDay{2016}{}{}.
-\newblock
-{\BBOQ}\APACrefatitle {Numerical {{Modelling}} of {{Braided River
-  Morphodynamics}}: {{Review}} and {{Future Challenges}}} {Numerical
-  {{Modelling}} of {{Braided River Morphodynamics}}: {{Review}} and {{Future
-  Challenges}}}.{\BBCQ}
-\newblock
-\APACjournalVolNumPages{Geography Compass}{10}{3}{102--127}.
-\newblock
-\begin{APACrefDOI} \doi{10.1111/gec3.12260} \end{APACrefDOI}
 \PrintBackRefs{\CurrentBib}
 
 \bibitem [\protect \citeauthoryear {%
@@ -2161,42 +2102,6 @@ Wyrick, J\BPBI R.%
 \APACjournalVolNumPages{Geomorphology}{210}{Supplement C}{14--22}.
 \newblock
 \begin{APACrefDOI} \doi{10.1016/j.geomorph.2013.12.013} \end{APACrefDOI}
-\PrintBackRefs{\CurrentBib}
-
-\bibitem [\protect \citeauthoryear {%
-Yassine%
-, Cassan%
-, Roux%
-, Frysou%
-\BCBL {}\ \BBA {} P{\'e}r{\`e}s%
-}{%
-Yassine%
-\ \protect \BOthers {.}}{%
-{\protect \APACyear {2023}}%
-}]{%
-yassine2023numerical}
-\APACinsertmetastar {%
-yassine2023numerical}%
-\begin{APACrefauthors}%
-Yassine, R.%
-, Cassan, L.%
-, Roux, H.%
-, Frysou, O.%
-\BCBL {}\ \BBA {} P{\'e}r{\`e}s, F.%
-\end{APACrefauthors}%
-\unskip\
-\newblock
-\APACrefYearMonthDay{2023}{{\APACmonth{11}}}{}.
-\newblock
-{\BBOQ}\APACrefatitle {Numerical Modelling of the Evolution of a River Reach
-  with a Complex Morphology to Help Define Future Sustainable Restoration
-  Decisions} {Numerical modelling of the evolution of a river reach with a
-  complex morphology to help define future sustainable restoration
-  decisions}.{\BBCQ}
-\newblock
-\APACjournalVolNumPages{Earth Surface Dynamics}{11}{6}{1199--1221}.
-\newblock
-\begin{APACrefDOI} \doi{10.5194/esurf-11-1199-2023} \end{APACrefDOI}
 \PrintBackRefs{\CurrentBib}
 
 \bibitem [\protect \citeauthoryear {%

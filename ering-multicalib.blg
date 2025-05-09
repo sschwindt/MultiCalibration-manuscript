@@ -28,45 +28,45 @@ Warning--I didn't find a database entry for "msdata_callau_git_2022"
 Warning--I didn't find a database entry for "msdata_schwindt_git_2022"
 apacite.bst [2013/07/21 v6.03 APA bibliography style]
 Warning--No address in hervouet2020telemac2d
-You've used 74 entries,
+You've used 71 entries,
             6951 wiz_defined-function locations,
-            1825 strings with 28684 characters,
-and the built_in function-call counts, 165441 in all, are:
-= -- 19888
-> -- 1408
-< -- 8885
-+ -- 9132
-- -- 148
-* -- 11399
-:= -- 31979
-add.period$ -- 311
-call.type$ -- 74
-change.case$ -- 1342
+            1803 strings with 27837 characters,
+and the built_in function-call counts, 158445 in all, are:
+= -- 19015
+> -- 1350
+< -- 8513
++ -- 8758
+- -- 142
+* -- 10926
+:= -- 30652
+add.period$ -- 297
+call.type$ -- 71
+change.case$ -- 1286
 chr.to.int$ -- 0
-cite$ -- 149
-duplicate$ -- 4412
-empty$ -- 5921
-format.name$ -- 2404
-if$ -- 30059
+cite$ -- 143
+duplicate$ -- 4246
+empty$ -- 5681
+format.name$ -- 2328
+if$ -- 28764
 int.to.chr$ -- 0
-int.to.str$ -- 222
+int.to.str$ -- 213
 missing$ -- 0
-newline$ -- 2034
-num.names$ -- 594
-pop$ -- 2436
+newline$ -- 1950
+num.names$ -- 568
+pop$ -- 2366
 preamble$ -- 1
-purify$ -- 374
+purify$ -- 358
 quote$ -- 0
-skip$ -- 9677
+skip$ -- 9217
 stack$ -- 0
-substring$ -- 9906
-swap$ -- 2594
-text.length$ -- 303
+substring$ -- 9490
+swap$ -- 2484
+text.length$ -- 283
 text.prefix$ -- 0
 top$ -- 1
-type$ -- 6304
+type$ -- 6000
 warning$ -- 1
-while$ -- 890
+while$ -- 854
 width$ -- 0
-write$ -- 2593
+write$ -- 2487
 (There were 13 warnings)
