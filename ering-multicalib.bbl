@@ -594,6 +594,35 @@ Gardner, J\BPBI R.%
 \PrintBackRefs{\CurrentBib}
 
 \bibitem [\protect \citeauthoryear {%
+Garud%
+, Karimi%
+\BCBL {}\ \BBA {} Kraft%
+}{%
+Garud%
+\ \protect \BOthers {.}}{%
+{\protect \APACyear {2017}}%
+}]{%
+garud2017design}
+\APACinsertmetastar {%
+garud2017design}%
+\begin{APACrefauthors}%
+Garud, S\BPBI S.%
+, Karimi, I\BPBI A.%
+\BCBL {}\ \BBA {} Kraft, M.%
+\end{APACrefauthors}%
+\unskip\
+\newblock
+\APACrefYearMonthDay{2017}{{\APACmonth{11}}}{}.
+\newblock
+{\BBOQ}\APACrefatitle {Design of Computer Experiments: {{A}} Review} {Design of
+  computer experiments: {{A}} review}.{\BBCQ}
+\newblock
+\APACjournalVolNumPages{Computers \& Chemical Engineering}{106}{}{71--95}.
+\newblock
+\begin{APACrefDOI} \doi{10.1016/j.compchemeng.2017.05.010} \end{APACrefDOI}
+\PrintBackRefs{\CurrentBib}
+
+\bibitem [\protect \citeauthoryear {%
 Grabowski%
 \ \protect \BOthers {.}}{%
 Grabowski%
