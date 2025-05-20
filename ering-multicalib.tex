@@ -33,7 +33,7 @@
 
 \begin{document}
 
-\title{Multitask Gaussian process optimizes roughness values for morphological units in 2d numerical models}
+\title{Multi-output Gaussian process optimizes roughness parameters for morphological units in 2d numerical models}
 
 \graphicspath{ {./images/} }
 
@@ -43,7 +43,7 @@
 %
 %% ------------------------------------------------------------- %%
 
-\authors{Andres Heredia \affil{1},, Sebastian Schwindt\affil{1}, Silke Wieprecht\affil{1}, Sergey Oladyshkin\affil{2}}
+\authors{Andres Heredia \affil{1}, Sebastian Schwindt\affil{1}, Silke Wieprecht\affil{1}, Sergey Oladyshkin\affil{2}}
 
 \affiliation{1}{Institute for Modelling Hydraulic and Environmental Systems,
 	Department of Hydraulic Engineering and Water Resources Management, University of Stuttgart, Stuttgart, Germany}
@@ -58,8 +58,8 @@
 
 %% Keypoints, final entry on title page.
 \begin{itemize}
-	\item Surrogate-assisted calibration for 2d hydromorphodynamic models using multi-output Gaussian process regression and Bayesian active learning.
-	\item Uncertainty quantification of riverbed surface roughness for selected morphological units.
+	\item Surrogate-assisted calibration for 2d hydro-morphodynamic models using multi-output Gaussian process regression and Bayesian active learning.
+	\item Uncertainty quantification of riverbed surface roughness for selected morphological units around large wood pieces.
 	\item Comparison between single-output and multi-output Gaussian process outcomes  \hl{SHOWS ... - PUT KEY FINDING}.
 \end{itemize}
 
@@ -77,11 +77,11 @@
 % max. 250 words (curr. 249) -- A NEW WORD REQUIRES DELETION
 	
 	
-\textit{KEYWORDS: Multitask Gaussian process regression, Bayesian calibration, Bayesian Active learning, Telemac2d, metamodels, morphological units, hydromorphodynamic modeling}
+\textit{KEYWORDS: Multitask Gaussian process regression, Bayesian active learning, Telemac2d, metamodels, hydro-morphodynamic modeling}
 \end{abstract}
 
 \section*{Plain Language Summary}
-% currently 196/200 words, accounting for AGU recommendations (https://www.agu.org/Share-and-Advocate/Share/Community/Plain-language-summary)
+% currently 196/200 words, accounting for AGU recommendations (https://www.agu.org~s\textsuperscript{-1}hare-and-Advocate~s\textsuperscript{-1}hare/Community/Plain-language-summary)
 \hl{do not use technical terms like Gaussian, metamodel, correlate, roughness etc.}
 
 The real behavior of rivers can be simulated using conceptual computer models. These models are often highly complex and computationally demanding because they must represent detailed, coupled physical processes such as water and sediment dynamics, requiring the introduction of several uncertain model parameters and hindering the identification of plausible parameter combinations which lead to acceptable resemblance to reality. To alleviate this, we use a multi-output Gaussian process metamodel to approximate two correlated model outputs (i.e., water depth and scalar velocity) from a complex  hydro-morphodynamic model. The trained metamodel helps perform data-driven stochastic calibration and uncertainty quantification to identify roughness parameter combinations that lead to a desired and plausible resemblance of both complex and  surrogate models to measured velocity and water depth. We find that...   
@@ -89,415 +89,216 @@ The real behavior of rivers can be simulated using conceptual computer models. T
 
 \section{Introduction}
 
-River restoration employs a variety of measures, including the artificial creation of distinct morphological patterns, the large wood placement, and vegetation plantings \cite{schwindt2019hydromorphological, kail2007use, roni2015wood, grabowski2019current, neuhaus2021engineered}. These interventions modify hydromorphodynamic processes and change or be compromised by strong currents, particularly during floods and associated topographic changes. Numerical simulations offer critical insight into assessing the longevity of restoration measures and their effectiveness in attenuating flood waves and improving habitat quality \cite{schwindt2020river}. Nevertheless, even high-resolution two-dimensional (2d) and three-dimensional (3d) models often suffer from considerable uncertainties and inaccuracies that stem from numerous simplifying assumptions. For instance, wall roughness generates internal friction and thus turbulence, which substantially influences the momentum balance in numerical models. Owing to the complexity of river landscapes, detailed representation of wall-roughness effects is frequently replaced by bulk roughness models, such as Manning's~$n$ \cite{manning1891flow} or the Strickler roughness coefficient \cite{strickler1923beitrage, meyer-peter1948formulas}. Using these bulk parameters can blur the distinction between grain-scale and morphological-unit-scale roughness \cite{ferguson2007flow}, which is difficult to resolve during model calibration, especially when the computational mesh is too coarse to depict individual morphological units. Clear differentiation among morphological units is therefore essential, and the mesh resolution must be fine enough to represent them explicitly.
+River restoration employs a variety of measures, including the artificial creation of distinct morphological patterns, the large wood placement, and vegetation plantings \cite{schwindt2019hydromorphological, kail2007use, roni2015wood, grabowski2019current, neuhaus2021engineered}. These interventions modify hydro-morphodynamic processes and change or be compromised by strong currents, particularly during floods and associated topographic changes. Numerical simulations offer critical insight into assessing the longevity of restoration measures and their effectiveness in attenuating flood waves and improving habitat quality \cite{schwindt2020river}. Nevertheless, even high-resolution two-dimensional (2d) and three-dimensional (3d) models often suffer from considerable uncertainties and inaccuracies that stem from numerous simplifying assumptions. For instance, wall roughness generates internal friction and thus turbulence, which substantially influences the momentum balance in numerical models. Owing to the complexity of river landscapes, detailed representation of wall-roughness effects is frequently replaced by bulk roughness models, such as Manning's~$n$ \cite{manning1891flow} or the Strickler roughness coefficient \cite{strickler1923beitrage, meyer-peter1948formulas}. Using these bulk parameters can blur the distinction between grain-scale and morphological-unit-scale roughness \cite{ferguson2007flow}, which is difficult to resolve during model calibration, especially when the computational mesh is too coarse to depict individual morphological units. Clear differentiation among morphological units is therefore essential, and the mesh resolution must be fine enough to represent them explicitly.
 
 Large wood (LW) has been shown to be an efficient restoration measure that enhances habitat quality by generating advantageous hydraulic flow patterns \cite{follett2020momentum, schalko2024enhanced} and by improving sedimentary conditions, particularly grain-size composition and oxygenation \cite{schwindt2023fuzzylogic, schalko2024flow}. These insights are based solely on field surveys and laboratory flume experiments because numerical simulations of sediment-related processes remain highly uncertain. In particular, simulating riverbed clogging, defined as the infiltration of fine sediment into the pore space of a coarser sediment matrix, remains challenging. Clogging impairs aquatic habitats by cutting off vertical exchange, which reduces oxygen availability and increases substrate compactness, thus degrading spawning grounds and ecological niches of macroinvertebrates and microorganisms \cite{banscher1976gesetzmassigkeiten, brunke1997ecological, blaschke2003clogging}. Accurate modeling of clogging requires simultaneous simulation of subsurface and surface hydrodynamics, including advective and diffusive particle transport. State-of-the-art modeling approaches cannot yet perform these coupled simulations for the hydraulically distinct zones beneath and above the bed. Yet, the accumulation of fine sediment within the substrate can already be estimated reliably with coupled hydrodynamic-morphodynamic 2d models \cite{scolari2025hydromorphodynamic}.
 
-Artificial intelligence provides a promising pathway to improve the calibration of numerical models. For instance, a supervised learning technique using Bayesian inference and surrogate models (also referred to as metamodels) enables testing for a wide range of calibration parameter combinations. Bayesian active learning (BAL) builds a probabilistic surrogate, commonly a Gaussian process, of the misfit between the output of deterministic numerical model and observed data, based on results from prior simulations. After each expensive model run, it updates this surrogate and uses an acquisition function to select the next parameter set that balances exploiting the current optimum with exploring uncertain regions, thus reaching well-calibrated parameters with far fewer simulations than heuristic searches \cite{oladyshkin2020bayesian3,rasmussen2006gaussian}. In BAL, the long computing time of a numerical model is often surrogated with a Gaussian processes emulator (GPE) that imitates the response surface of the complex numerical model. 
+Artificial intelligence offers a promising pathway to improve the calibration of numerical models. For instance, supervised learning that combines Bayesian inference with metamodels (also called surrogate models) allows evaluation of a wide range of calibration-parameter combinations. Bayesian active learning (BAL) constructs a probabilistic surrogate, typically a Gaussian process, that represents the misfit between the output of a deterministic numerical model and observed data, using results from prior simulations. In BAL, the long computing time of the numerical model is often replaced by a Gaussian process emulator (GPE) that approximates the response surface of the complex numerical model. After each computationally expensive numerical model run, BAL updates the surrogate and applies an acquisition function to choose the next parameter set, balancing exploitation of the current optimum against exploration of uncertain regions. This strategy yields well-calibrated parameters with fewer simulations than heuristic optimum searches \cite{oladyshkin2020bayesian3,rasmussen2006gaussian}. 
 
-Calibration with BAL starts with a set of numerical models runs (typically, 15 per calibration parameter) to explore the model responses within a parameter range in which each value is initially (\textit{a priori})  assumed to be equally likely to occur. With increasing information, the probability distribution is updated until Bayesian model evidence (BME) or relative entropy (RE) converge. As a result, each calibration parameter gets assigned a non-uniformly, typically Gaussian-distributed \textit{a posteriori} probability function. The peak of this probability function describes the statistically best fitting value for the calibration parameter, and the width of the distribution indicates the remaining uncertainty. A large width suggests high uncertainty, while a sharp peak suggests low remaining uncertainty \cite{oladyshkin2020bayesian3}. This approach has already been shown highly efficient for simulating hydro-morphodynamic processes in rivers \cite{beckers2020bayesian}, and it revealed physical inconsistencies in hydro-morphodynamic simulations of reservoir sedimentation \cite{mouris2023stability}. However, BAL can also cause overfitting, but it indicates overfitting when it is simultaneously applied to multiple calibration parameters. Overfitting, or equifinality especially occurs when the available amount of data is not sufficient to describe target phenomena. For instance, if background eddy viscosity and diffusivity are calibration parameters, but flow velocity is not provided to the BAL-calibration process, the resulting \textit{a posteriori} distributions exhibit high uncertainty.
+Calibration with BAL starts with a set of numerical model runs (typically 15 per calibration parameter) to explore model responses across a parameter range in which each value is initially (\textit{a priori}) assumed to be equally likely. As information accumulates, the probability distribution is updated until either BME or relative entropy (RE, also referred to as Kullback-Leibler divergence, cf. \citeA{kullback1951informationa}) converges. Consequently, each calibration parameter is assigned a nonuniform, typically Gaussian-distributed, \textit{a posteriori} probability density function. The peak of this function marks the statistically best-fitting value, and the width of the distribution quantifies the remaining uncertainty. A broad distribution indicates high uncertainty, while a narrow one indicates low uncertainty \cite{oladyshkin2020bayesian3}. This approach has already been shown to be highly efficient for optimizing simulations of hydro-morphodynamic processes in rivers \cite{beckers2020bayesian}, and it has exposed physical inconsistencies in simulations of reservoir sedimentation \cite{mouris2023stability}. However, BAL can also lead to overfitting, although calibrating multiple parameters simultaneously flags when this occurs. Overfitting, or equifinality, especially arises when the available measurement data are insufficient to describe the target phenomena. For instance, if background eddy viscosity and diffusivity are treated as calibration parameters but flow velocity is not supplied to the BAL calibration, the resulting \textit{a posteriori} distributions exhibit high uncertainty \cite{schwindt2023bayesian}.
 
-The simultaneous calibration of multiple parameters is challenging, not only heuristically, but also for advanced techniques like BAL. Currently available BAL routines for the optimization of hydro-morphodynamic surface water models can only perform sequential calibration of multiple parameters \cite{mouris2023stability,schwindt2023bayesian}. However, the sequential approach does not allow for an iterative consideration of calibration parameter and also not for different calibration parameter values, such as spatially explicit roughness zones for different morphological units. To this end, this study applies multi-output learning using Gaussian process (MOGP) to enable the full consideration of physics that cannot be considered in an isolated manner \cite{bonilla2007multitask}.  This study aims to answer the following research question: \textit{How does BAL with a multi-output GPE compare with single-output GPE regarding statistical and physical performance as a function of different roughness zones associated with particular morphological flow patches upstream and downstream of LW placements?}
+The simultaneous calibration of multiple parameters is challenging not only for heuristic methods but also for advanced techniques such as BAL. The BAL algorithms currently available for optimizing hydro-morphodynamic surface-water models perform only sequential calibration of multiple parameters \cite{mouris2023stability,schwindt2023bayesian}. A sequential approach, however, prevents iterative and simultaneous consideration of parameter interactions and cannot accommodate spatially explicit parameter values, such as zonal roughness coefficients assigned to distinct morphological units. To overcome these limitations, this study applies multi-output learning with Gaussian processes, which permits the full incorporation of coupled physical processes that cannot be treated in isolation \cite{bonilla2007multitask}. Accordingly, this study addresses the following research question: \textit{How does BAL employing multi-output GPE compare with BAL using single-output GPE in terms of statistical and physical performance when different roughness zones are defined for distinct morphological flow patches upstream and downstream of large-wood placements?}
 
-
-
-
-
-
-
-% 
-To this end, the aim of this study is to perform Bayesian calibration using a multi-output Gaussian process Emulator (MOGP) approach tested in a 215-meter-long multiparametric hydromorphodynamic numerical model of a fish pass, where two large instream wood logs (LWs) were installed. The full complexity model incorporates a velocity–water depth-based delineation of morphological units (MUs) within the main channel, replicating the spatial roughness variability along the channel. The model simulates a sequence of pre-flush, flush, and post-flush events that account for both liquid and sediment influx. The pre and post flush conditions enable a base flow assessments of water depth and velocity, while considering their dependence on bed roughness variability and sediment transport conditions.
-
-A Gaussian process metamodel (GP) is then leveraged to approximate the full complex model and perform stochastic analysis and uncertainty quantification of nine sensitive model parameters, where eight of them correspond to instream morphological units (MUs) and the remaining as the Critical Shields parameter to consider sediment transport influence. The method assesses the riverbed roughness variability as an essential driver for model calibration enhancement and uncertainty reduction. To make stochastic calibration feasible and incorporate all available data, this study employs a multi-output Gaussian process (MOGP) approach that simultaneously approximates two correlated output variables ( water depth and scalar velocity) serving as calibration targets.
-Furthermore, the metamodel uses a Bayesian Active Learning (BAL) method proposed by \citeA{oladyshkin2020bayesian3} to add additional training points based on relative entropy (RE) to improve the accuracy of the metamodel over requested iterations. 
-
-
-
-
-We hypothesize that sensitive model parameters such as morphological unit-based roughness coefficients and the critical Shields parameter, aided by data-driven and machine lerning techniques, improves the uncertainty quantification and narrows the posterior distribution functions for highly uncertain parameters. Additionally, we hypothesize that the multi-output Gaussian process (MOGP), trained with two variables, outperforms the single-output Gaussian process (GP) by exploiting task correlation, thereby improving the prediction of the model responses and assisting in uncertainty quantification of model parameters.
-
- 
-To this end, sections  \ref{sec:Sec2.1} through \ref{sec:Sec2.3} introduce the area of study and the numerical model configuration along with the available data used for the present project. Sections \ref{sec:Sec2.4} to \ref{sec:Sec2.5} present the selected calibration parameters describing the methodology for delineation of morphological units. Section \ref{sec:sec2.6} provides the basic concepts of surrogate-assisted Bayesian Calibration using Single and multi-output Gaussian process metamodels. Finally, section \ref{Results} shows the obtained results according to the assessment methodology presented in sections \ref{sec:Sec2.7} and \ref{sec:sec2.8}, concluding with the final remarks and suggestions for further improvements.
+To answer this question, this study extends existing BAL algorithms by incorporating a multi-output Gaussian-process emulator (MO-GPE). A 215 m long 2d hydro-morphodynamic numerical model of a near-natural fishway that includes the targeted placement of two LW pieces was built with distinct roughness zones for apparent morphological units (MUs) of the main channel. The numerical model was developed and BAL-calibrated with data from earlier studies \cite{schwindt2023fuzzylogic, schalko2024flow, scolari2025hydromorphodynamic}. The null hypothesis (H0) is that, when calibrating spatially explicit roughness zones upstream and downstream of LW placements, BAL with MO-GPE achieves better statistical performance as BAL with single-output Gaussian-process emulators (SO-GPE), as measured by the \hl{-- ADAPT -- root-mean-square error (RMSE)} for water depth, depth-averaged flow velocity, and bed elevation. Under H0, the spatial patterns of Shields stress, water depth, and flow velocity predicted by BAL with MO-GPE are more similar to field observations than those predicted by SO-GPE, as evaluated with the spatial \hl{Spearman rank} correlation and Kullback-Leibler divergence (i.e., RE) \hl{or BME?}. The alternative hypothesis (H1) is that, under the same calibration scenario, BAL with MO-GPE yields median \hl{at least a 10\% reduction in RMSE} for the same variables, and produces spatial Shields stress, water depth, and flow velocity patterns with a \hl{Spearman} correlation at least 0.10 lower and a Kullback-Leibler divergence \hl{or BME?} at least 10\% higher than those obtained with SO-GPE.
 
 
 \section{Materials and Methods} 
-\label{Materials}
+\label{sec:methods}
 
-\subsection{Fish pass at the Ering-Frauenstein power plant}
-\label{sec:Sec2.1}
-The present project develops in an artifitial, gravel-cobble riverbed fish pass located at the left bank of the Ering-Frauenstein water power plant. The fish pass was installed between 2018 and 2020 covering a length of approximately 2.6 km  and width between 5 m to 10 m measured at the base flow of  2~m$^3$/s. The channel overcomes a total height difference of approximately 10 m with a mean slope of 4.7\% forming meanders, pool-riffle sequences, gravel bars, and swales providing the necessary hydrodynamic and morphodynamic conditions to preserve endemic aquatic life in the Inn River \cite{schwindt2023fuzzylogic,zauner2020wie}. This study focuses on a 215-meter stretch of the fish pass, between the abscissae 1450m and 1665m, with an average slope of 0.5\%. In January 2022, two large wood structures as Nature-based Solutions (NbS) for river restoration, hereafter referred to as 'LW', were installed perpendicular to the flow to assess their effects on riverbed clogging and declogging following an artificial flood of 9.7~m$^3$/s  \cite{schwindt2023fuzzylogic}. The two LW structures are located at local coordinates WGS 84 / UTM Zone 33N (363071.83, 5350214.56) for LWA and (363118.99, 5350254.67) for LWB. LWA works emerged and LWB submerged at the base flow, both working submerged during the peak flow event. The structures generate backwater and wake effects with proven hydrodynamic, morphodynamic and ecological benefitial effects \cite{schalko2021flow,schwindt2023fuzzylogic}.    
-The Ering fish pass is a gate-regulated channel which fixes flow conditions enabling data extraction at multiple locations of interest with satisfactory outcomes. During artifitial flushing events, the channel receives discharges of up to 12 ~m$^3$/s, actively changing the grain size composition of the riverbed and its morphology.
+\subsection{Testbed: Morphodynamic Fishway}
+\label{sec:testbed}
+
+This study was carried out at the Ering-Frauenstein hydropower plant, where a 2.6 km-long fishway with a 5--10 m-wide gravel-bed bypasses the dam and surmounts a 10~m head at an average longitudinal bed slope of 4.7\textperthousand \cite{zauner2020wie}. Gravel that flows through the fishway collects in a sediment trap at the downstream end. This sediment is then transported to the upstream end annually to enable morphodynamic development during artificial morphologically effective floods conducted each year.
+
+In this study, a 215 m-long reach served as the domain for the numerical model. In this reach, two LW pieces were installed perpendicular to the flow to investigate riverbed clogging in  January 2022. An artificial flood was then generated by raising discharge from the 2~m\textsuperscript{3}~s\textsuperscript{-1} baseflow to 9.7~m\textsuperscript{3}~s\textsuperscript{~1} via an inlet weir. The two LW pieces, referred to as log~A (363 071.83, 5 350 214.56) and log~B (363 118.99, 5 350 254.67) in UTM Zone 33N (see \ref{fig:study-area}), were found to reduce clogging under specific flow conditions \cite{schwindt2023fuzzylogic,schalko2021flow,schalko2024flow}. These conditions were partly reproduced with a 2d hydro-morphodynamic Telemac2d/Gaia model \cite{scolari2025hydromorphodynamic}.
+
+\hl{Before, you had written here that the longitudinal Thalweg slope was 0.5\%. This is impossible. I recommend you just stick with the 4.7 permille statement that I adapted above.}
 
 
 \begin{figure}[htbp]
 	\centering
-	\includegraphics[width=5.5in]{images/1_EringFishpass_domain.png}
-	\caption{Study area  at the Ering fish pass (abscissae between 1450~m to 1665~m). Two wood logs, A (upstream) and B (downstream) are located at strategically points and where measured data have been taken. The project covers a meandering cobbel-gravel stretch of the fish pass transporting 2~$m^3$/s after a flush event of 9.7~$m^3$/s.   
-	}
-	\label{fig:StudyArea}
+	\includegraphics[width=0.99\textwidth]{1_EringFishpass_domain.png}
+	\caption{The considered reach at the fishway, including the two LW pieces, log~A (upstream) and log~B (downstream).	}
+	\label{fig:study-area}
 \end{figure}
 
-\subsection{Data availability and sources}
-\label{sec:Sec2.2}
-%Hydrodynamic data
-The available hydrodynamic and morphodynamic data was collected at the gate-regulated base flow of 2~m$^3$/s. 
-The hydrodynamic data include water depths and three-dimensional velocity components measured at 37 strategically selected locations. 
-These data correspond to a post flush condition after releasing a fully controlled peak flow of 9.7~m$^3$/s into the channel during 7 hours. 
-Velocity components were measured at points near the large woods (LW) using a FlowTracker 2, an acoustic Doppler velocimeter (ADV) tool. 
-The locations were strategically selected where turbulence and varying flow velocity were expected, primarily in the downstream wake and the upstream backwater of the wood structures. Additional points were also measured at glides riffles and runs (see Fig.~\ref{fig:MU}). 
+The locations of available measurement data in addition to MUs are shown in Figure~\ref{fig:MU}. Discharge was recorded using a boat-mounted acoustic Doppler current profiler (ADCP) at two cross-section that are not indicated in Figure~\ref{fig:MU}, and during the artificial flood. The inflow hydrograph is plotted \hl{OR listed in FIGURE OR TABLE -- PLEASE EITHER ADD A FIGURE OR A TABLE SHOWING THE HYDROGRAPH AND REFERENCE IT HERE -- THIS IS CRITICAL INFORMATION}.
+Hydraulic data, including flow velocity and water depth, was collected at 37 positions in the considered reach under baseflow conditions after the artificial flood with a FlowTracker2 (acoustic Doppler velocimeter, ADV) device.  The 37 points corresponded to locations where the hydro-morphodynamic footprint of the LW pieces was assumed to be significant, in addition to representative MUs, including pools, slackwater, glides, riffles, and runs. The MUs were delineated according to criteria summarized in \citeA{montgomery1997channelreach} and \citeA{wyrick2014geospatial} (\hl{see detaild in the SI}). Digital elevation models (DEMs) with a resolution of 0.05 m were created using UAS RGB orthoimagery. The grain size characteristics of the subsurface (hyporheic zone) and surface (riverbed) sediment layers, listed in Table~\ref{tab:grain-sizes}, were quantified using frozen sediment cores and shovel samples, respectively, under below-baseflow conditions (0.5~m\textsuperscript{3}~s\textsuperscript{-1}) (see \citeA{schwindt2023fuzzylogic, negreiros2024database, scolari2025hydromorphodynamic}).
 
-%DEM and sediment samples data
-A detailed digital elevation model (DEM) for that pre flush condition, including floodplains and riverbed bathymetry with a 5 cm resolution, was obtained using high reolution aerial orthoimages \cite{schwindt2023fuzzylogic}. The data that characterizes the bed material of the fish pass channel was taken from \textit{River Analyst}, an open-source database featuring river data in Germany \cite{negreiros2023database}. From the database, surface sediment samples analysis from six points located within and in the proximity of the study area were employed derive sedimentological parameters describing the superficial substrate for pre and post flush conditions  (see Fig. \ref{fig:MU}). These analyses provided valuable insights into the grain size distribution of the riverbed, including the representative particle diameters $d_{10}$, $d_{25}$, $d_{50}$, $d_{84}$, and $d_{90}$.
-
-
-% Additional available data in the project site. 
-In addition to the mentioned data, field measurements of six river parameters were obtained for both pre- and post-flushing conditions, including the concentration of suspended sediments, the fine sediment fraction, grain size characteristics, porosity, hydraulic conductivity, and interstitial oxygen content. 
-
-% Representative particle diameters of the riverbed. 
-\begin{table}[ht]
+\begin{table}[h]
 	\centering
-	\caption{Representative diameters for the riverbed}
-	\begin{tabular}{lccccccccc}
+	\caption{Grain size characteristics of the subsurface (hyporheic zone) and surface (riverbed) substrate layers (sources: \citeA{negreiros2024database, scolari2025hydromorphodynamic}).}
+	\begin{tabular}{lcccccccccc}
 		\hline
-		\textbf{Percentile} & $d_{10}$ & $d_{16}$ & $d_{25}$ & $d_{30}$ & $d_{50}$ & $d_{60}$ & $d_{75}$ & $d_{84}$ & $d_{90}$ \\
-		\textbf{[mm]}       & 0.48      & 2.54      & 5.70      & 7.57      & 18.24     & 25.35     & 39.20     & 50.12     & 57.39     \\
+		\textbf{Percentile} & $d_{10}$ & $d_{16}$ & $d_{25}$ & $d_{30}$ & $d_{50}$ & $d_{60}$ & $d_{75}$ & $d_{84}$ & $d_{90}$ & $d_m$\\
+		Subsurface (mm)       &    \hl{ADD}   &  \hl{ADD}     &   \hl{ADD}    &    \hl{ADD}   &  \hl{ADD}   &   \hl{ADD}  &  \hl{ADD}   &  \hl{ADD}   &  \hl{ADD} & \hl{ADD}  \\
+		Surface (mm)       & 0.48      & 2.54      & 5.70      & 7.57      & 18.24     & 25.35     & 39.20     & 50.12     & 57.39  & \hl{ADD}   \\
 		\hline
 	\end{tabular}
-	\label{tab:rep_diameters}
+	\label{tab:grain-sizes}
 \end{table}
 
+  \hl{If you need to shorten the tab:grain-sizes: d25 and d75 are not so relevant and these columns can be deleted.}
 
-\subsection{Bi-dimensional hydromorphodynamic of the Ering fish pass}
-\label{sec:Sec2.3}
+\subsection{Numerical model setup}
+\label{sec:numerical-model}
+
 %Descripction of Telemac2d and Gaia, bed transport equation
-A 2d hydromorphodynamic model of the Ering fish pass was created using Telemac2d and the sediment transport module Gaia. Telemac2d is a  highly versatile open-source tool that uses a collection of computer program codes that iteratively solve the depth-averaged shallow water equations \cite{saint-venant1871theorie} over an unstructured mesh through either finite element or finite volume methods \cite{galland1991telemac,hervouet2007hydrodynamics}. It provides the hydrodynamic basis for integration with Gaia module that computes sediment transport and morphological evolution \cite{tassi2023gaia}. Gaia is indirectly coupled with Telemac2d and is responsible for simulating sediment transport processes using a variety of available formulae for both bedload and suspended load. Morphological evolution is computed by solving the Exner equation at each computational time step \cite{audouin2020introducing}. It accounts for the spatial and temporal variability of sediment characteristics, including multiple sediment size classes and different transport modes \cite{exner1925uber,tassi2023gaia}. 
+A 2d hydro-morphodynamic model of the 215~m-long section was created in Telemac2d \cite{hervouet2020telemac2d} along with its sediment transport and topographic change module Gaia \cite{tassi2023gaia}. Telemac2d is a  versatile open-source software that iteratively solves the depth-averaged shallow water equations \cite{saint-venant1871theorie} over an unstructured mesh through either finite element or finite volume methods \cite{galland1991telemac,hervouet2007hydrodynamics}. It is indirectly coupled with the Gaia module that computes sediment transport and topographic change.  Topographic change is computed by solving the Exner equation at each computational timestep \cite{exner1925uber,audouin2020introducing}. It accounts for the spatial and temporal variability of sediment characteristics, including multiple sediment size classes stored in an active surface layer and subsurface layers \cite{hirano1971riverbed}. 
 
-%Used transport equations for bedload 
-The model employs the Meyer-Peter Müller equation for bedload transport with the Wong-Parker correction \cite{wong2006reanalysis} using five sediment classes representing the characteristic sediment sizes along the riverbed based on measured data (D10, D16,D50,D90,Boulders) setting boulders diameter as 0.5 m. Each class is assigned with its critical Shields parameter value for bedload transport. Similarly, the model considers two layers for riverbed composition, a 0.08 m-thick surface layer and a 0.6 m-thick subsurface layer \cite{scolari2025hydromorphodynamic}. The solid influx accounts for both bedload and suspended load concentrations, expressed in~kg/s and~kg/m\textsuperscript{3}, respectively.
+In this study, bedload was modeled in Gaia with the Meyer-Peter Müller formula \cite{meyer-peter1948formulas} and the Wong-Parker correction \cite{wong2006reanalysis} using five sediment classes representing the characteristic grain sizes shown in Table~\ref{tab:grain-sizes}. Each class was assigned a critical Shields parameter \cite{shields1936anwendung} value for incipient motion. The two substrate layers were 0.08~m (surface) and a 0.6~m (subsurface) thick \cite{scolari2025hydromorphodynamic}. The solid influx accounts for bedload estimated with the Meyer-Peter \& Müller formula at the inlet and suspended load concentrations, measure in g~L\textsuperscript{-1} during the artificial flood.
 
-% Mesh configuration and boundary conditions
-The model spatial discretization utilizes a computational mesh with triangular mesh elements with size averaging 0.55 m along the riverbed channel and 1 m for the floodplain mesh (see Fig.~\ref{fig:Mesh}). The detailed pre flush digital elevetion model (DEM), formerly in GeoTIFF format, possesses a resolution of 5 cm and is interpolated onto the computational mesh. The model comprises a computational domain with a total of 11,738 nodes and 22,997 elements and simulates unsteady flow condition, starting with a pre-flush base flow of 2~m$^3$/s, followed by a peak discharge of 9.7~m$^3$/s during 7 hour and returning to a post flush condition with the same initial base flow. The upstream boundary condition was defined as a time-dependent boundary conditions, allowing both liquid and solid influxes (see Supplementary Material). 
-The downstream boundary conditions is set as a stage-discharge relation with prescribed water elevation as a function of discharge. 
+A triangular computational mesh with elements edge lengths of 0.5~m in the active channel, and 1~m on the floodplain discretized the computational domain spatially. Figure~\ref{fig:mesh} shows the computational mesh with a total of 11,738 nodes and 22,997 elements and the assigned boundary conditions.
+
+\hl{COMMENTS ON 2\_EringFishpass\_mesh: (1) The downstream boundary should be denotes "prescribed Q, h" (no capital because in the manuscript water depth is h, not H). (2) Please add the roughness zones here. (3) Point with arrows on the to LW pieces. (4) This figure partially double-up information that is already visibile in Figure 1, so consider moving it to the SI.}
+
+\begin{figure}[!htbp]
+	\centering
+	\includegraphics[width=5.5in]{2_EringFishpass_mesh.png}
+	\caption{Mesh of the numerical model, with indication of boundaries, the two LW pieces, and roughness zones \hl{move to SI?}.}
+	\label{fig:mesh}
+\end{figure}
+
 
 % Roughness zones
-The simulation uses the Nikuradse friction law and the equivalent roughness length $K_{NKU}$ as the flow resistance parameter to describe the surface roughness height of the riverbed and banks \cite{nikuradse1933stroemungsgesetze,marriott2010hydraulic,webber2018fluid,hervouet2020telemac2d}. The domain has a total of eigth roughness zones, of which five correspond to morphological units (MUs) with their corresponding Nikuradse coefficient $K_{NKU}$ (see Fig.~\ref{fig:MU}). The additional three roughness zones shown in table \ref{tab:roughness_zones} correspond to backwater, wake and LW regions sorrounding the large wood logs. The delineation criteria of morphological units and the corresponding values of $K_{NKU}$ will be thoroughly detailed in Section~\ref{sec:Sec2.5}.
+14 roughness zones were created to delineate the MUs (Figure~\ref{fig:MU}) on the computational mesh. The simulation uses the Nikuradse equivalent roughness length $k_{NKU}$  \cite{nikuradse1933stroemungsgesetze} to describe the surface roughness height of the riverbed and bank. Five zones corresponded to MUs, and the remaining three zones described the backwater regions and wake as well as the LW pieces themselves (see Table~\ref{tab:roughness-zones}). The delineation criteria of MUs are described in the \hl{SI - PLEASE MOVE MU DELINEATION DETAILS TO THE SI}.
 
 
-% Roughness and Critical Shields values
-The values of the equivalent roughness length $K_{NKU}$ for each roughness zone and the critical Shields parameter for the first sediment class $\theta_{cr,16}$ are not fixed during the calibration process. Instead, they are sampled from uniform distributions with fixed bounds, as shown in Table~\ref{tab:model_characteristics}. However, a preliminary model run was made using recommended values for both parameters $K_{NKU} = 3 \times D_{50}$ and $\theta_{cr,10} = 0.048$ to support the delineation of morphological units (MUs).
+Each in-channel roughness zone, $k_{NKU}$ and the critical Shields parameter, which is related to the mean grain size of the surface layer (\hl{IMPORTANT -- see email}) , were considered calibration parameters. Thus, eight zonal $k_{NKU}$  and $\tau_{*,cr,m}$  were sampled from uniform distributions ($U$) with fixed bounds, as listed in Table~\ref{tab:roughness-zones}. An initial model run was performed using $k_{NKU}$~=~3$\times d_{50}$ and $\tau_{*,cr,m}$~=~0.047 to start the BAL process. 
 
+\hl{1 -- why did you start with 0.048 for the Shields parameter? The common sense is to start with 0.047, which is defined as the basis for everything. So I changed this in  the text above, but please also make sure to correctly implement 0.047 in your code -- starting with 0.048 cannot be defended in front of any reviewer.}
 
-%The solved partial differential equations that are being iteratively solved are the following: 
-%
-%\begin{align}
-%	&\frac{\partial h}{\partial t} + \vec{u} \cdot \nabla h + h \, \text{div} \, \vec{u} = 0, \tag{1} \\
-%	&\frac{\partial u}{\partial t} + \vec{u} \cdot \nabla u + g \frac{\partial h}{\partial x} = D_x + S_x - g \frac{\partial Z_f}{\partial x}, \tag{2} \\
-%	&\frac{\partial v}{\partial t} + \vec{u} \cdot \nabla v + g \frac{\partial h}{\partial y} = D_y + S_y - g \frac{\partial Z_f}{\partial y}. \tag{3}
-%\end{align}
-%
-%where $h$ represents the water depth, $u$ and $v$ denote the components of the velocity field, $g$ is the acceleration due to gravity, $D_x$ and $D_y$ are the diffusion terms, $S_x$ and $S_y$ correspond to the source terms (including bottom friction, Coriolis force, wind stress, etc.), and $Z_f$ indicates the bottom elevation.
+\hl{2 -- TABLE model parameters was mixing up a lot of information that had already been mentioned in the text. So I moved it to the SI.}
 
-%The diffusion terms are written as follows:
-
-%\begin{align}
-%	D_x &= \text{div}(v \, \nabla u) \tag{4} \\
-%	D_y &= \text{div}(v \, \nabla v) \tag{5}
-%\end{align} 
-
-
-
-
-% (I CAN USE THIS LATER IN THE DOCUMENT)According to \cite{meyer-peterFormulasBedLoadTransport1948} the Nikuradse roughness height  The roughness height is of the river from measured data $d_{90}$
-%% In fact, it is not possible to generalize the value of 3.26 for all alluvial rivers, for this reason the experiment employed the Nikuratse roughness as $F$ * $d_{50}$, in which $F$ constitue an uncertain factor that affects the mean roughness height of the riverbed. 
-
-
-\begin{figure}[!htbp]
+\begin{table}hH]
 	\centering
-	\includegraphics[width=5.5in]{images/2_EringFishpass_mesh.png}
-	\caption{Mesh properties of the Ering fish pass model.}
-	\label{fig:Mesh}
-\end{figure}
-
-\subsection{Previous modeling approaches and calibration attempts}
-\label{sec:Sec2.4}
-
-A previous bi-dimensional hydromorphodynamic model of the fish pass was developed by\citeA{scolari2025hydromorphodynamic}. The study covered the same area as in the present study and simulates the hydrodynamics and morphodynamics with TELEMAC and GAIA to detect the risk of clogging in the vicinities of two large wood logs by examining variations in the fine sediment fraction (FSF) on the surface and subsurface of the riverbed after an artifitial flush event of 9.7 ~m$^3$/s.
-The approach considered the riverbed heterogeneity along the channel and defined eleven roughness zones which included floodplains and riverbed. The study used a manually (deterministic) calibrated hydrodynamic model version, in which flow velocities and water depths were used as calibration targets. The Nikuradse roughness heights of eleven roughness zones along with the Shields parameter for each grain class were used as calibration parameters. The calibration procedure considered a single Nikuradse roughness height for the entire riverbed, including the wood logs regions. 
-
-
-\begin{table}[H] 
-	\centering
-	\caption{Model Characteristics.}
-	\begin{tabular}{>{\centering\arraybackslash}m{4cm} p{10cm}}
-		\hline
-		\textbf{Model Specifications} & \textbf{Description} \\ \hline
-		\multirow{2}{4cm}{Boundary Conditions} & \textbf{Upstream}: Time-dependent liquid and solid influx. \\ 
-		& \textbf{Downstream}: Stage-discharge relation between discharge and water depths. \\ \hline
-		\multirow{2}{4cm}{Mesh Size} & \textbf{Main channel}: 0.55 m. \\ 
-		& \textbf{Floodplains}: 1 m. \\ \hline
-		Roughness Coefficient & 9 roughness zones (5 MU-based roughness zones). \\ \hline
-		MU Subdivision & Glide, Riffles, Run, Pool, Slackwater. \\ \hline
-		GAIA Parameters & 
-		\parbox[t]{10cm}{
-			\textbf{Sediment classes:} \\
-			$D_{10},\ D_{16},\ D_{50},\ D_{90},\ D_{\text{boulders}}$ \\[0.3em]
-			\textbf{Shields parameter:} \\
-			$\theta_{cr,10} \sim U(0.048,\ 0.07),\ \theta_{cr,16},\ \theta_{cr,50},\ \theta_{cr,90},\ \theta_{cr,\text{boulders}}$
-		} \\ \hline
-		Nikuradse Roughness & 
-		\parbox[t]{10cm}{
-			$K_{\text{pool}} \sim U(0.01, 0.6)$\\
-			$K_{\text{slackwater}} \sim U(0.01, 0.6)$\\
-			$K_{\text{glide}} \sim U(0.002, 0.6)$\\
-			$K_{\text{riffle}} \sim U(0.002, 0.6)$\\
-			$K_{\text{run}} \sim U(0.05, 0.6)$\\
-			$K_{\text{backwater}} \sim U(0.002, 0.6)$\\
-			$K_{\text{wake}} \sim U(0.05, 0.6)$\\
-			$K_{\text{LW}} \sim U(0.002, 1)$
-		} \\ \hline
-	\end{tabular}
-	\label{tab:model_characteristics}
-\end{table}
- \vspace{-20pt}      
-\FloatBarrier
-
-
-
-\subsection{Model calibration parameters}
-\label{sec:Sec2.5}
-
-\subsubsection{Morphological units as calibration parameters}
-\label{subsec:Sec2.5.1}
-% MU and spatial roughness variability
-Morphological units (MUs) define the physical structure and shape of river channels, extending generally between 0.5 to 5 channel widths \cite{woodworth2022are}. The different patches of bed surface within these units lead to spatially varied roughness, which may impact physical and biological interferences at the reach scale \cite{buffington1999effects,dietrich2005sediment}. MUs, particulaly pool-riffle sequences, evolve over time in response to variations in flow velocity and bottom shear stress \cite{salmela2020morphological, pasternack2017flooddriven,cao2003flow}. These changes are particularly evident during flood events, when sediment particles are transferred from regions of high to low bottom shear stress (i.e., due to velocity reversal), thereby modifying the bed surface roughness of MUs at the local scale. In this regard, it becomes appealing to identify morphological units through the inspection of river hydrodynamic patterns. 
-
-% Method for delineation of morphological units. 
-Authors such as \citeA{wyrick2012landforms} and \citeA{wyrick2014revealing} introduced a new approach for mapping in-channel morphological units at the base flow, based on their influence into two-dimensional hydrodynamic patterns. \citeA{wyrick2014geospatial} used this approach to delineate and map MU landforms in the cobble-gravel bed at the Lower Yuba River by using a) spatial grids of water depth and velocity values, extracted from a 2d hydrodynamic model, and b) an expert-specified MU classification scheme using depth and velocity threshold values. This approach was applied in the current study to combine velocity and water depth raster files obtained from pre- and post-flush conditions at base flow from a pre-calibration 2d hydromorphodynamic simulation. For each condition, five MUs i.e., pools, slackwater, glides, riffles, and runs were delineated according to defined velocity–water depth thresholds (see Fig.~\ref{fig:MU_thresholds}). The raster files were then compared to identify constant or stable MUs based on hydrodynamic patterns on both pre- and post-flush conditions. This analysis was complemented with expert judgment and the use of orthoimages to refine the delineation. Additionally, backwater and wake  zones were considered upstream and downstream the large wood structures LW exhibiting lengths of 2 * (effective length of LW) \cite{scolari2025hydromorphodynamic}. Roughness zones for flood plains, fine sediments, vegetation, boulders, tree stems, banks and structural LW were also added.    
-
-% Final delineation and MU as calibration parameters 
-The final classification with 14 roughness zones was interpolated onto the computational mesh to define roughness zones for Telemac2d simulation. These zones were assigned distinct Nikuradse equivalent roughness values , of which only eigth served as calibration parameters. Their plausible values are represented as uniform distributions (see Table .~\ref{tab:roughness_zones}), reflecting our prior knowledge of each calibration zone for Bayesian calibration. In a riverbed particle mixture, the coarser particles condition the roughness properties of the channel, so the equivalent roughness length $K_{NKU}$ is often referred to in terms of the characteristic riverbed particle diameter $d_{90}$ or by the diameters $d_{50}$ and $d_{84}$ affected by a factor F as $K_{NKU} = F \times d_{50,84}$ \cite{tassi2023gaia}. The particle length is also associated with the Manning-Strickler roughness coefficient $n$ through several empirical formulae as described in \citeA{meyer-peter1948formulas, ferguson2007flow, rickenmann2011evaluation}. Thus, to assign each morphological unit with a meaningful Nikuradse roughness coefficient for simulation, we first set minimum and maximum limits of Manning-Strickler roughness coefficients based on experience and technical recommendations for natural gravel-cobble rivers \cite{chow1959openchannel}. Afterwards, a Nikuradse equivalent roughness length is calculated according to the following expression suggested by \cite{rickenmann2011evaluation} using the characteristic particle size $d_{84}$:
-\begin{gather}
-	\frac{1}{n} = \frac{20.4}{d_{84}^{1/6}} \label{eq:mann-NIKU eq-orig} \\
-	\frac{1}{n} = \frac{20.4}{K_{NKU}^{1/6}} \label{eq:mann-NIKU eq-d84}
-\end{gather}
-We defined $d_{84}$ as a function of the representative mean particle diameter for the riverbed, $d_{50}$, scaled by a factor $F$: 
-\[
-K_{NKU} = d_{84} = F \cdot d_{50}.
-\]
-
-
-\begin{table}[H]
-	\centering
-	\caption{Roughness zones as calibration parameters}
+	\caption{Roughness zones and uniform distribution $U$ bounds considered in the calibration process with BAL. \hl{Note: I re.arranged this table in alphabetic order of non-calib and calibration pars.}}
 	\begin{tabular}{p{5.5cm} p{3cm} p{5.5cm}}
 		\hline
-		\multicolumn{1}{c}{\textbf{Calibration Parameter}} & 
+		\multicolumn{1}{c}{\textbf{Zone name}} & 
 		\multicolumn{1}{c}{\textbf{Value (m)}} & 
 		\multicolumn{1}{c}{\textbf{Calibration Range (m)}} \\ \hline
-		Flood plains              & 0.075   & -- \\
-		Banks                     & 0.060   & -- \\
-		\textbf{* Pools}           & --   & $K_{\text{pools}} \sim \mathcal{U}(0.010, 0.79)$ \\
-		\textbf{* Slackwater}      & --   & $K_{\text{slackwater}} \sim \mathcal{U}(0.010, 0.79)$ \\
-		\textbf{* Glide}          & --   & $K_{\text{glides}} \sim \mathcal{U}(0.0010, 0.79)$ \\
-		\textbf{* Riffle}          & --   & $K_{\text{riffles}} \sim \mathcal{U}(0.0010, 0.79)$ \\
-		\textbf{* Run}             & --   & $K_{\text{runs}} \sim \mathcal{U}(0.060, 0.79)$ \\
-		Fine sediments            & 0.035   & -- \\
-		\textbf{* Backwater}       & --   & $K_{\text{backwater}} \sim \mathcal{U}(0.0010, 0.79)$ \\
-		\textbf{* Wake}            & --   & $K_{\text{wake}} \sim \mathcal{U}(0.060, 0.79)$ \\
-		{Boulders}        & --   & $K_{\text{boulders}} \sim \mathcal{U}(0.5, 2)$ \\
-		Vegetation                & 0.070   & -- \\
-		Tree stems                & {0.22}   & $K_{\text{TS}} \sim \mathcal{U}(0.002,0.79)$ \\
-		\textbf{* Large woods (LW)}  & -- & $K_{\text{LW}} \sim \mathcal{U}(0.0010, 0.79)$ \\ \hline
+		Banks                    & 0.060   & None \\
+		Boulder        & 1.0 &  None \hl{CHECK!} \\
+		Fine sediment            & 0.035   & None\\
+		Floodplain              & 0.075   & None \\
+		Tree stems                & 0.22  & None \\
+		Vegetation                & 0.070   & None \\ \hline
+		\textbf{* Glide}          &$k_{\text{glides}}$  & $\mathcal{U}(0.0010, 0.79)$ \\
+		\textbf{* LW}  & $k_{\text{LW}}$ &  $\mathcal{U}(0.0010, 0.79)$ \\ \hline
+		\textbf{* LW Backwater}       & $k_{\text{backwater}}$  &  $\mathcal{U}(0.0010, 0.79)$ \\
+		\textbf{* LW Wake}            & $k_{\text{wake}}$  & $\mathcal{U}(0.060, 0.79)$ \\
+		\textbf{* Pool}           & $k_{\text{pools}} $   & $\mathcal{U}(0.010, 0.79)$ \\
+		\textbf{* Riffle}          & $k_{\text{riffles}}$ &  $\mathcal{U}(0.0010, 0.79)$ \\
+		\textbf{* Run}             & $k_{\text{runs}}$  & $\mathcal{U}(0.060, 0.79)$ \\
+		\textbf{* Slackwater}      &  $k_{\text{slackwater}}$   & $\mathcal{U}(0.010, 0.79)$ \\
 	\end{tabular}
-	\label{tab:roughness_zones}
-	\\
-	\textbf{Note:} Values marked with an asterisk (*) indicate zones used as calibration parameters. Calibration ranges represent values sampled from a uniform distribution for each Nikuradse roughness parameter $K_{\text{MU}}$.
+	\label{tab:roughness-zones}
 \end{table}
 
-% Critical Shields as calib. parameter
-Finally, the Critical Shields parameter for the first sediment class $\theta_{cr,10}$ was also used as calibration parameter.  The critical Shields parameters of the remaining sediment classes did not exhibit sensitive behavior during an initial sensitivity analysis and therefore not considered for model calibration. 
+
+\subsection{Calibration with Bayesian active learning}
+\label{sec:bal}
+
+\subsubsection{Bayesian active learning (BAL)}
+\label{sec:bal-inference}
+
+Calibration reduces the discrepancy between model outputs and observed data by modifying sensitive input parameters \cite{oberkampf2004verification}. Bayesian calibration supports this process by accounting for sources of uncertainty in the calibration parameter space $\omega = \left{\omega_1, \omega_2, \ldots, \omega_N\right}$. Calibration in the BAL context applies Bayes' theorem to iteratively update a probabilistic surrogate (here, an SOGPE or MO-GPE) that represents the discrepancy between model output and observations. After each computationally costly numerical simulation, the posterior distribution is revised, and an acquisition function selects the next parameter set expected to yield the greatest information gain, balancing exploration of uncertain regions with exploitation of current optima \cite{rasmussen2006gaussian}. 
+
+The prior probability functions are updated through a measurement data vector  $\mathbf{D}$ using a likelihood function~$P(\mathbf{D} | \mathbf{\Omega} , \mathcal{M})$, where $P(\cdot)$ denotes a probability density function (pdf) and $\mathcal{M}$~denotes the deterministic (Telemac2d-Gaia) model. The likelihood function (of parameter values $\mathbf{\Omega}$) expresses how statistically likely it is to observe the data $\mathbf{D}$ if the combination of $\mathbf{\Omega},\mathcal{M}$ was true.  In the context of Bayesian updating using a model $\mathcal{M}$, Bayes' theorem reads as follows \cite{oladyshkin2020bayesian3}: 
+
+\begin{equation} \label{eq:bayes}
+	P\left( \mathbf{\Omega} \vert \mathbf{D},\mathcal{M} \right) = \frac{P\left( \mathbf{D} \vert \mathbf{\Omega},\mathcal{M} \right) \cdot P\left( \mathbf{\Omega}\vert \mathcal{M}\right) }{P\left( \mathbf{D}\vert\mathcal{M}\right) }
+\end{equation}
+
+where, $P(\mathbf{\Omega} \vert \mathcal{M})$ denotes the prior probability-density function of the model parameters, encapsulating expert knowledge derived from previous simulations and measurements. Combining this prior information with the calibration data transforms the prior $P(\mathbf{\Omega} \vert \mathcal{M})$ into the posterior distribution $P(\mathbf{\Omega} \vert \mathbf{D}, \mathcal{M})$, which is necessarily at least as informative as the prior \cite{box1973bayesian,oladyshkin2019connection}. The denominator $P(\mathbf{D} \vert \mathcal{M})$, also known as Bayesian model evidence (BME), acts as a normalizing constant in Bayes' theorem, yet it is pivotal for comparing competing models and diagnosing potential model error.
+
+The efficient application of BAL requires thousands of model~$\mathcal{M}$ runs to update the prior distribution, for instance, with Markov-Chain Monte Carlo methods. However, the hydro-morphodynamic numerical model can practically not run thousands of times, as this would result in years-long computing time \cite{oladyshkin2020bayesian3}. Therefore, metamodels are commonly applied for BAL-based calibration of hydro-morphodynamic models \cite{beckers2020bayesian, mouris2023stability, schwindt2023bayesian}.  A metamodel runs up to 10\textsuperscript{6} times faster than a complex numerical model and emulates the response surface of the complex model with minimum statistical error \cite{beckers2020bayesian}.
+
+With a fast-performing metamodel, Bayesian inference was conducted using 22,000 Monte Carlo (MC) samples to infer updated probability distributions of nine uncertain calibration model parameters (see Table ~\ref{tab:roughness-zones}) through rejection sampling \cite{smith1992bayesian}. In this approach, imperfections in the two modeling approaches (numerical and metamodels) were quantifies using the measurements by considering a lump sum of uncertainties, combining measurement error, complex model error, and the additional error introduced by the metamodel approximation following a Gaussian distribution. The likelihood function of the observed data given a Monte Carlo realization vector $\omega_{\text{MC}}$ is:
+
+\begin{equation} \label{eq:mc}
+	P(\mathbf{D} \mid \omega_{\text{MC}}) = \mathcal{N}(\mathbf{D} \mid \mathcal{M}(\omega_{\text{MC}}), \bm{R})
+\end{equation}
+
+where $\mathcal{M}(\omega_{\text{MC}})$ is a vector containing the metamodel predictions at $P$ measurement locations and $\bm{R} \in \mathbb{R}^{P \times P}$ is the total covariance matrix over all measurement locations as
+
+\begin{equation} \label{eq:covar}
+	\mathbf{R} = \sum_{p=1}^{P} \left( \mathbf{\Sigma}_{\text{complex}} + \mathbf{\Sigma}_{\text{surrogate}} + \mathbf{\Sigma}_{\text{measurement},p} \right)
+\end{equation}
+
+Note that if the likelihood function incorporates more than one variable, it becomes a multivariate likelihood. In this study, when using the MO-GPE metamodel the likelihood employs the two metamodel outputs from the multi-output metamodel (i.e., water depth and velocity) to compute a multivariate likelihood , doubling the size of the necessary vectors and matrices for likelihood computation. The expanded likelihood function becomes: 
+
+\begin{equation} \label{eq:}
+	P(\mathbf{D} \mid \omega_{\text{MC}}) = \frac{1}{\sqrt{(2\pi)^P |\bm{R}|}} \exp\left( -\frac{1}{2} \left( \mathbf{D} - \mathcal{M}(\omega_{\text{MC}}) \right)^\top \bm{R}^{-1} \left( \mathbf{D} - \mathcal{M}(\omega_{\text{MC}}) \right) \right)
+\end{equation}
+
+where $\mathbf{D} - \mathcal{M}(\omega_{\text{MC}})$ is the residual vector, representing the difference between the measured data and the model output evaluated at each Monte Carlo sample $\omega_{\text{MC}}$. A resulting likelihood vector will contain the likelihood values of all the MC parameter combinations, from which some will be filtered out through rejection sampling \cite{smith1992bayesian} to obtain a posterior (post-calibration) distribution of the calibration parameters $\omega$. Furthermore, a maximum a posteriori set of parameters can be extracted from the post-calibration distributions and conceived as the parameter set that best approaches the measured data.
+
+Gaussian process emulators (GPEs) \cite{rasmussen2006gaussian} have proven efficiency for this purpose, although GPEs are currently only used for the sequential calibration of one parameter using different datasets \cite<e.g., topographic change>{mouris2023stability} or sequential calibration of multiple parameters using multiple measurement dataset \cite<e.g., flow velocity and water temperature>{schwindt2023bayesian}. These approaches are limited regarding the maximum possible number of calibration parameters, because the individual probabilities fall below computer precision for more than four parameters, leading to the so called \textit{curse of dimensionality} \cite{bellman1957dynamic,mouris2023interdisciplinary}. This study takes up these single-output GPEs (SO-GPEs),  differentiating between the sequential optimization of optima for the eight roughness zones defined in Table~\ref{tab:roughness-zones} and critical Shields stress, thus, totaling nine calibration parameters. This is achieved through multi-output GPE (MO-GPE), as defined in the following sections.
 
 
 
+\subsubsection{Single- and multi-output GPEs}
+\label{sec:so-gpe}
+
+A metamodel using Gaussian process Regression $\mathcal{M}(\omega)$ is employed to approximate a complex hydro-morphodynamic model $\mathcal{M}_c (\omega)$ and perform Bayesian model calibration and uncertainty quantification of the selected calibration parameters $\omega$. The approach centers primarily in the estimation of two model outputs that share underlying dependencies such as velocity and water depth. At each  measurement location, both variables are computed by the complex model and extracted to create 25 input-output sets for the initial metamodel training. Typically, one can predict each output of interest separately by training SO-GPE metamodels denoted as:
+
+\begin{equation} \label{eq:sogpe}
+	\mathcal{M}_c^{(t)}(\omega) \approx \mathcal{M}^{(t)}(\omega) \approx \mathcal{GP}(\mu^{(t)}(\omega), k(\omega, \omega'))
+\end{equation}
+
+where $\mathcal{M}^{(t)}(\omega)$ is a single-output Gaussian process metamodel trained specifically for output type $t$ and measurement location $x,y$  (i.e., velocity or water depth) with input parameters $\omega$.  $\mu^{(t,x,y)}(\omega)$ is the mean function defining the expected value of the metamodel, and $k(\omega, \omega')$ is the covariance function or kernel, which defines the dependencies between function values at different input locations $\omega$ and $\omega'$. 
+
+In general, an advantage of Gaussian processes is their ability to provide not only predictions of output quantities but also their associated uncertainties \cite{lindholm2022machine}, making them suitable for various engineering applications such as Bayesian calibration and uncertainty quantification of expensive and multi-parametric models. For instance, \citeA{schwindt2023bayesian} and \citeA{mouris2023stability} have implemented Gaussian process Emulators to simplify complex reservoir models and perform stochastic calibration. However, in many real-world cases, some variables are correlated and may contain valuable information that can be shared among them to improve the learning process of any metamodel by exploiting their correlations \cite{breiman1997predicting}. The application of multitask learning in hydro-morphodynamic modeling has not yet been explored and could undoubtedly be leveraged for calibration purposes. The fundamental concept of multitask learning is the sharing of knowledge acquired from several tasks while they are simultaneously trained \cite{caruana1997multitask}. Modeling outputs in isolation may lead to the loss of this information, potentially increasing the amount of training data required for accurate metamodeling or diminishing accuracy in the surrogate for a fixed amount of training sets \cite{liu2018remarks}.
+
+To predict the two correlated variables simultaneously (i.e., tasks) and exploit their existing correlations we use a MO-GPE approach with \textbf{GPyTorch} \cite{gardner2018gpytorch}. Our case involves an isotopic and symetric MO-GPE in which the model learns all outputs from the same training sets and all outputs (i.e., water depth and velocity) have the same training importance \cite{liu2018remarks}. A key difference with a SO-GPE is the inclusion of a task covariance matrix $k_{lk}^{f}$, which is defined through a kernel function $k^{f}{(t_l, t_k)}$ over task-descriptor features $t$ to model dependencies across tasks \cite{bonilla2007multitask}. This kernel is then combined with a standard kernel over the input space $k(\omega, \omega')$ to define a joint covariance function that captures both input-dependent and inter-task correlations. In the context of our study, a task descriptor $t$ refers to the physical nature of each output (e.g., meaning two tasks which corresponds to scalar velocity or water depth at a given location), allowing the model to recognize and exploit relationships between outputs based on their physical meaning. % The joint kernel function is represented by: 
+
+%\begin{equation} \label{eq:kernel}
+% k_{\text{MO}}\big((\omega, l), (\omega', k)\big) =  k_{lk}^{f} \cdot k(\omega, \omega')
+%\end{equation}
+%
+%where, $k_{\text{MO}}\big((\omega, l), (\omega', k)\big)$ is the multi-output kernel, $k(\omega, \omega')$ is a standard covariance function over the input parameters $\omega$, and  $k_{lk}^{f} = k^{f}{(t_l, t_k)}$ is a task kernel.
+
+To represent the approximation of the complex model for two tasks $l$ and $k$, the MO-GPE can be written as:
+
+\begin{equation} \label{eq:mo-gpe}
+	\mathcal{M}_c^{(l,k,x,y)}(\omega) \approx \mathcal{M}^{(l,k,x,y)}(\omega) \approx \mathcal{GP}\left(\mu^{(l,k,x,y)}(\omega),\ k_{\text{MO}}\left((\omega, l), (\omega', k)\right)\right)
+\end{equation}
+where $\mathcal{M}^{(l,k)}(\omega)$ is the MO-GPE for output types $l$ and $k$ given the input parameter vector $\omega$.
 
 
-
-%\begin{table}[H]
-%	\centering
-%	\caption{Prior ranges of Nikuradse roughness heights for different morphological units used as calibration parameters.}
-%	\begin{tabular}{p{1cm} p{2cm} p{8cm}}
-%		\hline
-%		\multicolumn{1}{c}{\textbf{MU Subdivision}} & 
-%		\multicolumn{1}{c}{\textbf{Nikuradse Roughness}} & 
-%		\multicolumn{1}{c}{\textbf{Prior hypotheses}} \\ \hline
-%		Glide  & $K_{\text{glide}} \sim U(0.002, 0.1)$ & 
-%		\begin{itemize}
-%			\item Glides and riffles may experience spatially distributed responses to fining and coarsening during sediment transport \cite{chartrand2015poolriffle}.
-%			\item Minimum and maximum thresholds based on meaningful particles that lead to meaningful Manning-Strickler coefficients for gravel-cobble rivers. 
-%		\end{itemize} \\ \hline
-%		Riffle & $K_{\text{riffle}} \sim U(0.002, 0.1)$ &  
-%		\begin{itemize}
-%			\item Riffle beds may refine during and after flush events due to velocity reversal \cite{bunte2001samplinga,cao2004computational}.
-%			\item Minimum and maximum thresholds based on meaningful particles that lead to meaningful Manning-Strickler coefficients for gravel-cobble rivers. 
-%		\end{itemize} \\ \hline
-%		Run & $K_{\text{run}} \sim U(0.05, 0.79)$ &  
-%		\begin{itemize}
-%			\item Runs are characterized by coarser bed material due to their association with high shear stress and increased sediment transport, which promotes the retention of coarse grains \cite{garciaComplexHydromorphologyMeanders2012}.
-%		\end{itemize} \\ \hline
-%		Pool & $K_{\text{pool}} \sim U(0.01, 0.1)$ &  
-%		\begin{itemize}
-%			\item Numerical modeling has shown that true velocity reversal is contingent upon pools being rougher (i.e., coarser) \cite{bunteSamplingFrameImproving2001}.
-%			\item Fine sediments are scoured from pools, leaving behind a coarse lag deposit \cite{dietrichBedLoadTransport1984, bunteSamplingSurfaceSubsurface2001a, zhangExperimentMorphologicalHydraulic2020}.
-%		\end{itemize} \\ \hline
-%		Slackwater & $K_{\text{slackwater}} \sim U(0.05, 0.79)$ &  
-%		\begin{itemize}
-%			\item During peak flow events, velocities rise, generating stronger flows. Initially low shear stress regions may increase, contributing to higher roughness values \cite{bunteSamplingSurfaceSubsurface2001a}.
-%			\item Increased flows mobilize sediment and transport it downstream, leading to substrate coarsening \cite{garciaComplexHydromorphologyMeanders2012, schuurmanResponseBraidingChannel2018}.
-%		\end{itemize} \\ \hline
-%	\end{tabular}
-%	\label{tab:roughness_heights}
-%\end{table}
-
-\begin{figure}[!htbp]
-	\centering
-	\includegraphics[width=5.5in]{images/7_MU_classification.png}
-	\caption{Velocity and water depth thresholds.}
-	\label{fig:MU_thresholds}
-\end{figure}
-
-\begin{figure}[!htbp]
-	\centering
-	\includegraphics[width=5.5in]{images/3_MU+measurement.png}
-	\caption{Morphological units classification and calibration-validation data sets.}
-	\label{fig:MU}
-\end{figure}
-
-\subsection{Bayesian calibration using Gaussian process Regression for single and multiple calibration targets}\label{sec:sec2.6}
-
-\subsubsection{Bayesian Inference using metamodels}
-\label{subsec:sec2.6.1}
-Calibration reduces the discrepancy between model outputs and observed data by modifying sensitive input parameters. Bayesian principles support this process by accounting for sources of uncertainty in the calibration parameters $\omega = \{\omega_1, \omega_2, \ldots, \omega_N\}$ using  prior probability functions and measured data  $D_P$ through a likelihood function. This results in an updated probabilistic knowledge of the uncertain parameters called posterior distribution function \cite{smith1992bayesian,lim2017comprehensive}. Bayes` Theorem is represented as: 
-
-\[
-P(\omega | D_P) = \frac{P(D_P | \omega) \cdot P(\omega)}{P(D_P)}
-\]
-
-where $P(\omega | D_P)$ is the posterior distribution function of the uncertain model parameters given measured data $D_P$, $P(D_P | \omega)$  is the likelihood function,  $P(\omega)$ is the prior probability function, which  shows the prior knowledge of the uncertain parameters and finally $P(D_P)$ is the so called marginal likelihood which serves as a normalization constant.  
-
-Applying Bayesian principles using Monte Carlo or Markov-Chain Monte Carlo in real computationally expensive models is time-consuming or simply unfeasible \cite{smith1992bayesian,oladyshkin2020bayesian3}.
-Thus, the development of machine learning algorithms that approximate complex models while maintaining their accuracy has been the focus of recent studies in many engineering fields. For instance, in hydraulic modeling, the employment of surrogate models $\mathcal{M}(\omega)$ also called metamodels have been getting attention to reduce computational cost in multiparametric and highly complex simulations and perform stochastic analysis in light of measured data.
-
-The current study approximates the complex hydromorphodynamic model $M_c$ using Gaussian process Emulators (GPE) also called GP metamodels $\mathcal{M}(\omega)$. A metamodel approximates the complex model response $M_c$ (e.g. hydromorphodynamic outputs) using data-driven function approximation approaches \cite{razavi2012review} employing only a few initial model realizations or training points. For this purpose, we run 25 initial complex model runs using Sobol sampling method as it provides uniform and efficient coverage of the parameter space $\Omega$ \cite{garud2017design}.
-
-With a fast-performing metamodel, we conduct Bayesian inference using Monte Carlo sampling (MC = 22000) to infer updated probability distributions of $N = 9$ sensitive and uncertain model parameters (see Table .~\ref{tab:roughness_zones}) through rejection sampling \cite{beckers2020bayesian}. To quantify the compatibility between model outputs and measured data for each MC sample, the likelihood function plays a fundamental role, as it expresses how well the model explains the observed data. In this approach, we account for imperfections in both the modeling approaches (i.e., complex and surrogate models) and the measurements by considering a lump sum of uncertainties, combining measurement error, complex model error, and the additional error introduced by the surrogate model approximation following a Gaussian distribution. The likelihood function of the observed data given a Monte Carlo realization $\omega_{\text{MC}}$ is:
-
-\[
-P(\bm{D} \mid \omega_{\text{MC}}) = \mathcal{N}(\bm{D} \mid \mathcal{M}(\omega_{\text{MC}}), \bm{R})
-\]
-
-where $\bm{D}$ is the vector of observed data at $P$ measurement locations, $\omega_{\text{MC}}$ is one Monte Carlo realization of the parameter vector, $\mathcal{M}(\omega_{\text{MC}})$ is a vector containing the surrogate model predictions at $P$ measurement locations and $\bm{R} \in \mathbb{R}^{P \times P}$ is the total covariance matrix over all measurement locations as 
-\[
-\mathbf{R} = \sum_{p=1}^{P} \left( \mathbf{\Sigma}_{\text{complex}} + \mathbf{\Sigma}_{\text{surrogate}} + \mathbf{\Sigma}_{\text{measurement},p} \right)
-\]
-
-Note that if the likelihood function incorporates more than one variable, it becomes a multivariate likelihood. In this study, when using the MOGP metamodel the likelihood employs the two surrogate model outputs from the multi-output metamodel (i.e., water depth and velocity) to compute a multivariate likelihood , doubling the size of the necessary vectors and matrices for likelihood computation. The expanded likelihood function becomes: 
-
-\[
-P(\bm{D} \mid \omega_{\text{MC}}) = \frac{1}{\sqrt{(2\pi)^P |\bm{R}|}} \exp\left( -\frac{1}{2} \left( \bm{D} - \mathcal{M}(\omega_{\text{MC}}) \right)^\top \bm{R}^{-1} \left( \bm{D} - \mathcal{M}(\omega_{\text{MC}}) \right) \right)
-\]
-
-where $\bm{D} - \mathcal{M}(\omega_{\text{MC}})$ is the residual vector, representing the difference between the measured data and the model output evaluated at each Monte Carlo sample $\omega_{\text{MC}}$. A resulting likelihood vector will contain the likelihood values of all the MC parameter combinations, from which some will be filtered out through rejection sampling \cite{smith1992bayesian} to obtain a posterior (post-calibration) distribution of the calibration parameters $\omega$. Furthermore, a maximum a posteriori set of parameters can be extracted from the post-calibration distributions and conceived as the parameter set that best approaches the measured data.
-
-
-\subsubsection{Single output and Multi output Gaussian process Emulators}
-\label{subsec:sec2.6.2}
-
-A metamodel using Gaussian process Regression $\mathcal{M}(\omega)$ is employed to approximate a complex hydromorphodynamic model $M_c (\omega)$ and perform Bayesian model calibration and uncertainty quantification of the selected calibration parameters $\omega$. The approach centers primarily in the estimation of two model outputs that share underlying dependencies such as velocity and water depth. At each  measurement location, both variables are computed by the complex model and extracted to create 25 input-output sets for the initial metamodel training. Typically, one can predict each output of interest separately by training single output Gaussian process (SOGP) metamodels denoted as:
-
-\[
-M_c^{(t)}(\omega) \approx \mathcal{M}^{(t)}(\omega) \approx \mathcal{GP}(\mu^{(t)}(\omega), k(\omega, \omega'))
-\]
-
-where $\mathcal{M}^{(t)}(\omega)$ is a single-output Gaussian process metamodel trained specifically for output type $t$ and measurement location $x,y$  (i.e., velocity or water depth) with input parameters $\omega$.  $\mu^{(t,x,y)}(\omega)$ is the mean function defining the expected value of the surrogate model, and $k(\omega, \omega')$ is the covariance function or kernel, which defines the dependencies between function values at different input locations $\omega$ and $\omega'$. 
-
-In general, an advantage of Gaussian processes is their ability to provide not only predictions of output quantities but also their associated uncertainties \cite{lindholm2022machine}, making them suitable for various engineering applications such as Bayesian calibration and uncertainty quantification of expensive and multi-parametric models. For instance, \citeA{schwindt2023bayesian} and \citeA{mouris2023stability} have implemented Gaussian process Emulators to simplify complex reservoir models and perform stochastic calibration. However, in many real-world cases, some variables are correlated and may contain valuable information that can be shared among them to improve the learning process of any metamodel by exploiting their correlations \cite{breiman1997predicting}. The application of multitask learning in hydro-morphodynamic modeling has not yet been explored and could undoubtedly be leveraged for calibration purposes. The fundamental concept of multitask learning is the sharing of knowledge acquired from several tasks while they are simultaneously trained \cite{caruana1997multitask}. Modeling outputs in isolation may lead to the loss of this information, potentially increasing the amount of training data required for accurate surrogate modeling or diminishing accuracy in the surrogate for a fixed amount of training sets \cite{liu2018remarks}.
-
-To predict the two correlated variables simultaneouly (i.e., tasks) and exploit their existing correlations we use a multi-output (or Multitask) Gaussian process (MOGP) approach with \textbf{GPyTorch} \cite{gardner2018gpytorch}. Our case involves an isotopic and symetric multi-output Gaussian process (MOGP) in which the model learns all outputs from the same training sets and all outputs (i.e., water depth and velocity) have the same training importance \cite{liu2018remarks}. As described in \citeA{bonilla2007multitask}, a key difference with a SOGP is the inclusion of a task covariance matrix $K_{lk}^{f}$, which is defined through a kernel function $k^{f}{(t_l, t_k)}$ over task-descriptor features $t$ to model dependencies across tasks. This kernel is then combined with a standard kernel over the input space $k(\omega, \omega')$ to define a joint covariance function that captures both input-dependent and inter-task correlations. In the context of our study, a task descriptor $t$ refers to the physical nature of each output (e.g., meaning two tasks which corresponds to scalar velocity or water depth at a given location), allowing the model to recognize and exploit relationships between outputs based on their physical meaning. The joint kernel function is represented by: 
-
-\[
- k_{\text{MO}}\big((\omega, l), (\omega', k)\big) =  K_{lk}^{f} \cdot k(\omega, \omega')
-\]
-
-where, $k_{\text{MO}}\big((\omega, l), (\omega', k)\big)$ is the multi-output kernel, $k(\omega, \omega')$ is a standard covariance function over the input parameters $\omega$, and  $K_{lk}^{f} = k^{f}{(t_l, t_k)}$ is a task kernel.
-
-To represent the approximation of the complex model for two tasks $l$ and $k$, the multi-output Gaussian process (MOGP) can be written as:
-
-\[
-M_c^{(l,k,x,y)}(\omega) \approx \mathcal{M}^{(l,k,x,y)}(\omega) \approx \mathcal{GP}\left(\mu^{(l,k,x,y)}(\omega),\ k_{\text{MO}}\left((\omega, l), (\omega', k)\right)\right)
-\]
-where $\mathcal{M}^{(l,k)}(\omega)$ is the multi-output surrogate model (MOGP) for output types $l$ and $k$ given the input parameter vector $\omega$.
-
-
-For the MOGP case, the task kernel $k^{f}{(t_l, t_k)}$ is internally computed by the Gaussian process framework, meaning the user only provides the input parameter covariance function $k(\omega, \omega')$, a rank for inter-tasks correlations and the number of tasks. For the SOGP, only an input parameter covariance function is provided. In both cases, a Matérn covariance function is assigned. A spetial highlight is done for SOGP because besides the calibration process using MOGP, we provide a comparison of uncertainty evolution over training data size for single and multi-output Gaussian process. It is worth noting that, to ensure a fair comparison, both surrogate approaches are evaluated under identical conditions, including the same input kernel functions, number of iterations and learning rates.
+For the MO-GPE case, the task kernel $k^{f}{(t_l, t_k)}$ is internally computed by the Gaussian process framework, meaning the user only provides the input parameter covariance function $k(\omega, \omega')$, a rank for inter-tasks correlations and the number of tasks. For the SO-GPE, only an input parameter covariance function is provided. In both cases, a Matérn covariance function is assigned \cite{rasmussen2006gaussian}. \hl{UNCLEAR WHAT THIS MEANS: A spetial highlight is done for SO-GPE because besides the calibration process using MO-GPE, we provide a comparison of uncertainty evolution over training data size for single and multi-output Gaussian process. It is worth noting that, to ensure a fair comparison, both surrogate approaches are evaluated under identical conditions, including the same input kernel functions, number of iterations and learning rates.}
 
 
 \subsubsection{Iterative Bayesian Updating of the GP Surrogate Models}
-\label{subsec:sec2.6.3}
-An optimal selection of training points has a significant impact on the accuracy of GPEs \cite{sinsbeck2017sequential}. To address this, active learning strategies for Gaussian process (GP) models optimize the selection of the most informative data points for training, thereby improving predictive accuracy with fewer training samples. Due to the complexity of acquiring informative training points in computationally demanding models, \citeA{oladyshkin2019connection} suggests a useful strategy in which relevant regions in the parameter space $\Omega$ for surrogate training are adaptively identified by connecting Bayesian Inference with information theory. The current work uses a Bayesian Active Learning approach (BAL) as described in \citeA{oladyshkin2020bayesian3} to iteratively add new training points to the GP model. In each BAL iteration, the surrogate model is re-trained with a newly selected, more informative training point. This point is chosen from an exploration set of \texttt{mc\_exploration}~$= 2000$ samples drawn from the original prior pool of MC samples \texttt{MC}~$= 22000$. BAL selects the most informative sample (i.e., parameter combination) that led to the highest Relative Entropy (RE) or Bayesian Model Evidence (BME) during an exploitation phase involving \texttt{mc\_exploitation}~$= 1000$ evaluations. BME indicates the quality of the model against the available data while RE quantifies the information gained by comparing the prior and posterior distributions of the calibration parameters. Since evaluating BME and RE directly from the complex hydromorphodynamic model $M_c$, we approximate BME and RE from the GP metamodel $\mathcal{M}$ as:
+\label{sec:mo-gpe}
+An optimal selection of training points has a significant impact on the accuracy of GPEs \cite{sinsbeck2017sequential}. To address this, active learning strategies for Gaussian process (GP) models optimize the selection of the most informative data points for training, thereby improving predictive accuracy with fewer training samples. Due to the complexity of acquiring informative training points in computationally demanding models, \citeA{oladyshkin2019connection} suggests a useful strategy in which relevant regions in the parameter space $\Omega$ for surrogate training are adaptively identified by connecting Bayesian Inference with information theory. The current work uses a BAL \cite{oladyshkin2020bayesian3} to iteratively add new training points to the GP model. In each BAL iteration, the metamodel is re-trained with a newly selected, more informative training point. This point is chosen from an exploration set of \texttt{mc\_exploration}~=~2000 samples drawn from the original prior pool of MC samples \texttt{MC}~=~22,000. BAL selects the most informative sample (i.e., parameter combination) that led to the highest RE or BME during an exploitation phase involving \texttt{mc\_exploitation}~=~1000 evaluations. BME indicates the quality of the model against the available data while RE quantifies the information gained by comparing the prior and posterior distributions of the calibration parameters. Since evaluating BME and RE directly from the complex hydro-morphodynamic model $\mathcal{M}_c$, we approximate BME and RE from the GP metamodel $\mathcal{M}$ as:
 
-\[
-\text{BME}_{\mathcal{M}} \equiv p_{\omega}(\mathbf{D}|\mathcal{M}) \approx \text{BME}_{M_c} \equiv p_{\omega}(\mathbf{D}|M_c)
-\]
+\begin{equation} \label{eq:bme}
+	\text{BME}_{\mathcal{M}} \equiv p_{\omega}(\mathbf{D}|\mathcal{M}) \approx \text{BME}_{\mathcal{M}_c} \equiv p_{\omega}(\mathbf{D}|\mathcal{M}_c)
+\end{equation}
 
-\[
-\text{DKL}\left[ p(\omega \mid \mathbf{D}, \mathcal{M}) \,\|\, p(\omega \mid \mathcal{M}) \right] \approx \text{DKL}\left[ p(\omega \mid \mathbf{D}, M_c) \,\|\, p(\omega \mid M_c) \right]
-\]
+\begin{equation} \label{eq:re}
+	\text{D}_{\text{KL}}\left[ p(\omega \mid \mathbf{D}, \mathcal{M}) ~\|~ p(\omega \mid \mathcal{M}) \right] \approx \text{D}_{\text{KL}}\left[ p(\omega \mid \mathbf{D}, \mathcal{M}_c) ~\|~ p(\omega \mid \mathcal{M}_c) \right]
+\end{equation}
 
-\citeA{oladyshkin2020bayesian3} suggests that a stopping criterion for BAL iterations is reached when the surrogate model response $\mathcal{M}$ converges toward the complex model response $M_c$ meaning Relative Entropy (RE) and Bayesian Model Evidence (BME) also converge and stabilize over a plateau when plotted against the number of BAL iterations. For the purpose of the current work, 75 BAL iterations were required to reach a plateau durinh the MOGP training. 
+\citeA{oladyshkin2020bayesian3} suggests that a stopping criterion for BAL iterations is reached when the metamodel response $\mathcal{M}$ converges toward the complex model response $\mathcal{M}_c$ meaning RE and BME also converge and stabilize over a plateau when plotted against the number of BAL iterations. For the purpose of the current work, 75 BAL iterations were required to reach a plateau durinh the MO-GPE training. 
 
-%For $MC$ Monte Carlo samples (or realizations), the matricial representation of the surrogate model outputs for velocity $\mathbf{V}$ and water depth $\mathbf{H}$ or a combination of both variables $\mathbf{VH}$ and at P measurement locations is:
-%
-%\[
-%\mathbf{V} = \begin{pmatrix}
-%	v_{11} & v_{12} & \dots & v_{1P} \\
-%	v_{21} & v_{22} & \dots & v_{2P} \\
-%	\vdots & \vdots & \ddots & \vdots \\
-%	v_{MC1} & v_{MC2} & \dots & v_{MCP}
-%\end{pmatrix}
-%\]
-%
-%\[
-%\mathbf{H} = \begin{pmatrix}
-%	h_{11} & h_{12} & \dots & h_{1P} \\
-%	h_{21} & h_{22} & \dots & h_{2P} \\
-%	\vdots & \vdots & \ddots & \vdots \\
-%	h_{MC1} & h_{MC2} & \dots & h_{MCP}
-%\end{pmatrix}
-%\]
-%
-%\[
-%\mathbf{VH} = \begin{pmatrix}
-%	v_{11} & h_{11} & v_{12} & h_{12} & \dots & v_{1P} & h_{1P} \\
-%	v_{21} & h_{21} & v_{22} & h_{22} & \dots & v_{2P} & h_{2P} \\
-%	\vdots & \vdots & \vdots & \vdots & \ddots & \vdots & \vdots \\
-%	v_{MC1} & h_{MC1} & v_{MC2} & h_{MC2} & \dots & v_{MCP} & h_{MCP}
-%\end{pmatrix}
-%\]
-%
-%
+
 
 \subsection{Stochastic Bayesian calibration framework}
-{\label{sec:Sec2.7}} 
+\label{sec:bayes-cal}
 
-The calibration approach uses scalar velocities and water depths collected at 37 measurement points. Relied on an initial model run and hydrodynamic outputs for pre- and post-flush conditions at the base flow, we delineated morphological units and instream roughness zones to subdivide the riverbed into spatially varying roughness patches, as shown in Fig \ref{fig:MU}. 
+The calibration approach uses scalar velocities and water depths collected at the 37 measurement points. Relied on an initial model run and hydrodynamic outputs for pre- and post-flush conditions at the baseflow, we delineated morphological units and instream roughness zones to subdivide the riverbed into spatially varying roughness patches, as shown in Figure~\ref{fig:MU}. 
 
-The surrogate-assisted calibration framework starts with the selection of nine sensitive model parameters: eigth roughness zones and the Critical Shields parameter for the first sediment class represented by a vector $\omega$ formingthe parater space $\Omega$ (See Table \ref{tab:roughness_zones})
+The surrogate-assisted calibration framework starts with the selection of nine sensitive model parameters: eigth roughness zones and the Critical Shields parameter for the first sediment class represented by a vector $\omega$ forming the parameter space $\Omega$ (see Table~\ref{tab:roughness-zones})
 
-\begin{equation}
+\begin{equation} \label{eq:omega}
 	\omega = \left\{
 	\begin{split}
-		&\theta_{cr,10},\ K_{\text{pool}},\ K_{\text{slackwater}},\ K_{\text{glide}}, \\
-		&K_{\text{riffle}},\ K_{\text{run}},\ K_{\text{backwater}},\ K_{\text{wake}},\ K_{\text{LW}}
+		&\tau_{*,cr,10},\ k_{\text{pool}},\ k_{\text{slackwater}},\ k_{\text{glide}}, \\
+		&k_{\text{riffle}},\ k_{\text{run}},\ k_{\text{LW backwater}},\ k_{\text{LW wake}},\ k_{\text{LW}}
 	\end{split}
 	\right\}
 \end{equation}
@@ -505,58 +306,58 @@ The surrogate-assisted calibration framework starts with the selection of nine s
 
 %Among all the considered roughness zones, five correspond to morphological units such as pool, slackwater, glides, riffles, and runs covering the entire main river bed. Additionally, backwater, wake and LW specific regions are taken into account. 
 
-To facilitate the comparison between different metamodel approaches, we conducted Bayesian calibration of the model utilizing both Single-Output Gaussian processes (SOGP) and a Multi-Output GP (MOGP).
+To facilitate the comparison between different metamodel approaches, we conducted Bayesian calibration of the model utilizing SO-GPE and a MO-GPE.
 
 The calibration framework proceeds as follows:
 
-\textbf{First}, we performed 25 initial complex model runs. These training points are common for training three initial GP metamodels (SOGP -scalar velocity, SOGP -water depth and MOGP -water depth \& scalar velocity). The surrogates are trained at each measurement location where data for calibration is available.
+\textbf{First}, we performed 25 initial complex model runs. These training points are common for training three initial GP metamodels (SO-GPE -scalar velocity, SO-GPE -water depth and MO-GPE water depth \& scalar velocity). The surrogates are trained at each measurement location where data for calibration is available.
 
-\textbf{Second}, we fixed 75 BAL iterations, adequate for RE and BME stabilization. Upon completion of the BAL iterations, we quantified model parameter uncertainty via Bayesian inference using the last trained SOGP and MOGP metamodels,  to obtain posterior distributions of the calibration parameters. This allows us to quantify uncertainty of the selected model parameters and verify which metamodel approach provides high probability regions that potentially fit better the measured data. 
+\textbf{Second}, we fixed 75 BAL iterations, adequate for RE and BME stabilization. Upon completion of the BAL iterations, we quantified model parameter uncertainty via Bayesian inference using the last trained SO-GPE and MO-GPE metamodels,  to obtain posterior distributions of the calibration parameters. This allows us to quantify uncertainty of the selected model parameters and verify which metamodel approach provides high probability regions that potentially fit better the measured data. 
 
-\textbf{Third}, we select the 'best performing' set of parameters as the maximum a posteriori (MAP) estimate from the posterior distributions after Bayesian inference. To test the effectiveness of the proposed calibration methodology, the best-performing set of parameters is evaluated using both the complex model and the MOGP model. The results are then compared to those of a base model that assumes a uniform Nikuradse roughness coefficient $K_{NKU_{UN}}$ along the entire riverbed. 
+\textbf{Third}, we select the 'best performing' set of parameters as the maximum a posteriori (MAP) estimate from the posterior distributions after Bayesian inference. To test the effectiveness of the proposed calibration methodology, the best-performing set of parameters is evaluated using both the complex model and the MO-GPE model. The results are then compared to those of a base model that assumes a uniform Nikuradse roughness coefficient $k_{NKU_{UN}}$ along the entire riverbed. 
 
-The study uses the Root Mean Squared Error (RMSE) as the statistical metric for comparing measured data and complex/surrogate model outputs. Specifically, one RMSE value is reported for each calibration quantity (velocity and water depth), computed as the mean error over all 37 measurement points. RMSE is calculated using both the complex model and the surrogate model outputs, allowing a direct comparison of their predictive accuracy against measured data.
+The study uses the RMSE)as the statistical metric for comparing measured data and complex metamodel outputs. Specifically, one RMSE value is reported for each calibration quantity (velocity and water depth), computed as the mean error over all 37 measurement points. RMSE is calculated using both the complex model and the metamodel outputs, allowing a direct comparison of their predictive accuracy against measured data.
 
-\begin{equation}
+\begin{equation}\label{eq:rmse}
 	\text{RMSE} = \sqrt{ \frac{1}{P} \sum_{i=1}^{P} (T_i - \hat{t}_i)^2 }
 \end{equation}
 
-where $P$ is the number of measurement points ($P = 37$), $T_i$ is the measured value at point $i$, and $\hat{t}_i$ is the model-predicted value at point $i$, either from the complex model or the surrogate model.
+where $P$ is the number of measurement points ($P$~=~37), $T_i$ is the measured value at point $i$, and $\hat{t}_i$ is the model-predicted value at point $i$, either from the complex model or the metamodel.
 
 
 %We believe that current stochastic calibration methodology may efficiently identify the ideal roughness values across morphological units and roughness zones, supporting the thorough investigation of roughness combinations that best match the measured data.
 
-\subsection{Assessment SOGP and MOGP performance}
-\label{sec:sec2.8}
-The study assesses the evolution of the Root Mean Squared Error (RMSE), the Pearson correlation coefficient ($r$), and the mean width of the confidence intervals (CI) during a metamodel validation step, depending on the increase in training points for both Single-Output (SO) and Multi-Output (MO) Gaussian process metamodels. For this purpose, we used 25 randomized parameter sets to test the prediction of the two variables after every 5 BAL iterations. The effectiveness of BAL is investigated with training set sizes ranging from 25 to 100 points, to further evaluate whether the surrogates' accuracy improves as the training set size increases.
+\subsection{Assessment SO-GPE and MO-GPE performance}
+\label{sec:so-mo-gpe}
+The study assesses the evolution of the RMSE, the \hl{Pearson correlation coefficient} ($r$), and the mean width of the confidence intervals (CI) during a metamodel validation step, depending on the increase in training points for SO-GPEs and MO-GPEs. For this purpose, we used 25 randomized parameter sets to test the prediction of the two variables after every 5 BAL iterations. The effectiveness of BAL is investigated with training set sizes ranging from 25 to 100 points, to further evaluate whether the surrogates' accuracy improves as the training set size increases.
 
 \section{Results}
 
 \subsection{GP metamodel assessment over training points iterations}
 
-This assessment evaluates the evolution of the GP metamodels over increasing numbers of training points. It is tested using three statistical metrics: Root Mean Squared Error (RMSE), the Pearson correlation coefficient ($r$), and the mean width of the confidence intervals (CI) to approximate two hydromorphodynamic quantities in a metamodel validation stage. 
+This assessment evaluates the evolution of the GP metamodels over increasing numbers of training points. It is tested using three statistical metrics: RMSE, the Pearson correlation coefficient ($r$), and the mean width of the confidence intervals (CI) to approximate two hydro-morphodynamic quantities in a metamodel validation stage. 
 
 \subsubsection{Water Depth}
-Figure~\ref{fig:your_figure_label}~(a) shows the evolution of three metrics for the approximation of water depth. The RMSE for the MOGP starts relatively high compared to the SOGP and fluctuates until it stabilizes at approximately 0.11\,m after the 30\textsuperscript{th} training iteration. In contrast, the SOGP slightly improves its RMSE over time and reaches about 0.12\,m by the 100\textsuperscript{th} iteration.
-Regarding the correlation coefficient, MOGP improves as more training data is added, reaching values between 0.86 and 0.88 after the 50\textsuperscript{th} training point. In comparison, the SOGP reaches its highest correlation value (approximately 0.86) at the 100\textsuperscript{th} training step. This trend suggests that \textbf{BAL} contributes to improving the surrogate’s performance after the 30\textsuperscript{th} training point for both cases.
+Figure~\ref{fig:your_figure_label}~(a) shows the evolution of three metrics for the approximation of water depth. The RMSE for the MO-GPE starts relatively high compared to the SO-GPE and fluctuates until it stabilizes at approximately 0.11~m after the 30\textsuperscript{th} training iteration. In contrast, the SO-GPE slightly improves its RMSE over time and reaches about 0.12~m by the 100\textsuperscript{th} iteration.
+Regarding the correlation coefficient, MO-GPE improves as more training data is added, reaching values between 0.86 and 0.88 after the 50\textsuperscript{th} training point. In comparison, the SO-GPE reaches its highest correlation value (approximately 0.86) at the 100\textsuperscript{th} training step. This trend suggests that \textbf{BAL} contributes to improving the surrogate’s performance after the 30\textsuperscript{th} training point for both cases.
 
-The evolution of the mean width of the confidence intervals (CI) for SOGP exhibits a more consistent behavior as the number of training points increases. In contrast, the MOGP shows greater fluctuations during the early stages but gradually narrows the CI width over time, converging to values similar to those of the SOGP.
+The evolution of the mean width of the confidence intervals (CI) for SO-GPE exhibits a more consistent behavior as the number of training points increases. In contrast, the MO-GPE shows greater fluctuations during the early stages but gradually narrows the CI width over time, converging to values similar to those of the SO-GPE.
 
 \subsubsection{Scalar Velocity}
-Similarly to water depth, Figure~\ref{...}b) shows the evolution of three metric quantities for the approximation of scalar velocity. The RMSE for MOGP exhibits a fluctuating behavior similar to that observed for water depth during the early stages of training, eventually stabilizing after the 60\textsuperscript{th} iteration at a value of 0.085, compared to 0.095 for SOGP. In the case of SOGP, the RMSE slightly increases but follows a more stable trend. The correlation index for MOGP outperforms SOGP by reaching values over 0.89, compared to SOGP which attains a maximum of 0.86 at the 100\textsuperscript{th} iteration. Regarding the mean confidence interval (CI) width, MOGP shows a lower value (approximately 0.15), while SOGP shows a slight increase as training points are added, reaching 0.25.
+Similarly to water depth, Figure~\ref{...}b) shows the evolution of three metric quantities for the approximation of scalar velocity. The RMSE for MO-GPE exhibits a fluctuating behavior similar to that observed for water depth during the early stages of training, eventually stabilizing after the 60\textsuperscript{th} iteration at a value of 0.085, compared to 0.095 for SO-GPE. In the case of SO-GPE, the RMSE slightly increases but follows a more stable trend. The correlation index for MO-GPE outperforms SO-GPE by reaching values over 0.89, compared to SO-GPE which attains a maximum of 0.86 at the 100\textsuperscript{th} iteration. Regarding the mean confidence interval (CI) width, MO-GPE shows a lower value (approximately 0.15), while SO-GPE shows a slight increase as training points are added, reaching 0.25.
 
 \begin{figure}[!htbp]
 	\centering
 	\begin{minipage}[b]{0.49\textwidth}
 		\centering
-		\includegraphics[width=\textwidth]{images/8a_meta-validation-SV.png}
+		\includegraphics[width=\textwidth]{8a_meta-validation-SV.png}
 		\caption{(a) Metamodel validation results for scalar velocity.}
 		\label{fig:meta_validation_sv}
 	\end{minipage}
 	\hfill
 	\begin{minipage}[b]{0.49\textwidth}
 		\centering
-		\includegraphics[width=\textwidth]{images/8b_meta-validation-WD.png}
+		\includegraphics[width=\textwidth]{8b_meta-validation-WD.png}
 		\caption{(b) Metamodel validation results for water depth.}
 		\label{fig:meta_validation_wd}
 	\end{minipage}
@@ -596,8 +397,8 @@ The posterior distributions for backwater areas reflect a slight skewness toward
 
 \begin{figure}[htbp]
 	\centering
-	\includegraphics[width=1\textwidth]{images/posterior_distributions_iteration_76-WD-SV.png}
-	\caption{Posterior distributions of model parameters using MOGP.}
+	\includegraphics[width=1\textwidth]{posterior_distributions_iteration_76-WD-SV.png}
+	\caption{Posterior distributions of model parameters using MO-GPE.}
 	\label{fig:posterior_distributions}
 \end{figure}
 
@@ -609,8 +410,13 @@ The posterior distributions for backwater areas reflect a slight skewness toward
 
 \section{Discussion}
 
+Described logical links of the results and particularities that occurred and might not have been expected.
 
+Take up the research question and test hypothesis to write a sentence like:
 
+No evidence was found for the falsity of H0 was found, while counterevidence for H1 ...
+
+\section{Conclusions}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -743,9 +549,9 @@ The posterior distributions for backwater areas reflect a slight skewness toward
 % Single-line equations are centered.
 % Equation arrays will appear left-aligned.
 
-% Math coded inside display math mode \[ ...\]
+% Math coded inside display math mode \begin{equation} \label{eq:} ...\end{equation}
 %  will not be numbered, e.g.,:
-%  \[ x^2=y^2 + z^2\]
+%  \begin{equation} \label{eq:} x^2=y^2 + z^2\end{equation}
 
 %  Math coded inside \begin{equation} and \end{equation} will
 %  be automatically numbered, e.g.,:
