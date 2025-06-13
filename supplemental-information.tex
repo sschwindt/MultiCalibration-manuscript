@@ -19,49 +19,53 @@
 % (I CAN USE THIS LATER IN THE DOCUMENT)According to \cite{meyer-peterFormulasBedLoadTransport1948} the Nikuradse roughness height  The roughness height is of the river from measured data $d_{90}$
 %% In fact, it is not possible to generalize the value of 3.26 for all alluvial rivers, for this reason the experiment employed the Nikuratse roughness as $F$ * $d_{50}$, in which $F$ constitue an uncertain factor that affects the mean roughness height of the riverbed. 
 
+\documentclass[12pt]{article}
+
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{multirow}
+\usepackage{caption}
+\usepackage{authblk}
+\usepackage{natbib}
+
+\title{Supplemental Information}
+\date{}
+
+\begin{document}
+	
+\maketitle
+
 \subsection{Model calibration parameters}
 \label{sec:calibration-parameters}
 
-The final classification with 14 roughness zones was interpolated onto the computational mesh to define roughness zones for Telemac2d simulation. These zones were assigned distinct Nikuradse equivalent roughness values , of which only eight served as calibration parameters. Their plausible values are represented as uniform distributions (see Table .~\ref{tab:roughness_zones}), reflecting our prior knowledge of each calibration zone for Bayesian calibration. In a riverbed particle mixture, the coarser particles condition the roughness properties of the channel, so the equivalent roughness length $k_{NKU}$ is often referred to in terms of the characteristic riverbed particle diameter $d_{90}$ or by the diameters $d_{50}$ and $d_{84}$ affected by a factor F as $k_{NKU} = F \times d_{50,84}$ \cite{tassi2023gaia}. The particle length is also associated with the Manning-Strickler roughness coefficient $n$ through several empirical formulae as described in \citeA{meyer-peter1948formulas, ferguson2007flow, rickenmann2011evaluation}. Thus, to assign each morphological unit with a meaningful Nikuradse roughness coefficient for simulation, we first set minimum and maximum limits of Manning-Strickler roughness coefficients based on experience and technical recommendations for natural gravel-cobble rivers \cite{chow1959openchannel}. Afterwards, a Nikuradse equivalent roughness length is calculated according to the following expression using the characteristic particle size $d_{84}$  \cite{rickenmann2011evaluation}:
+The final classification with 14 roughness zones was interpolated onto the computational mesh to define roughness zones for Telemac2d simulation. These zones were assigned distinct Nikuradse equivalent roughness values , of which only eight served as calibration parameters. Their plausible values are represented as uniform distributions (see Table~\ref{tab:roughness_zones}), reflecting our prior knowledge of each calibration zone for Bayesian calibration. In a riverbed particle mixture, the coarser particles condition the roughness properties of the channel, so the equivalent roughness length $k_{NKU}$ is often referred to in terms of the characteristic riverbed particle diameter $d_{90}$ or by the diameters $d_{50}$ and $d_{84}$ affected by a factor F as $k_{NKU} = F \times d_{50,84}$ \cite{tassi2023gaia}. The particle length is also associated with the Manning-Strickler roughness coefficient $n$ through several empirical formulae as described in \cite{meyer-peter1948formulas, ferguson2007flow, rickenmann2011evaluation}. Thus, to assign each morphological unit with a meaningful Nikuradse roughness coefficient for simulation, we first set minimum and maximum limits of Manning-Strickler roughness coefficients based on experience and technical recommendations for natural gravel-cobble rivers \cite{chow1959openchannel}. Afterwards, a Nikuradse equivalent roughness length is calculated according to the following expression using the characteristic particle size $d_{84}$  \cite{rickenmann2011evaluation}:
 
 \begin{gather}
 	\frac{1}{n} = \frac{20.4}{d_{84}^{1/6}} \label{eq:mann-NIKU eq-orig} \\
 	\frac{1}{n} = \frac{20.4}{k_{NKU}^{1/6}} \label{eq:mann-NIKU eq-d84}
 \end{gather}
 
-We defined $d_{84}$ as a function of the representative mean particle diameter for the riverbed, $d_{50}$, scaled by a factor $F$: 
+We defined $d_{84}$ as a function of the representative mean particle diameter for the riverbed, $d_{m}$, scaled by a factor $F$: 
 
 \begin{equation} \label{eq:k-nku}
-k_{NKU} = d_{84} = F \cdot d_{50}.
+	k_{NKU} = d_{84} = F \cdot d_{50}.
 \end{equation}
-
 
 \subsubsection{Morphological units}
 \label{subsec:calibration-parameters}
-% MU and spatial roughness variability
+
+\cite{schwindt2016physical}
+
 Morphological units (MUs) define the physical structure and shape of river channels, extending generally between 0.5 to 5 channel widths \cite{woodworth2022are}. The different patches of bed surface within these units lead to spatially varied roughness, which may impact physical and biological interferences at the reach scale \cite{buffington1999effects,dietrich2005sediment}. MUs, particulaly pool-riffle sequences, evolve over time in response to variations in flow velocity and bottom shear stress \cite{salmela2020morphological, pasternack2017flooddriven,cao2003flow}. These changes are particularly evident during flood events, when sediment particles are transferred from regions of high to low bottom shear stress (i.e., due to velocity reversal), thereby modifying the bed surface roughness of MUs at the local scale. In this regard, it becomes appealing to identify morphological units through the inspection of river hydrodynamic patterns. 
 
-% Method for delineation of morphological units. 
-\citeA{wyrick2012landforms} and \citeA{wyrick2014revealing} introduced an approach for mapping in-channel morphological units at the baseflow, based on their influence into two-dimensional hydrodynamic patterns. \citeA{wyrick2014geospatial} used this approach to delineate and map MU landforms in the cobble-gravel bed at the Lower Yuba River by using a) spatial grids of water depth and velocity values, extracted from a 2d hydrodynamic model, and b) an expert-specified MU classification scheme using depth and velocity threshold values. This approach was applied in the current study to combine velocity and water depth raster files obtained from pre- and post-flush conditions at baseflow from a pre-calibration 2d hydro-morphodynamic simulation. For each condition, five MUs (i.e., pools, slackwater, glides, riffles, and runs) were delineated according to defined velocity–water depth thresholds (see Fig.~\ref{fig:MU_thresholds}). The raster files were then compared to identify constant or stable MUs based on hydrodynamic patterns on both pre- and post-flush conditions. This analysis was complemented with expert judgment and the use of orthoimages to refine the delineation. Additionally, backwater and wake  zones were considered upstream and downstream the large wood structures LW exhibiting lengths of 2~$\times$~(effective length of LW) \cite{scolari2025hydromorphodynamic}. Roughness zones for flood plains, fine sediments, vegetation, boulders, tree stems, banks and structural LW were also added.    
-
-\begin{figure}[!htbp]
-	\centering
-	\includegraphics[width=5.5in]{7_MU_classification.png}
-	\caption{Velocity and water depth thresholds.}
-	\label{fig:MU_thresholds}
-\end{figure}
-
-\begin{figure}[!htbp]
-	\centering
-	\includegraphics[width=5.5in]{3_MU+measurement.png}
-	\caption{Morphological units classification and calibration-validation datasets.}
-	\label{fig:MU}
-\end{figure}
-
+\cite{wyrick2012landforms} and \cite{wyrick2014revealing} introduced an approach for mapping in-channel morphological units at the baseflow, based on their influence into two-dimensional hydrodynamic patterns. \cite{wyrick2014geospatial} used this approach to delineate and map MU landforms in the cobble-gravel bed at the Lower Yuba River by using a) spatial grids of water depth and velocity values, extracted from a 2d hydrodynamic model, and b) an expert-specified MU classification scheme using depth and velocity threshold values. This approach was applied in the current study to combine velocity and water depth raster files obtained from pre- and post-flush conditions at baseflow from a pre-calibration 2d hydro-morphodynamic simulation. For each condition, five MUs (i.e., pools, slackwater, glides, riffles, and runs) were delineated according to defined velocity\textendash water depth thresholds (see Fig.~\ref{fig:MU_thresholds}). The raster files were then compared to identify constant or stable MUs based on hydrodynamic patterns on both pre- and post-flush conditions. This analysis was complemented with expert judgment and the use of orthoimages to refine the delineation. Additionally, backwater and wake  zones were considered upstream and downstream the large wood structures LW exhibiting lengths of 2~$\times$~(effective length of LW) \cite{scolari2025hydromorphodynamic}. Roughness zones for flood plains, fine sediments, vegetation, boulders, tree stems, banks and structural LW were also added.    
 
 \section{Summary of Model Specifications}
 
-\begin{table}[h] 
+\begin{table}[H] 
 	\centering
 	\caption{Summary of model calibration parameters}
 	\begin{tabular}{>{\centering\arraybackslash}m{4cm} p{10cm}}
@@ -93,6 +97,10 @@ Morphological units (MUs) define the physical structure and shape of river chann
 	\end{tabular}
 	\label{tab:model-params-detail}
 \end{table}
+
+\bibliography{hydro-informatics}
+
+\end{document}
 
 
 %\begin{table}[H]
